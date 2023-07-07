@@ -6,6 +6,7 @@ import AuthProvider from "./components/hooks/Auth";
 import TopLogin from "./components/pages/TopLogin";
 import StaffTop from "./components/pages/StaffTop";
 import StoreCreate from "./components/pages/StoreCreate";
+import EmployeeCreate from "./components/pages/EmployeeCreate";
 import Home from "./components/pages/Home";
 
 function AllRoutes() {
@@ -13,6 +14,7 @@ function AllRoutes() {
   return (
     <Routes>
       <Route path="/staff-top" element={auth ? <StaffTop /> : <TopLogin />} />
+      <Route path="/employee-create" element={<EmployeeCreate />} />
       <Route path="/store-create" element={<StoreCreate />} />
       <Route path="/login" element={<TopLogin />} />
       <Route path="/" element={<Home />} />

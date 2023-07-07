@@ -25,7 +25,7 @@ const Home = () => {
         </FadeIn>
         <FadeIn delay={900}>
           <button
-            className="text-xl font-bold hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out"
+            className="text-xl font-bold hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out pb-3"
             onClick={() => navigate("store-create")}
           >
             Or create a new store
@@ -33,10 +33,18 @@ const Home = () => {
         </FadeIn>
         <FadeIn delay={1200}>
           <button
-            className="text-xl font-bold hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out"
+            className="text-xl font-bold hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out pb-3"
             onClick={() => navigate("/")}
           >
             Or login as a manager
+          </button>
+        </FadeIn>
+        <FadeIn delay={1500}>
+          <button
+            className="text-xl font-bold hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out pb-3"
+            onClick={() => navigate("/employee-create")}
+          >
+            Or create a new staff
           </button>
         </FadeIn>
       </div>
