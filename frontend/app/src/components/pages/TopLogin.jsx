@@ -1,10 +1,12 @@
 import { useRef } from "react";
 import { useLogin } from "../hooks/LoginHook";
+import { useNavigate } from "react-router-dom";
 
 const TopLogin = () => {
   const staffNumberRef = useRef(null);
   const passwordRef = useRef(null);
   const login = useLogin();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +59,7 @@ const TopLogin = () => {
           <div className="">
             <div className="">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
                 onClick={handleSubmit}
               >
                 Login
@@ -65,6 +67,22 @@ const TopLogin = () => {
             </div>
           </div>
         </form>
+      </div>
+      <div>
+        <div className="pt-20 flex flex-col justify-center">
+          <button
+            className="text-blue-300 hover:text-blue-500 pb-4"
+            onClick={() => navigate("/")}
+          >
+            Login as a Manager
+          </button>
+          <button
+            className="text-blue-300 hover:text-blue-500"
+            onClick={() => navigate("/store-create")}
+          >
+            Create New Store
+          </button>
+        </div>
       </div>
     </div>
   );

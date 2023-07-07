@@ -1,10 +1,10 @@
 class Api::V1::StoresController < ApplicationController
   def create
-    @store = Store.new(store_params)
-    if @store.save
-      render json: {status: "create", data: @store}
+    store = Store.new(store_params)
+    if store.save
+      render json: {status: "create", data: store}
     else
-      render json: {status: "error"}
+      render json: {status: store.errors.full_messages}
     end
   end
 

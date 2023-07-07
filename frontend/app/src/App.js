@@ -5,13 +5,15 @@ import { AuthContext } from "./components/hooks/Auth";
 import AuthProvider from "./components/hooks/Auth";
 import TopLogin from "./components/pages/TopLogin";
 import StaffTop from "./components/pages/StaffTop";
+import StoreCreate from "./components/pages/StoreCreate";
 
-function AuthRoutes() {
+function AllRoutes() {
   const { auth } = useContext(AuthContext);
   return (
     <Routes>
-      <Route path="/StaffTop" element={auth ? <StaffTop /> : <TopLogin />} />
-      <Route path="/Login" element={<TopLogin />} />
+      <Route path="/staff-top" element={auth ? <StaffTop /> : <TopLogin />} />
+      <Route path="/store-create" element={<StoreCreate />} />
+      <Route path="/login" element={<TopLogin />} />
     </Routes>
   );
 }
@@ -20,7 +22,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <AuthRoutes />
+        <AllRoutes />
       </Router>
     </AuthProvider>
   );
