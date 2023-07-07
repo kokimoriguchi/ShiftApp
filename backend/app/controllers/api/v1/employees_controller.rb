@@ -12,7 +12,7 @@ class Api::V1::EmployeesController < ApplicationController
     employee = Employee.new(employee_params)
     if employee.save
       token = JwtService.encode(employee.id)
-      cookies[:token] = token
+      cookies[:token] = { value: token, httponly: true }
       render json: {status: "create", data: employee}
     else
         render json: {status: "error"}

@@ -5,7 +5,7 @@ class Api::V1::SessionsController < ApplicationController
     employee = Employee.find_by(number: params[:number])
     if employee&.authenticate(params[:password])
       token = JwtService.encode(employee.id)
-      cookies[:token] = token
+      cookies[:token] = { value: token, httponly: true }
       render json: {status: "create", data: employee}
     else
       render json: {status: "error", message: "ログインに失敗しました"}
