@@ -8,7 +8,7 @@ class Api::V1::SessionsController < ApplicationController
       cookies[:token] = token
       render json: {status: "create", data: employee}
     else
-      render json: {status: "error"}
+      render json: {status: "error", message: "ログインに失敗しました"}
     end
   end
 
