@@ -6,6 +6,7 @@ import AuthProvider from "./components/hooks/Auth";
 import TopLogin from "./components/pages/TopLogin";
 import StaffTop from "./components/pages/StaffTop";
 import StoreCreate from "./components/pages/StoreCreate";
+import Home from "./components/pages/Home";
 
 function AllRoutes() {
   const { auth } = useContext(AuthContext);
@@ -14,6 +15,7 @@ function AllRoutes() {
       <Route path="/staff-top" element={auth ? <StaffTop /> : <TopLogin />} />
       <Route path="/store-create" element={<StoreCreate />} />
       <Route path="/login" element={<TopLogin />} />
+      <Route path="/" element={<Home />} />
     </Routes>
   );
 }
