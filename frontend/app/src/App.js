@@ -7,6 +7,7 @@ import TopLogin from "./components/pages/TopLogin";
 import StaffTop from "./components/pages/StaffTop";
 import StoreCreate from "./components/pages/StoreCreate";
 import EmployeeCreate from "./components/pages/EmployeeCreate";
+import Header from "./components/pages/Header";
 import Home from "./components/pages/Home";
 
 function AllRoutes() {
@@ -26,6 +27,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <Header />
         <AllRoutes />
       </Router>
     </AuthProvider>

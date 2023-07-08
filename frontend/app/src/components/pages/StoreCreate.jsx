@@ -24,7 +24,7 @@ const StoreCreate = () => {
   };
 
   return (
-    <div className="pt-40">
+    <div className="">
       <FadeIn delay={50}>
         <div className="text-center text-gray-500 font-bold mb-5 text-3xl">
           <h1>New Store</h1>
