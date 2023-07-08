@@ -9,9 +9,9 @@ class Api::V1::EmployeesController < ApplicationController
   end
 
   def create
-    store = Store.find_by(name: employee_params[:store_name])
+    store = Store.find_by(number: employee_params[:store_number])
     if store
-      employee_params_with_store_id = employee_params.except(:store_name).merge({store_id: store.id})
+      employee_params_with_store_id = employee_params.except(:store_number).merge({store_id: store.id})
       employee = Employee.new(employee_params_with_store_id)
       if employee.save
         token = JwtService.encode(employee.id)
@@ -27,6 +27,6 @@ class Api::V1::EmployeesController < ApplicationController
 
   private
   def employee_params
-    params.require(:employee).permit(:name, :number, :password, :store_name)
+    params.require(:employee).permit(:name, :number, :password, :store_number)
   end
 end

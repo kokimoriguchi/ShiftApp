@@ -14,7 +14,7 @@ export function useLogin() {
       console.log(userData);
       if (response.data.status === "create") {
         setAuth(true);
-        navigate("/staff-top");
+        navigate("/staff/top");
         console.log(response);
       } else {
         console.log("error");

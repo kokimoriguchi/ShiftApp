@@ -26,7 +26,7 @@ const Home = () => {
         <FadeIn delay={900}>
           <button
             className="text-xl font-bold hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out pb-3"
-            onClick={() => navigate("store-create")}
+            onClick={() => navigate("store/create")}
           >
             Or create a new store
           </button>
@@ -42,7 +42,7 @@ const Home = () => {
         <FadeIn delay={1500}>
           <button
             className="text-xl font-bold hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out pb-3"
-            onClick={() => navigate("/employee-create")}
+            onClick={() => navigate("/employee/create")}
           >
             Or create a new staff
           </button>

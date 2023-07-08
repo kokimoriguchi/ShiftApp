@@ -71,13 +71,13 @@ const Header = () => {
                   </li>
                   <li
                     className="font-semibold text-gray-800 hover:text-gray-300 mb-1"
-                    onClick={() => handleMenuItemClick("employee-create")}
+                    onClick={() => handleMenuItemClick("employee/create")}
                   >
                     Create Staff
                   </li>
                   <li
                     className="font-semibold text-gray-800 hover:text-gray-300"
-                    onClick={() => handleMenuItemClick("store-create")}
+                    onClick={() => handleMenuItemClick("store/create")}
                   >
                     Create Store
                   </li>

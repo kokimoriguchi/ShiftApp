@@ -88,7 +88,7 @@ const TopLogin = () => {
             </button>
             <button
               className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out"
-              onClick={() => navigate("/store-create")}
+              onClick={() => navigate("/store/create")}
             >
               Create New Store
             </button>

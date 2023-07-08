@@ -1,17 +1,20 @@
 import baseAxios from "./Axios";
 import { useNavigate } from "react-router-dom";
 
-// 店舗登録用のカスタムフック
-export function useStoreCreate() {
+export function useManagerCreate() {
   const navigate = useNavigate();
 
-  const storeCreate = async (storeData) => {
+  const managerCreate = async (managerData, storeData) => {
     try {
-      const response = await baseAxios.post("stores", { store: storeData });
+      const response = await baseAxios.post("managers", {
+        manager: managerData,
+        store_number: storeData,
+      });
+      console.log(managerData);
       console.log(storeData);
       console.log(response.data);
       if (response.data.status === "create") {
-        navigate("/manager/create");
+        navigate("/login");
         console.log(response);
       } else {
         console.log("error");
@@ -19,9 +22,8 @@ export function useStoreCreate() {
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
     }
   };
 
-  return storeCreate;
+  return managerCreate;
 }

@@ -7,7 +7,7 @@ const EmployeeCreate = () => {
   const employeeNameRef = useRef(null);
   const employeeNumberRef = useRef(null);
   const employeePasswordRef = useRef(null);
-  const storeNameRef = useRef(null);
+  const storeNumberRef = useRef(null);
   const employeeCreate = useEmployeeCreate();
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const EmployeeCreate = () => {
       name: employeeNameRef.current.value,
       number: employeeNumberRef.current.value,
       password: employeePasswordRef.current.value,
-      store_name: storeNameRef.current.value,
+      store_number: storeNumberRef.current.value,
     };
     console.log(employeeData);
     await employeeCreate(employeeData);
@@ -30,7 +30,7 @@ const EmployeeCreate = () => {
     <div className="">
       <FadeIn delay={50}>
         <div className="text-center text-gray-500 font-bold mb-5 text-3xl">
-          <h1>New employee</h1>
+          <h1>New Staff</h1>
         </div>
       </FadeIn>
       <div className="flex justify-center">
@@ -90,15 +90,15 @@ const EmployeeCreate = () => {
             <div className="items-center mb-6">
               <div className="">
                 <label className="text-gray-500 font-bold text-right mb-1">
-                  Belongs to the store name
+                  Belongs to the store number
                 </label>
               </div>
               <div className="">
                 <input
                   className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
-                  type="storeName"
-                  placeholder="StoreName"
-                  ref={storeNameRef}
+                  type="storeNumber"
+                  placeholder="StoreNumber"
+                  ref={storeNumberRef}
                 />
               </div>
             </div>
