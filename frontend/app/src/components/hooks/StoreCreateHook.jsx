@@ -15,9 +15,11 @@ export function useStoreCreate() {
         console.log(response);
       } else {
         console.log("error");
+        alert(response.data.message);
       }
     } catch (error) {
       console.log(error);
+      alert(error.response.data.message);
     }
   };
 

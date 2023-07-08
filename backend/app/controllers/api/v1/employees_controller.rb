@@ -24,16 +24,6 @@ class Api::V1::EmployeesController < ApplicationController
       render json: {status: "error", message: "The store does not exist"}
     end
   end
-  #   if store
-  #   employee = Employee.new(employee_params)
-  #   if employee.save
-  #     token = JwtService.encode(employee.id)
-  #     cookies[:token] = { value: token, httponly: true }
-  #     render json: {status: "create", data: employee}
-  #   else
-  #       render json: {status: "error"}
-  #   end
-  # end
 
   private
   def employee_params

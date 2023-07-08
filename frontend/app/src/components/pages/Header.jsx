@@ -18,6 +18,12 @@ const Header = () => {
     });
   };
 
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+    handleClickMenu();
+    handleClickSide();
+  };
+
   return (
     <div className="sticky top-0 z-50 mt-8 mb-20">
       <div className="flex text-black sticky top-0 z-50 max-w-screen-2xl">
@@ -53,25 +59,25 @@ const Header = () => {
                 <ul className="pt-20">
                   <li
                     className="font-semibold text-gray-800 hover:text-gray-300 mb-1"
-                    onClick={() => navigate("/")}
+                    onClick={() => handleMenuItemClick("/")}
                   >
                     Home
                   </li>
                   <li
                     className="font-semibold text-gray-800 hover:text-gray-300 mb-1"
-                    onClick={() => navigate("/login")}
+                    onClick={() => handleMenuItemClick("/login")}
                   >
                     Login
                   </li>
                   <li
                     className="font-semibold text-gray-800 hover:text-gray-300 mb-1"
-                    onClick={() => navigate("employee-create")}
+                    onClick={() => handleMenuItemClick("employee-create")}
                   >
                     Create Staff
                   </li>
                   <li
                     className="font-semibold text-gray-800 hover:text-gray-300"
-                    onClick={() => navigate("store-create")}
+                    onClick={() => handleMenuItemClick("store-create")}
                   >
                     Create Store
                   </li>

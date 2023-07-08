@@ -17,6 +17,7 @@ export function useEmployeeCreate() {
         console.log(response);
       } else {
         console.log("error");
+        alert(response.data.message);
       }
     } catch (error) {
       console.log(error);
