@@ -1,7 +1,7 @@
 import { data, getDaysInMonth } from "../data/Date";
 
 const Calender = () => {
-  const { y, m, d } = data();
+  const { y, m } = data();
   const days = getDaysInMonth(y, m);
 
   return (
