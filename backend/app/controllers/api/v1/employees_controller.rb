@@ -9,10 +9,12 @@ class Api::V1::EmployeesController < ApplicationController
   end
 
   def create
+    # store_numberを元にstoreを取得
     store = Store.find_by(number: employee_params[:store_number])
     if store
       employee_params_with_store_id = employee_params.except(:store_number).merge({store_id: store.id})
       employee = Employee.new(employee_params_with_store_id)
+      # storeが存在しemployeeが保存できた場合はトークンを返す
       if employee.save
         token = JwtService.encode(employee.id)
         cookies[:token] = { value: token, httponly: true }

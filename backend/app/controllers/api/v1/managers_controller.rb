@@ -2,6 +2,7 @@ class Api::V1::ManagersController < ApplicationController
   before_action :set_store, only: [:create]
 
   def create
+    # storeが存在し、そのstoreにmanagerが存在しない場合はemployeesに保存しトークンを返す
     if @store.employees.where(is_manager: true).exists?
       render json: { status: "error", message: "The store already has a manager" }
     else
@@ -19,6 +20,7 @@ class Api::V1::ManagersController < ApplicationController
   private
 
   def set_store
+    # store_numberを元にstoreを取得
     @store = Store.find_by(number: params[:store_number])
     unless @store
       render json: { status: "error", message: "The store does not exist" }

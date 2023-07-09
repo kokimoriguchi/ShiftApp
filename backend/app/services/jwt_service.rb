@@ -25,7 +25,6 @@ class JwtService
         decoded_token = JWT.decode(token, rsa_private, true, { algorithm: 'RS256' })
       rescue JWT::DecodeError, JWT::ExpiredSignature, JWT::VerificationError
         raise 'unauthorized'
-        # return render json: { message: 'unauthorized' }, status: :unauthorized
       end
 
       # subクレームからユーザーIDを取得
