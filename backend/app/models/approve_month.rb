@@ -1,0 +1,2 @@
+class ApproveMonth < ApplicationRecord
+end
