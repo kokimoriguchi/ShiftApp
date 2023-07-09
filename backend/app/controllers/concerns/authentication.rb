@@ -12,4 +12,14 @@ module Authentication
       render json: { message: 'unauthorized' }, status: :unauthorized
     end
   end
+
+  # cookieに保存されているtokenを取得し、employeeに保存されているか確認する。
+  def authenticate_manager
+    authenticate_employee
+      # current_manager_idからis_managerがtrueか確認する
+      @current_manager = Employee.find_by(id: @current_employee_id, is_manager: true)
+      unless @current_manager
+        render json: { message: 'unauthorized' }, status: :unauthorized
+      end
+  end
 end
