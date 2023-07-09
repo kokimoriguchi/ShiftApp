@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_06_094856) do
+ActiveRecord::Schema.define(version: 2023_07_09_043318) do
 
-  create_table "employees", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "employees", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.integer "number", null: false
     t.string "password_digest", null: false
@@ -24,7 +24,14 @@ ActiveRecord::Schema.define(version: 2023_07_06_094856) do
     t.index ["store_id"], name: "index_employees_on_store_id"
   end
 
-  create_table "stores", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "shift_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.date "work_day", null: false
+    t.boolean "is_attendance", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "stores", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.integer "number", null: false
     t.string "password_digest", null: false

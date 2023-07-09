@@ -1,0 +1,2 @@
+class ShiftDate < ApplicationRecord
+end
