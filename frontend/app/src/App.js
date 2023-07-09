@@ -10,11 +10,13 @@ import EmployeeCreate from "./components/pages/EmployeeCreate";
 import ManagerCreate from "./components/pages/ManagerCreate";
 import Header from "./components/pages/Header";
 import Home from "./components/pages/Home";
+import Calender from "./components/pages/Calender";
 
 function AllRoutes() {
   const { auth } = useContext(AuthContext);
   return (
     <Routes>
+      <Route path="/calender" element={<Calender />} />
       <Route path="/staff/top" element={auth ? <StaffTop /> : <TopLogin />} />
       <Route path="/manager/create" element={<ManagerCreate />} />
       <Route path="/employee/create" element={<EmployeeCreate />} />
