@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_09_064621) do
+ActiveRecord::Schema.define(version: 2023_07_09_065510) do
 
   create_table "approve_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "store_id", null: false
@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 2023_07_09_064621) do
   end
 
   create_table "employer_shifts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "shift_date_id"
-    t.bigint "employee_id"
+    t.bigint "shift_date_id", null: false
+    t.bigint "employee_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["employee_id"], name: "index_employer_shifts_on_employee_id"
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2023_07_09_064621) do
   create_table "shift_times", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.time "start_time"
     t.time "end_time"
-    t.bigint "shift_date_id"
+    t.bigint "shift_date_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["shift_date_id"], name: "index_shift_times_on_shift_date_id"
