@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_09_043318) do
+ActiveRecord::Schema.define(version: 2023_07_09_052601) do
 
   create_table "employees", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -24,11 +24,29 @@ ActiveRecord::Schema.define(version: 2023_07_09_043318) do
     t.index ["store_id"], name: "index_employees_on_store_id"
   end
 
+  create_table "employer_shifts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "shift_date_id"
+    t.bigint "employee_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_id"], name: "index_employer_shifts_on_employee_id"
+    t.index ["shift_date_id"], name: "index_employer_shifts_on_shift_date_id"
+  end
+
   create_table "shift_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "work_day", null: false
     t.boolean "is_attendance", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "shift_times", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.time "start_time"
+    t.time "end_time"
+    t.bigint "shift_date_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shift_date_id"], name: "index_shift_times_on_shift_date_id"
   end
 
   create_table "stores", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -43,4 +61,7 @@ ActiveRecord::Schema.define(version: 2023_07_09_043318) do
   end
 
   add_foreign_key "employees", "stores"
+  add_foreign_key "employer_shifts", "employees"
+  add_foreign_key "employer_shifts", "shift_dates"
+  add_foreign_key "shift_times", "shift_dates"
 end
