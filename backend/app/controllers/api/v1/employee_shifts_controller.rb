@@ -4,9 +4,9 @@ class Api::V1::EmployeeShiftsController < ApplicationController
 
   #approve_monthテーブルのfalseのレコードを取得
   #この年月のデータをreact側に渡してworkdayと一緒に保存するようにする
-  def unapprove_month
-    @unapprove_month = ApproveMonth.where(is_approve: false)
-    render json: {status: "success", data: @unapprove_month}
+  def get_submit_month
+    @get_submit_month = ApproveMonth.where(is_approve: false)
+    render json: {status: "success", data: @get_submit_month}
   end
 
 

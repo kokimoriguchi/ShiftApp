@@ -25,7 +25,7 @@ const Header = () => {
   };
 
   return (
-    <div className="sticky top-0 z-50 mt-8 mb-10">
+    <div className="sticky top-0 z-50 mt-2">
       <div className="flex text-black sticky top-0 z-50 max-w-screen-2xl">
         <nav className="flex items-center justify-end container mx-auto py-4">
           <button

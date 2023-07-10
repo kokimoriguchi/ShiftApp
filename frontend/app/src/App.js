@@ -11,11 +11,13 @@ import ManagerCreate from "./components/pages/ManagerCreate";
 import Header from "./components/pages/Header";
 import Home from "./components/pages/Home";
 import Calender from "./components/pages/Calender";
+import SubmitCalender from "./components/pages/SubmitCalender";
 
 function AllRoutes() {
   const { auth } = useContext(AuthContext);
   return (
     <Routes>
+      <Route path="/calender/submit" element={<SubmitCalender />} />
       <Route path="/calender" element={<Calender />} />
       <Route path="/staff/top" element={auth ? <StaffTop /> : <TopLogin />} />
       <Route path="/manager/create" element={<ManagerCreate />} />

@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       delete 'sign_out', to: 'sessions#destroy'
 
       #shift登録のroutesとシフト提出可能な月の取得のroutes
-      get "unapprove_month", to: "employee_shifts#unapprove_month"
+      get "get_submit_month", to: "employee_shifts#get_submit_month"
       resources :employee_shifts, only: %i[create]
     end
   end
