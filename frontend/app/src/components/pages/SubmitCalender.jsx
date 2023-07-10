@@ -7,6 +7,10 @@ const SubmitCalender = () => {
   const days = getDaysInMonth(data?.year, data?.month);
   const getSubmitMonth = useMemo(useGetSubmitMonth, []);
 
+  const handleClickDay = (date) => {
+    console.log(date);
+  };
+
   const renderCalender = () => {
     let calender = [];
     let weekRows = [];
@@ -26,7 +30,11 @@ const SubmitCalender = () => {
     // daysの配列の中身をfor文で回している。
     for (let i = 0; i < days.length; i++) {
       weekRows.push(
-        <th key={"day" + weekNum + i} className="border border-slate-300">
+        <th
+          key={"day" + weekNum + i}
+          className="border border-slate-300 hover:text-blue-300"
+          onClick={() => handleClickDay(days[i].date.getDate())}
+        >
           {days[i].date.getDate()}
         </th>
       );

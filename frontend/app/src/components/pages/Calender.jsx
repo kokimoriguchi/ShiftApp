@@ -1,4 +1,4 @@
-import { data, getDaysInMonth } from "../data/Date";
+import { data, getDaysInMonth, week } from "../data/Date";
 
 const Calender = () => {
   const { y, m } = data();
@@ -34,20 +34,20 @@ const Calender = () => {
           <table className="table-fixed whitespace-nowrap">
             <thead className="pw-10">
               <tr>
-                {days.map((day) => (
-                  <th key={day} className="border border-slate-300">
-                    {day.getDate()}
+                {days.map((day, index) => (
+                  <th key={index} className="border border-slate-300">
+                    {day.date.getDate()}
                   </th>
                 ))}
               </tr>
               <tr>
-                {days.map((day) => (
-                  <th key={day} className="border border-slate-300">
-                    {["日", "月", "火", "水", "木", "金", "土"][day.getDay()]}
+                {days.map((day, index) => (
+                  <th key={index} className="border border-slate-300">
+                    {week[day.date.getDay()]}
                   </th>
                 ))}
               </tr>
-              <tr>
+              {/* <tr>
                 {days.map((day) => (
                   <th key={day} className="border border-slate-300">
                     ⚪︎
@@ -67,7 +67,7 @@ const Calender = () => {
                     9:00
                   </th>
                 ))}
-              </tr>
+              </tr> */}
             </thead>
           </table>
         </div>
