@@ -65,12 +65,14 @@ const SubmitCalender = () => {
           {days[i].date.getDate()}
         </th>
       );
+      // weekRowsの配列の中身が7つになったら、それをひとつとして描画する。その後calenderの配列に追加して、weekRowsを空にする。
       if (weekRows.length === 7) {
         calender.push(<tr key={"week" + weekNum}>{weekRows}</tr>);
         weekRows = [];
         weekNum++;
       }
     }
+    //weekRowsの配列の中身が7個揃わず処理がここまできたが0以上の場合はここで最終週として最後に描画する
     if (weekRows.length > 0) {
       calender.push(<tr key={"last" + days.length}>{weekRows}</tr>);
     }
