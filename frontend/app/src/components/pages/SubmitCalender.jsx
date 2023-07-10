@@ -1,14 +1,41 @@
 import { useEffect, useState, useMemo } from "react";
 import { useGetSubmitMonth } from "../hooks/GetSubmitMonth";
 import { getDaysInMonth, week } from "../data/Date";
+import Modal from "../hooks/Modal";
 
 const SubmitCalender = () => {
   const [data, setData] = useState(null);
   const days = getDaysInMonth(data?.year, data?.month);
   const getSubmitMonth = useMemo(useGetSubmitMonth, []);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [shiftDates, setShiftDates] = useState([]);
+
+  useEffect(() => {
+    console.log(shiftDates);
+  }, [shiftDates]);
+
+  const setTime = (day, month, year, startTime, endTime) => {
+    setShiftDates([
+      ...shiftDates,
+      {
+        day: day,
+        month: month,
+        year: year,
+        startTime: startTime,
+        endTime: endTime,
+      },
+    ]);
+  };
 
   const handleClickDay = (date) => {
     console.log(date);
+    setSelectedDate({ day: date, month: data?.month, year: data?.year });
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   const renderCalender = () => {
@@ -83,6 +110,15 @@ const SubmitCalender = () => {
           <tbody>{data && renderCalender()}</tbody>
         </table>
       </div>
+      {modalOpen && (
+        <Modal
+          setTime={setTime}
+          closeModal={closeModal}
+          day={selectedDate.day}
+          month={selectedDate.month}
+          year={selectedDate.year}
+        />
+      )}
     </div>
   );
 };
