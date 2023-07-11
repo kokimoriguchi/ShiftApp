@@ -4,6 +4,7 @@ import { getDaysInMonth, week } from "../data/Date";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Modal from "../hooks/Modal";
+import { VscReply } from "react-icons/vsc";
 
 const SubmitCalender = () => {
   const [data, setData] = useState(null);
@@ -15,9 +16,25 @@ const SubmitCalender = () => {
   const navigate = useNavigate();
   const { storeNumber } = useParams();
 
-  useEffect(() => {
-    console.log(shiftDates);
-  }, [shiftDates]);
+  //shiftDatesにデータがあれば、その日のシフト時間を描画する。
+  const renderShiftData = (date) => {
+    const shift = shiftDates.find(
+      (shift) =>
+        shift.day === date.getDate() &&
+        shift.month === data?.month &&
+        shift.year === data?.year
+    );
+    if (shift) {
+      return (
+        <div className="text-xs">
+          <p>{shift.startTime}</p>
+          <p>|</p>
+          <p>{shift.endTime}</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   const setTime = (day, month, year, startTime, endTime) => {
     setShiftDates([
@@ -63,10 +80,13 @@ const SubmitCalender = () => {
       weekRows.push(
         <th
           key={"day" + weekNum + i}
-          className="border border-slate-300 hover:text-blue-300"
+          className="border border-slate-300 hover:text-blue-300 w-auto cursor-pointer text-xs font-bold"
           onClick={() => handleClickDay(days[i].date.getDate())}
         >
-          {days[i].date.getDate()}
+          <div className="pb-[5px]">{days[i].date.getDate()}</div>
+          <div className="flex flex-col items-center h-[50px] m-auto w-auto sm:w-9 justify-center text-xs overflow-hidden">
+            {renderShiftData(days[i].date)}
+          </div>
         </th>
       );
       // weekRowsの配列の中身が7つになったら、それをひとつとして描画する。その後calenderの配列に追加して、weekRowsを空にする。
@@ -113,12 +133,12 @@ const SubmitCalender = () => {
 
   return (
     <div>
-      <div className="m-auto w-4/5 h-24 text-center bg-blue-300 text-white border-2">
+      <div className="m-auto w-5/6 h-24 text-center bg-blue-300 text-white border-2">
         <h1 className="pt-5">Submit Shifts</h1>
         {data && <p>{`${data.year}. ${data.month}`}</p>}
       </div>
       <div className="flex justify-center pt-0.5">
-        <table className="w-4/5 h-96 p-4">
+        <table className="w-5/6 h-96 p-4">
           <thead>
             <tr>
               {week.map((day, index) => (
@@ -146,7 +166,7 @@ const SubmitCalender = () => {
         />
       )}
       <div>
-        <div className="pt-10 flex flex-col justify-center">
+        <div className="pt-10 flex flex-col justify-center  cursor-pointer">
           <button
             className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 pb-4 transition duration-500 ease-in-out"
             onClick={() => navigate(`/staff/${storeNumber}`)}
