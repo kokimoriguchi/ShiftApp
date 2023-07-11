@@ -36,7 +36,6 @@ const Modal = ({ closeModal, day, month, year, setTime }) => {
             <input
               type="time"
               id="time"
-              name="予定の時刻"
               value={startTime}
               onChange={handleStartTimeChange}
             />
@@ -47,7 +46,6 @@ const Modal = ({ closeModal, day, month, year, setTime }) => {
             <input
               type="time"
               id="time"
-              name="予定の時刻"
               value={endTime}
               onChange={handleEndTimeChange}
             />
