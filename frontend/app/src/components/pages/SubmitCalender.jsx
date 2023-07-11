@@ -76,6 +76,17 @@ const SubmitCalender = () => {
         weekNum++;
       }
     }
+    //weekRowsの配列の中身が7個になるまで空白を追加する。
+    while (weekRows.length < 7) {
+      weekRows.push(
+        <th
+          key={"blank" + weekNum + weekRows.length}
+          className="border border-slate-300"
+        >
+          &nbsp;
+        </th>
+      );
+    }
     //weekRowsの配列の中身が7個揃わず処理がここまできたが0以上の場合はここで最終週として最後に描画する
     if (weekRows.length > 0) {
       calender.push(<tr key={"last" + days.length}>{weekRows}</tr>);
@@ -110,8 +121,13 @@ const SubmitCalender = () => {
         <table className="w-4/5 h-96 p-4">
           <thead>
             <tr>
-              {week.map((day) => (
-                <th key={day} className="border border-slate-300">
+              {week.map((day, index) => (
+                <th
+                  key={day}
+                  className={`border border-slate-300 ${
+                    index === 0 ? "text-red-500" : ""
+                  } ${index === 6 ? "text-blue-500" : ""}`}
+                >
                   {day}
                 </th>
               ))}
