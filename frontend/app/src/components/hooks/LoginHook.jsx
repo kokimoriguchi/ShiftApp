@@ -18,6 +18,7 @@ export function useLogin() {
         console.log(response.data.store_number);
       } else {
         console.log(response.data.message);
+        alert(response.data.message);
       }
     } catch (error) {
       setAuth(false);
