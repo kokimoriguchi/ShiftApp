@@ -3,6 +3,10 @@ import { useGetSubmitMonth } from "../hooks/GetSubmitMonth";
 import { getDaysInMonth, week } from "../data/Date";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage,
+} from "../hooks/ToLocalStorageHooks";
 import CalenderRender from "../hooks/CalenderRender";
 import Modal from "../hooks/Modal";
 
@@ -73,10 +77,11 @@ const SubmitCalender = () => {
     }
   };
 
-  //データの確認用後ほど削除
+  //localStorageのデータを画面描画時に取得し、shiftDatesにセットする。
   useEffect(() => {
-    console.log(shiftDates);
-  }, [shiftDates]);
+    const storedShiftDates = loadFromLocalStorage("shiftDates");
+    if (storedShiftDates) setShiftDates(storedShiftDates);
+  }, []);
 
   //日付をクリックするとその日のシフト時間を入力するモーダルを表示する
   const handleClickDay = (date) => {
@@ -150,19 +155,25 @@ const SubmitCalender = () => {
           year={selectedDate.year}
         />
       )}
+      <div className="flex flex-col items-center pt-3">
+        <button
+          className="bg-blue-300 hover:bg-blue-500 text-white h-8 w-20 font-bold rounded"
+          onClick={() => saveToLocalStorage("shiftDates", shiftDates)}
+        >
+          save
+        </button>
+        <button className="bg-blue-300 hover:bg-blue-500 text-white h-8 w-20 font-bold rounded mt-4">
+          submit
+        </button>
+      </div>
+
       <div>
-        <div className="hidden pt-10 sm:flex flex-col justify-center  cursor-pointer">
+        <div className="hidden pt-7 sm:flex flex-col justify-center  cursor-pointer">
           <button
             className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 pb-4 transition duration-500 ease-in-out"
             onClick={() => navigate(`/staff/${storeNumber}`)}
           >
-            Move to Staff Page
-          </button>
-          <button
-            className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out"
-            onClick={() => navigate("/")}
-          >
-            Back to Top
+            Back to Staff Page
           </button>
         </div>
       </div>
