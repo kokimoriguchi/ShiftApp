@@ -17,18 +17,20 @@ const SubmitCalender = () => {
 
   //shiftDatesにデータがあれば、その日のシフト時間を描画する。
   const renderShiftData = (date) => {
-    const shift = shiftDates.find(
-      (shift) =>
-        shift.day === date.getDate() &&
-        shift.month === data?.month &&
-        shift.year === data?.year
-    );
+    const shift = shiftDates.find((shift) => {
+      const shiftDate = new Date(shift.shift_date.work_day);
+      return (
+        shiftDate.getDate() === date.getDate() &&
+        shiftDate.getMonth() + 1 === data?.month &&
+        shiftDate.getFullYear() === data?.year
+      );
+    });
     if (shift) {
       return (
         <div className="text-xs">
-          <p>{shift.startTime}</p>
+          <p>{shift.shift_time.start_time}</p>
           <p>|</p>
-          <p>{shift.endTime}</p>
+          <p>{shift.shift_time.end_time}</p>
         </div>
       );
     }
@@ -36,17 +38,25 @@ const SubmitCalender = () => {
   };
 
   const setTime = (day, month, year, startTime, endTime) => {
-    setShiftDates([
-      ...shiftDates,
-      {
-        day: day,
-        month: month,
-        year: year,
-        startTime: startTime,
-        endTime: endTime,
+    const work_day = `${year}-${month.toString().padStart(2, "0")}-${day
+      .toString()
+      .padStart(2, "0")}`;
+    const newShift = {
+      shift_date: {
+        work_day,
       },
-    ]);
+      shift_time: {
+        start_time: startTime,
+        end_time: endTime,
+      },
+    };
+    // shiftDatesに新しいシフトを追加
+    setShiftDates([...shiftDates, newShift]);
   };
+
+  useEffect(() => {
+    console.log(shiftDates);
+  }, [shiftDates]);
 
   const handleClickDay = (date) => {
     console.log(date);
@@ -73,7 +83,6 @@ const SubmitCalender = () => {
         </th>
       );
     }
-
     // daysの配列の中身をfor文で回している。
     for (let i = 0; i < days.length; i++) {
       weekRows.push(
@@ -83,7 +92,7 @@ const SubmitCalender = () => {
           onClick={() => handleClickDay(days[i].date.getDate())}
         >
           <div className="pb-[5px]">{days[i].date.getDate()}</div>
-          <div className="flex flex-col items-center h-[50px] m-auto w-auto sm:w-9 justify-center text-xs overflow-hidden">
+          <div className="flex flex-col items-center h-[50px] m-auto w-9 justify-center text-xs overflow-hidden">
             {renderShiftData(days[i].date)}
           </div>
         </th>
@@ -113,15 +122,16 @@ const SubmitCalender = () => {
     return calender;
   };
 
+  //シフト提出可能な月のデータを取得する
   useEffect(() => {
     const submitMonthData = async () => {
       const result = await getSubmitMonth();
       setData(result.data[0]);
     };
-
     submitMonthData();
   }, [getSubmitMonth]);
 
+  //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
   if (!data) {
     return (
       <div className="pt-36 top-1/2 left-1/2 text-center">
@@ -132,8 +142,8 @@ const SubmitCalender = () => {
 
   return (
     <div>
-      <div className="m-auto w-5/6 h-24 text-center bg-blue-300 text-white border-2">
-        <h1 className="pt-5">Submit Shifts</h1>
+      <div className="flex flex-row justify-center sm:block m-auto w-5/6 sm:h-24 h-10 text-center bg-blue-300 text-white border-2">
+        <h1 className="sm:pt-5 pr-3 sm:pr-0">Submit Shifts</h1>
         {data && <p>{`${data.year}. ${data.month}`}</p>}
       </div>
       <div className="flex justify-center pt-0.5">
@@ -165,7 +175,7 @@ const SubmitCalender = () => {
         />
       )}
       <div>
-        <div className="pt-10 flex flex-col justify-center  cursor-pointer">
+        <div className="hidden pt-10 sm:flex flex-col justify-center  cursor-pointer">
           <button
             className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 pb-4 transition duration-500 ease-in-out"
             onClick={() => navigate(`/staff/${storeNumber}`)}
