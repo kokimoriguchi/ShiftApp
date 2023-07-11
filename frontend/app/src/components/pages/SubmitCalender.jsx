@@ -1,6 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import { useGetSubmitMonth } from "../hooks/GetSubmitMonth";
 import { getDaysInMonth, week } from "../data/Date";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Modal from "../hooks/Modal";
 
 const SubmitCalender = () => {
@@ -10,6 +12,8 @@ const SubmitCalender = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [shiftDates, setShiftDates] = useState([]);
+  const navigate = useNavigate();
+  const { storeNumber } = useParams();
 
   useEffect(() => {
     console.log(shiftDates);
@@ -125,6 +129,22 @@ const SubmitCalender = () => {
           year={selectedDate.year}
         />
       )}
+      <div>
+        <div className="pt-10 flex flex-col justify-center">
+          <button
+            className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 pb-4 transition duration-500 ease-in-out"
+            onClick={() => navigate(`/staff/${storeNumber}`)}
+          >
+            Move to Staff Page
+          </button>
+          <button
+            className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out"
+            onClick={() => navigate("/")}
+          >
+            Back to Top
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

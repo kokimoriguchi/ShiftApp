@@ -14,14 +14,15 @@ export function useLogin() {
       console.log(userData);
       if (response.data.status === "create") {
         setAuth(true);
-        navigate("/staff/top");
-        console.log(response);
+        navigate(`/staff/${response.data.store_number}`);
+        console.log(response.data.store_number);
       } else {
-        console.log("error");
+        console.log(response.data.message);
       }
     } catch (error) {
       setAuth(false);
-      console.log(error);
+      console.log(error, "error");
+      console.log(userData);
     }
   };
 

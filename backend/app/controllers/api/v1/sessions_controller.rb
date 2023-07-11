@@ -6,7 +6,11 @@ class Api::V1::SessionsController < ApplicationController
     if employee&.authenticate(params[:password])
       token = JwtService.encode(employee.id)
       cookies[:token] = { value: token, httponly: true }
-      render json: {status: "create", data: employee}
+
+      # Storeのnumberを取得する
+      store_number = employee.store.number
+
+      render json: {status: "create", data: employee, store_number: store_number}
     else
       render json: {status: "error", message: "ログインに失敗しました"}
     end

@@ -21,6 +21,7 @@ export function useEmployeeCreate() {
       }
     } catch (error) {
       console.log(error);
+      alert("登録に失敗しました。");
     }
   };
 

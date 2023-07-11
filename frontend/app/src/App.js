@@ -17,9 +17,15 @@ function AllRoutes() {
   const { auth } = useContext(AuthContext);
   return (
     <Routes>
-      <Route path="/calender/submit" element={<SubmitCalender />} />
+      <Route
+        path="/staff/:storeNumber/calender/submit"
+        element={auth ? <SubmitCalender /> : <TopLogin />}
+      />
       <Route path="/calender" element={<Calender />} />
-      <Route path="/staff/top" element={auth ? <StaffTop /> : <TopLogin />} />
+      <Route
+        path="/staff/:storeNumber"
+        element={auth ? <StaffTop /> : <TopLogin />}
+      />
       <Route path="/manager/create" element={<ManagerCreate />} />
       <Route path="/employee/create" element={<EmployeeCreate />} />
       <Route path="/store/create" element={<StoreCreate />} />
