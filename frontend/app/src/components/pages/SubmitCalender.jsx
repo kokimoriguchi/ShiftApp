@@ -40,9 +40,11 @@ const SubmitCalender = () => {
 
   //出勤可能日をworkdayとshift_timeに分けて、shiftDatesに追加する。
   const setTime = (day, month, year, startTime, endTime) => {
+    //padStartで2桁の指定を行い、1桁場合数字の前に0を追加する
     const work_day = `${year}-${month.toString().padStart(2, "0")}-${day
       .toString()
       .padStart(2, "0")}`;
+    //新しいシフトをworkdayとshift_timeに分けて作成
     const newShift = {
       shift_date: {
         work_day,
@@ -52,8 +54,23 @@ const SubmitCalender = () => {
         end_time: endTime,
       },
     };
-    // shiftDatesに新しいシフトを追加
-    setShiftDates([...shiftDates, newShift]);
+    //findIndexメソッドでshiftDatesに同じ日付のデータがあるか確認する。あれば1を返し、なければ-1を返す。
+    const alreadyShiftDate = shiftDates.findIndex((shift) => {
+      const shiftDate = new Date(shift.shift_date.work_day);
+      return (
+        shiftDate.getDate() === day &&
+        shiftDate.getMonth() + 1 === month &&
+        shiftDate.getFullYear() === year
+      );
+    });
+    //shiftDatesに同じ日付のデータつまり1が返ってきていれば、そのデータを新しいシフトデータに更新する。
+    if (alreadyShiftDate !== -1) {
+      const updateShiftDates = [...shiftDates];
+      updateShiftDates[alreadyShiftDate] = newShift;
+      setShiftDates(updateShiftDates);
+    } else {
+      setShiftDates([...shiftDates, newShift]);
+    }
   };
 
   //データの確認用後ほど削除
