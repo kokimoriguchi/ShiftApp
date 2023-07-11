@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { VscError } from "react-icons/vsc";
 
 const Modal = ({ closeModal, day, month, year, setTime }) => {
   const [startTime, setStartTime] = useState("00:00");
@@ -24,7 +25,9 @@ const Modal = ({ closeModal, day, month, year, setTime }) => {
           <h2 className="text-xl font-bold">
             {year}/{month}/{day}
           </h2>
-          <button onClick={closeModal}>✖️</button>
+          <button className="hover:text-blue-300" onClick={closeModal}>
+            <VscError />
+          </button>
         </div>
         <div className="flex flex-col justify-center items-center">
           <p className="pt-4 pb-6">出勤可能な時間帯を入力してください</p>
@@ -40,7 +43,7 @@ const Modal = ({ closeModal, day, month, year, setTime }) => {
           </div>
           <div></div>
           <div className="pt-5">
-            <label>end</label>
+            <label className="hover:to-blue-300">end</label>
             <input
               type="time"
               id="time"
