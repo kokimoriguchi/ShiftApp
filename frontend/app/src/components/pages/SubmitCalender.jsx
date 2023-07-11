@@ -89,7 +89,11 @@ const SubmitCalender = () => {
   }, [getSubmitMonth]);
 
   if (!data) {
-    return <div>今は提出できる月のシフトがありません</div>;
+    return (
+      <div className="pt-36 top-1/2 left-1/2 text-center">
+        今は提出できる月のシフトがありません
+      </div>
+    );
   }
 
   return (
