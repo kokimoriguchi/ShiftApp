@@ -1,6 +1,7 @@
 import baseAxios from "./Axios";
 import { useNavigate } from "react-router-dom";
 
+// マネージャー登録用のカスタムフック
 export function useManagerCreate() {
   const navigate = useNavigate();
 

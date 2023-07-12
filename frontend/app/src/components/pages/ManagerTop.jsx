@@ -1,4 +1,5 @@
 import baseAxios from "../hooks/Axios";
+import Calender from "./Calender";
 
 const ManagerTop = () => {
   const handleCheckUser = async () => {
@@ -10,9 +11,12 @@ const ManagerTop = () => {
     }
   };
   return (
-    <div className="text-center pt-40">
+    <div>
       <h1>ManagerTop</h1>
-      <button onClick={handleCheckUser}>ユーザー情報取得</button>
+      <Calender />
+      <div className="text-center pt-40">
+        <button onClick={handleCheckUser}>ユーザー情報取得</button>
+      </div>
     </div>
   );
 };
