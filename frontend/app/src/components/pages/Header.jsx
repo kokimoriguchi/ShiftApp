@@ -33,15 +33,16 @@ const Header = () => {
               handleClickMenu();
               handleClickSide();
             }}
-            className="flex-initial z-10 space-y-2 max-sm:p-4 "
+            className="flex-initial z-10 space-y-2 p-4 "
           >
             {openMenu ? (
-              <div className="relative w-6 h-px z-20">
+              <div className="relative w-6 h-5 z-20">
                 <div className="absolute w-6 h-px bg-black transform transition-all duration-500 rotate-45 top-1/2"></div>
                 <div className="absolute w-6 h-px bg-black transform transition-all duration-500 -rotate-45 top-1/2"></div>
+                <div className="absolute w-6 h-px bg-transparent top-1/2"></div>
               </div>
             ) : (
-              <div>
+              <div className="h-5">
                 <div className="w-6 h-0.5 bg-black transition-all duration-500 mb-2"></div>
                 <div className="w-6 h-0.5 bg-black transition-all duration-500 mb-2"></div>
                 <div className="w-6 h-0.5 bg-black transition-all duration-500"></div>
@@ -56,27 +57,27 @@ const Header = () => {
               }`}
             >
               <div className="z-50 mx-auto h-2/5 bg-gray-200 bg-opacity-80">
-                <ul className="pt-20">
+                <ul className="pt-20 text-center">
                   <li
-                    className="font-semibold text-gray-800 hover:text-gray-300 mb-1"
+                    className="font-semibold text-gray-800 hover:text-gray-300 mb-1 hover:cursor-pointer"
                     onClick={() => handleMenuItemClick("/")}
                   >
                     Home
                   </li>
                   <li
-                    className="font-semibold text-gray-800 hover:text-gray-300 mb-1"
+                    className="font-semibold text-gray-800 hover:text-gray-300 mb-1 hover:cursor-pointer"
                     onClick={() => handleMenuItemClick("/login")}
                   >
                     Login
                   </li>
                   <li
-                    className="font-semibold text-gray-800 hover:text-gray-300 mb-1"
+                    className="font-semibold text-gray-800 hover:text-gray-300 mb-1 hover:cursor-pointer"
                     onClick={() => handleMenuItemClick("employee/create")}
                   >
                     Create Staff
                   </li>
                   <li
-                    className="font-semibold text-gray-800 hover:text-gray-300"
+                    className="font-semibold text-gray-800 hover:text-gray-300 hover:cursor-pointer"
                     onClick={() => handleMenuItemClick("store/create")}
                   >
                     Create Store
@@ -87,6 +88,7 @@ const Header = () => {
           </div>
         </nav>
       </div>
+      <div className="w-full h-0.5 bg-gray-500 mb-5"></div>
     </div>
   );
 };
