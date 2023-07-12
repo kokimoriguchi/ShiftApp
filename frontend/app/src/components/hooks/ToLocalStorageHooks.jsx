@@ -2,7 +2,6 @@ export const saveToLocalStorage = (key, value) => {
   try {
     const serializedValue = JSON.stringify(value);
     localStorage.setItem(key, serializedValue);
-    console.log(serializedValue);
   } catch (error) {
     console.log(error);
   }
@@ -16,5 +15,13 @@ export const loadFromLocalStorage = (key) => {
   } catch (error) {
     console.log(error);
     return undefined;
+  }
+};
+
+export const removeFromLocalStorage = (key) => {
+  try {
+    localStorage.removeItem(key);
+  } catch (error) {
+    console.log(error);
   }
 };

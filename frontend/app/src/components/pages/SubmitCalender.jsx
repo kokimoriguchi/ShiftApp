@@ -6,9 +6,13 @@ import { useParams } from "react-router-dom";
 import {
   saveToLocalStorage,
   loadFromLocalStorage,
+  removeFromLocalStorage,
 } from "../hooks/ToLocalStorageHooks";
 import CalenderRender from "../hooks/CalenderRender";
 import Modal from "../hooks/Modal";
+import { HiSave } from "react-icons/hi";
+import { TbSend, TbTrash } from "react-icons/tb";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const SubmitCalender = () => {
   const [data, setData] = useState(null);
@@ -95,6 +99,12 @@ const SubmitCalender = () => {
     setModalOpen(false);
   };
 
+  //モーダルで入力したシフト時間を削除する
+  const handleDelete = () => {
+    removeFromLocalStorage("shiftDates");
+    setShiftDates([]);
+  };
+
   //シフト提出可能な月のデータを取得する
   useEffect(() => {
     const submitMonthData = async () => {
@@ -114,13 +124,13 @@ const SubmitCalender = () => {
   }
 
   return (
-    <div>
-      <div className="flex flex-row justify-center sm:block m-auto w-5/6 sm:h-24 h-10 text-center bg-blue-300 text-white border-2">
+    <div className="m-auto w-5/6">
+      <div className="flex flex-row justify-center sm:block sm:h-24 h-10 text-center bg-blue-300 text-white border-2">
         <h1 className="sm:pt-5 pr-3 sm:pr-0">Submit Shifts</h1>
         {data && <p>{`${data.year}. ${data.month}`}</p>}
       </div>
       <div className="flex justify-center pt-0.5">
-        <table className="w-5/6 h-96 p-4">
+        <table className="w-full h-96 p-4">
           <thead>
             <tr>
               {week.map((day, index) => (
@@ -155,26 +165,41 @@ const SubmitCalender = () => {
           year={selectedDate.year}
         />
       )}
-      <div className="flex flex-col items-center pt-3">
-        <button
-          className="bg-blue-300 hover:bg-blue-500 text-white h-8 w-20 font-bold rounded"
-          onClick={() => saveToLocalStorage("shiftDates", shiftDates)}
-        >
-          save
-        </button>
-        <button className="bg-blue-300 hover:bg-blue-500 text-white h-8 w-20 font-bold rounded mt-4">
-          submit
-        </button>
-      </div>
-
-      <div>
-        <div className="hidden pt-7 sm:flex flex-col justify-center  cursor-pointer">
+      <div className="flex justify-between py-3">
+        <div className="inline-flex items-center rounded-full p-1 bg-zinc-400 text-white group transition-all duration-100 hover:ring-1 hover:ring-blue-300 hover:bg-blue-300 hover:ring-offset-1 hover:outline-none">
+          <RiArrowGoBackFill />
           <button
-            className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 pb-4 transition duration-500 ease-in-out"
+            className="whitespace-nowrap inline-block text-sm max-w-0 overflow-hidden transition-all duration-300 sm:max-w-screen-2xl group-hover:max-w-screen-2xl group-hover:scale-100 group-hover:px-2"
             onClick={() => navigate(`/staff/${storeNumber}`)}
           >
-            Back to Staff Page
+            Back
           </button>
+        </div>
+        <div className="flex flex-row">
+          <div className="inline-flex items-center rounded-full p-1 bg-zinc-400 text-white group transition-all duration-100 hover:ring-1 hover:ring-blue-300 hover:bg-blue-300 hover:ring-offset-1 hover:outline-none">
+            <HiSave />
+            <button
+              className="whitespace-nowrap inline-block text-sm max-w-0 overflow-hidden transition-all duration-300 sm:max-w-screen-2xl group-hover:max-w-screen-2xl group-hover:scale-100 group-hover:px-2"
+              onClick={() => saveToLocalStorage("shiftDates", shiftDates)}
+            >
+              save
+            </button>
+          </div>
+          <div className="inline-flex items-center rounded-full p-1 bg-zinc-400 text-white group transition-all duration-100 hover:ring-1 hover:ring-blue-300 hover:bg-blue-300 hover:ring-offset-1 hover:outline-none">
+            <TbSend />
+            <button className="whitespace-nowrap inline-block text-sm max-w-0 overflow-hidden transition-all duration-300 sm:max-w-screen-2xl group-hover:max-w-screen-2xl group-hover:scale-100 group-hover:px-2">
+              submit
+            </button>
+          </div>
+          <div className="inline-flex items-center rounded-full p-1 bg-zinc-400 text-white group transition-all duration-100 hover:ring-1 hover:ring-blue-300 hover:bg-blue-300 hover:ring-offset-1 hover:outline-none">
+            <TbTrash />
+            <button
+              className="whitespace-nowrap inline-block text-sm max-w-0 overflow-hidden transition-all duration-300 sm:max-w-screen-2xl group-hover:max-w-screen-2xl group-hover:scale-100 group-hover:px-2"
+              onClick={handleDelete}
+            >
+              reset
+            </button>
+          </div>
         </div>
       </div>
     </div>
