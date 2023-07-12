@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
       #sign_inとoutのコントローラーのroutes
       post "/sign_in", to: "sessions#create"
+      post "/manager_sign_in", to: "sessions#manager_create"
       delete 'sign_out', to: 'sessions#destroy'
 
       #shift登録のroutesとシフト提出可能な月の取得のroutes
