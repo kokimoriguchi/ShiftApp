@@ -13,6 +13,7 @@ import Modal from "../hooks/Modal";
 import { HiSave } from "react-icons/hi";
 import { TbSend, TbTrash } from "react-icons/tb";
 import { RiArrowGoBackFill } from "react-icons/ri";
+import { SubmitShift } from "../hooks/SubmitShift";
 
 const SubmitCalender = () => {
   const [data, setData] = useState(null);
@@ -187,7 +188,10 @@ const SubmitCalender = () => {
           </div>
           <div className="inline-flex items-center rounded-full p-1 bg-zinc-400 text-white group transition-all duration-100 hover:ring-1 hover:ring-blue-300 hover:bg-blue-300 hover:ring-offset-1 hover:outline-none">
             <TbSend />
-            <button className="whitespace-nowrap inline-block text-sm max-w-0 overflow-hidden transition-all duration-300 sm:max-w-screen-2xl group-hover:max-w-screen-2xl group-hover:scale-100 group-hover:px-2">
+            <button
+              className="whitespace-nowrap inline-block text-sm max-w-0 overflow-hidden transition-all duration-300 sm:max-w-screen-2xl group-hover:max-w-screen-2xl group-hover:scale-100 group-hover:px-2"
+              onClick={() => SubmitShift(shiftDates)}
+            >
               submit
             </button>
           </div>

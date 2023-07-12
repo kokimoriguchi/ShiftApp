@@ -1,18 +1,17 @@
 import baseAxios from "./Axios";
 
-export function SubmitShift(shiftDates) {
-  const handleClickSetTime = async (shiftDates) => {
+export const SubmitShift = async (shiftDates) => {
+  console.log(shiftDates);
+  try {
     const response = await baseAxios.post("employee_shifts", {
-      shift: shiftDates,
+      shiftDates: shiftDates,
     });
-    console.log(shiftDates);
-    console.log(response.data);
     if (response.data.status === "create") {
-      console.log(response);
+      console.log("シフト提出成功");
     } else {
-      console.log("error");
-      alert(response.data.message);
+      console.log("シフト提出失敗");
     }
-  };
-  return handleClickSetTime;
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
