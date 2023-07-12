@@ -8,8 +8,10 @@ export const SubmitShift = async (shiftDates) => {
     });
     if (response.data.status === "create") {
       console.log("シフト提出成功");
+      alert("シフト提出成功");
     } else {
       console.log("シフト提出失敗");
+      alert("シフト提出失敗");
     }
   } catch (error) {
     console.log(error);
