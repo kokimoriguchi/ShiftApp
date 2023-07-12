@@ -72,6 +72,12 @@ const Header = () => {
                   </li>
                   <li
                     className="font-semibold text-gray-800 hover:text-gray-300 mb-1 hover:cursor-pointer"
+                    onClick={() => handleMenuItemClick("manager/login")}
+                  >
+                    Login Manager
+                  </li>
+                  <li
+                    className="font-semibold text-gray-800 hover:text-gray-300 mb-1 hover:cursor-pointer"
                     onClick={() => handleMenuItemClick("employee/create")}
                   >
                     Create Staff

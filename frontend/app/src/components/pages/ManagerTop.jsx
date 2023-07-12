@@ -11,7 +11,7 @@ const ManagerTop = () => {
   };
   return (
     <div className="text-center pt-40">
-      <h1>StaffTop</h1>
+      <h1>ManagerTop</h1>
       <button onClick={handleCheckUser}>ユーザー情報取得</button>
     </div>
   );

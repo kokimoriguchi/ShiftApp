@@ -27,7 +27,7 @@ const Home = () => {
         <FadeIn delay={900}>
           <button
             className="text-xl font-bold hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out pb-3"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/manager/login")}
           >
             Or login as a manager
           </button>

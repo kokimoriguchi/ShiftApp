@@ -1,12 +1,12 @@
 import { useRef } from "react";
-import { useLogin } from "../hooks/LoginHook";
+import { useManagerLogin } from "../hooks/LoginHook";
 import { useNavigate } from "react-router-dom";
 import { FadeIn } from "../hooks/FadeInHook";
 
-const TopLogin = () => {
+const ManagerLogin = () => {
   const staffNumberRef = useRef(null);
   const passwordRef = useRef(null);
-  const login = useLogin();
+  const login = useManagerLogin();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -24,7 +24,7 @@ const TopLogin = () => {
     <div className="pt-10">
       <FadeIn delay={50}>
         <div className="text-center text-gray-500 font-bold mb-5 text-3xl">
-          <h1>login</h1>
+          <h1>Manager Login</h1>
         </div>
       </FadeIn>
       <div className="flex justify-center">
@@ -82,15 +82,15 @@ const TopLogin = () => {
           <div className="pt-20 hidden sm:flex flex-col justify-center">
             <button
               className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out pb-4"
-              onClick={() => navigate("/manager/login")}
+              onClick={() => navigate("/login")}
             >
-              Login as a Manager
+              Login as Staff
             </button>
             <button
               className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out"
-              onClick={() => navigate("/store/create")}
+              onClick={() => navigate("/")}
             >
-              Create New Store
+              Back to Top
             </button>
           </div>
         </div>
@@ -98,4 +98,4 @@ const TopLogin = () => {
     </div>
   );
 };
-export default TopLogin;
+export default ManagerLogin;

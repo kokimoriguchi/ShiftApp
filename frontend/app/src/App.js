@@ -5,6 +5,7 @@ import { AuthContext } from "./components/hooks/Auth";
 import AuthProvider from "./components/hooks/Auth";
 import TopLogin from "./components/pages/TopLogin";
 import StaffTop from "./components/pages/StaffTop";
+import ManagerLogin from "./components/pages/ManagerLogin";
 import StoreCreate from "./components/pages/StoreCreate";
 import EmployeeCreate from "./components/pages/EmployeeCreate";
 import ManagerCreate from "./components/pages/ManagerCreate";
@@ -29,6 +30,7 @@ function AllRoutes() {
       <Route path="/manager/create" element={<ManagerCreate />} />
       <Route path="/employee/create" element={<EmployeeCreate />} />
       <Route path="/store/create" element={<StoreCreate />} />
+      <Route path="/manager/login" element={<ManagerLogin />} />
       <Route path="/login" element={<TopLogin />} />
       <Route path="/" element={<Home />} />
     </Routes>
