@@ -23,6 +23,9 @@ Rails.application.routes.draw do
       #shift登録のroutesとシフト提出可能な月の取得のroutes
       get "get_submit_month", to: "employee_shifts#get_submit_month"
       resources :employee_shifts, only: %i[create]
+
+      #managerのシフト確認のroutes
+      get "get_employee", to: "manager_shifts#get_employee"
     end
   end
 end

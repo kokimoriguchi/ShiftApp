@@ -1,8 +1,19 @@
 import { data, getDaysInMonth, week } from "../data/Date";
+import { useGetEmployees } from "../hooks/GetShiftDataHook";
+import { useEffect } from "react";
 
-const Calender = () => {
+const Calender = ({ storeNumber }) => {
   const { y, m } = data();
   const days = getDaysInMonth(y, m);
+  const { employees, getEmployees } = useGetEmployees();
+
+  useEffect(() => {
+    getEmployees(storeNumber);
+  }, []);
+
+  useEffect(() => {
+    console.log(employees);
+  }, [employees]);
 
   return (
     <div className="flex justify-center px-20">
@@ -29,10 +40,21 @@ const Calender = () => {
               </tr>
             </thead>
           </table>
+          <table className="table-fixed w-64">
+            <tbody>
+              {employees.map((employee) => (
+                <tr key={employee.id}>
+                  <td className="border border-slate-300 w-30">
+                    {employee.name}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <div className="overflow-x-auto md:max-w-[60rem]">
           <table className="table-fixed whitespace-nowrap">
-            <thead className="pw-10">
+            <tbody className="pw-10">
               <tr>
                 {days.map((day, index) => (
                   <th key={index} className="border border-slate-300">
@@ -47,28 +69,7 @@ const Calender = () => {
                   </th>
                 ))}
               </tr>
-              {/* <tr>
-                {days.map((day) => (
-                  <th key={day} className="border border-slate-300">
-                    ⚪︎
-                  </th>
-                ))}
-              </tr>
-              <tr>
-                {days.map((day) => (
-                  <th key={day} className="border border-slate-300">
-                    9:00 - 19:10
-                  </th>
-                ))}
-              </tr>
-              <tr>
-                {days.map((day) => (
-                  <th key={day} className="border border-slate-300">
-                    9:00
-                  </th>
-                ))}
-              </tr> */}
-            </thead>
+            </tbody>
           </table>
         </div>
       </div>
