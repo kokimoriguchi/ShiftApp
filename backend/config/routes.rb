@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
       #managerのシフト確認のroutes
       get "get_employee", to: "manager_shifts#get_employee"
+      get "get_employee_shifts", to: "manager_shifts#get_employee_shifts"
     end
   end
 end
