@@ -9,6 +9,7 @@ const Calender = ({ storeNumber }) => {
 
   useEffect(() => {
     getEmployees(storeNumber);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -42,13 +43,14 @@ const Calender = ({ storeNumber }) => {
           </table>
           <table className="table-fixed w-64">
             <tbody>
-              {employees.map((employee) => (
-                <tr key={employee.id}>
-                  <td className="border border-slate-300 w-30">
-                    {employee.name}
-                  </td>
-                </tr>
-              ))}
+              {employees &&
+                employees.map((employee) => (
+                  <tr key={employee.id}>
+                    <td className="border border-slate-300 w-30">
+                      {employee.name}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
