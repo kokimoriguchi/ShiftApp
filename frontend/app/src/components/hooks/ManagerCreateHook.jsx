@@ -5,17 +5,14 @@ import { useNavigate } from "react-router-dom";
 export function useManagerCreate() {
   const navigate = useNavigate();
 
-  const managerCreate = async (managerData, storeData) => {
+  const managerCreate = async (employeeData) => {
     try {
       const response = await baseAxios.post("managers", {
-        manager: managerData,
-        store_number: storeData,
+        manager: employeeData,
       });
-      console.log(managerData);
-      console.log(storeData);
       console.log(response.data);
       if (response.data.status === "create") {
-        navigate("/login");
+        navigate("/manager/login");
         console.log(response);
       } else {
         console.log("error");

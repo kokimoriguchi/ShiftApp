@@ -6,7 +6,7 @@ class Api::V1::ManagersController < ApplicationController
     if @store.employees.where(is_manager: true).exists?
       render json: { status: "error", message: "The store already has a manager" }
     else
-      @manager = @store.employees.new(manager_params.merge(is_manager: true))
+      @manager = @store.employees.new(manager_params.except(:store_number).merge(is_manager: true))
       if @manager.save
         token = JwtService.encode(@manager.id)
         cookies[:token] = { value: token, httponly: true }
@@ -21,13 +21,13 @@ class Api::V1::ManagersController < ApplicationController
 
   def set_store
     # store_numberを元にstoreを取得
-    @store = Store.find_by(number: params[:store_number])
+    @store = Store.find_by(number: manager_params[:store_number])
     unless @store
       render json: { status: "error", message: "The store does not exist" }
     end
   end
 
   def manager_params
-    params.require(:manager).permit(:name, :number, :password)
+    params.require(:manager).permit(:name, :number, :password, :store_number)
   end
 end
