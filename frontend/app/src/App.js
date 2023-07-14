@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./components/hooks/Auth";
 import AuthProvider from "./components/hooks/Auth";
-import TopLogin from "./components/pages/TopLogin";
-import StaffTop from "./components/pages/StaffTop";
 import ManagerLogin from "./components/pages/ManagerLogin";
 import StoreCreate from "./components/pages/StoreCreate";
 import EmployeeCreate from "./components/pages/EmployeeCreate";
@@ -14,6 +12,8 @@ import Home from "./components/pages/Home";
 import Calender from "./components/pages/Calender";
 import SubmitCalender from "./components/pages/SubmitCalender";
 import ManagerTop from "./components/pages/ManagerTop";
+import EmployeeLogin from "./components/pages/EmployeeLogin";
+import EmployeeTop from "./components/pages/EmployeeTop";
 
 function AllRoutes() {
   const { auth, isManager } = useContext(AuthContext);
@@ -25,18 +25,18 @@ function AllRoutes() {
       />
       <Route
         path="/staff/:storeNumber/calender/submit"
-        element={auth ? <SubmitCalender /> : <TopLogin />}
+        element={auth ? <SubmitCalender /> : <EmployeeLogin />}
       />
       <Route path="/calender" element={<Calender />} />
       <Route
         path="/staff/:storeNumber"
-        element={auth ? <StaffTop /> : <TopLogin />}
+        element={auth ? <EmployeeTop /> : <EmployeeLogin />}
       />
       <Route path="/manager/create" element={<ManagerCreate />} />
       <Route path="/employee/create" element={<EmployeeCreate />} />
       <Route path="/store/create" element={<StoreCreate />} />
       <Route path="/manager/login" element={<ManagerLogin />} />
-      <Route path="/login" element={<TopLogin />} />
+      <Route path="/login" element={<EmployeeLogin />} />
       <Route path="/" element={<Home />} />
     </Routes>
   );

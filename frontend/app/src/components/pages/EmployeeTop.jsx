@@ -2,7 +2,7 @@ import baseAxios from "../hooks/Axios";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-const StaffTop = () => {
+const EmployeeTop = () => {
   const navigate = useNavigate();
   const { storeNumber } = useParams();
 
@@ -25,4 +25,4 @@ const StaffTop = () => {
   );
 };
 
-export default StaffTop;
+export default EmployeeTop;
