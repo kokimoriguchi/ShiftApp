@@ -7,9 +7,9 @@ import InputFormButton from "../hooks/InputFromButton";
 
 const ManagerCreate = () => {
   const [form, setForm] = useState({
-    employeeName: "",
-    employeeNumber: "",
-    employeePassword: "",
+    Name: "",
+    Number: "",
+    Password: "",
     storeNumber: "",
   });
   const managerCreate = useManagerCreate();
@@ -25,16 +25,16 @@ const ManagerCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const employeeData = {
-      name: form.employeeName,
-      number: form.employeeNumber,
-      password: form.employeePassword,
+      name: form.Name,
+      number: form.Number,
+      password: form.Password,
       store_number: form.storeNumber,
     };
     await managerCreate(employeeData);
     setForm({
-      employeeName: "",
-      employeeNumber: "",
-      employeePassword: "",
+      Name: "",
+      Number: "",
+      Password: "",
       storeNumber: "",
     });
   };
@@ -53,34 +53,34 @@ const ManagerCreate = () => {
         >
           <FadeIn delay={100}>
             <InputForm
-              label="StaffName"
-              placeholder="StaffName"
-              name="employeeName"
-              value={form.employeeName}
+              type={"text"}
+              placeholder="Name"
+              name="Name"
+              value={form.Name}
               onChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
             <InputForm
-              label="StaffNumber"
-              placeholder="StaffNumber"
-              name="employeeNumber"
-              value={form.employeeNumber}
+              type={"text"}
+              placeholder="Number"
+              name="Number"
+              value={form.Number}
               onChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={300}>
             <InputForm
-              label="StaffPassword"
-              placeholder="StaffPassword"
-              name="employeePassword"
-              value={form.employeePassword}
+              type={"password"}
+              placeholder="Password"
+              name="Password"
+              value={form.Password}
               onChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={400}>
             <InputForm
-              label="StoreNumber"
+              type={"text"}
               placeholder="StoreNumber"
               name="storeNumber"
               value={form.storeNumber}

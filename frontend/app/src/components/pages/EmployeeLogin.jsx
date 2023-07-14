@@ -7,8 +7,8 @@ import InputFormButton from "../hooks/InputFromButton";
 
 const EmployeeLogin = () => {
   const [form, setForm] = useState({
-    employeeNumber: "",
-    employeePassword: "",
+    Number: "",
+    Password: "",
   });
   const login = useLogin();
 
@@ -23,13 +23,13 @@ const EmployeeLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const employeeData = {
-      number: form.employeeNumber,
-      password: form.employeePassword,
+      number: form.Number,
+      password: form.Password,
     };
     await login(employeeData);
     setForm({
-      employeeNumber: "",
-      employeePassword: "",
+      Number: "",
+      Password: "",
     });
   };
 
@@ -47,19 +47,19 @@ const EmployeeLogin = () => {
         >
           <FadeIn delay={100}>
             <InputForm
-              label="StaffNumber"
-              placeholder="StaffNumber"
-              name="employeeNumber"
-              value={form.employeeNumber}
+              type={"text"}
+              placeholder="Number"
+              name="Number"
+              value={form.Number}
               onChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
             <InputForm
-              label="StaffPassword"
-              placeholder="StaffPassword"
-              name="employeePassword"
-              value={form.employeePassword}
+              type={"password"}
+              placeholder="*****************"
+              name="Password"
+              value={form.Password}
               onChange={handleChange}
             />
           </FadeIn>
