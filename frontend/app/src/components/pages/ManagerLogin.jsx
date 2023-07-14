@@ -1,23 +1,36 @@
-import { useRef } from "react";
-import { useManagerLogin } from "../hooks/LoginHook";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { FadeIn } from "../hooks/FadeInHook";
+import { useManagerLogin } from "../hooks/LoginHook";
+import InputForm from "../hooks/InputForm";
+import NavigateButton from "../hooks/NavigateButton";
+import InputFormButton from "../hooks/InputFromButton";
 
-const ManagerLogin = () => {
-  const staffNumberRef = useRef(null);
-  const passwordRef = useRef(null);
+const EmployeeLogin = () => {
+  const [form, setForm] = useState({
+    employeeNumber: "",
+    employeePassword: "",
+  });
   const login = useManagerLogin();
-  const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  //formボタンで送信すると下記の関数呼び出してその後stateを空にする。
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userData = {
-      number: staffNumberRef.current.value,
-      password: passwordRef.current.value,
+    const employeeData = {
+      number: form.employeeNumber,
+      password: form.employeePassword,
     };
-    await login(userData);
-    staffNumberRef.current.value = "";
-    passwordRef.current.value = "";
+    await login(employeeData);
+    setForm({
+      employeeNumber: "",
+      employeePassword: "",
+    });
   };
 
   return (
@@ -28,74 +41,36 @@ const ManagerLogin = () => {
         </div>
       </FadeIn>
       <div className="flex justify-center">
-        <form className="w-full md:max-w-md sm:max-w-sm max-w-xs">
+        <form
+          className="w-full md:max-w-md sm:max-w-sm max-w-xs"
+          onSubmit={handleSubmit}
+        >
           <FadeIn delay={100}>
-            <div className="items-center mb-6">
-              <div className="">
-                <label className="text-gray-500 font-bold text-right mb-1">
-                  StaffNumber
-                </label>
-              </div>
-              <div className="">
-                <input
-                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
-                  type="text"
-                  placeholder="StaffNumber"
-                  ref={staffNumberRef}
-                />
-              </div>
-            </div>
+            <InputForm
+              label="StaffNumber"
+              placeholder="StaffNumber"
+              name="employeeNumber"
+              value={form.employeeNumber}
+              onChange={handleChange}
+            />
           </FadeIn>
           <FadeIn delay={200}>
-            <div className="items-center mb-6">
-              <div className="">
-                <label className="text-gray-500 font-bold text-right mb-1">
-                  Password
-                </label>
-              </div>
-              <div className="">
-                <input
-                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
-                  type="password"
-                  placeholder="******************"
-                  ref={passwordRef}
-                />
-              </div>
-            </div>
+            <InputForm
+              label="StaffPassword"
+              placeholder="StaffPassword"
+              name="employeePassword"
+              value={form.employeePassword}
+              onChange={handleChange}
+            />
           </FadeIn>
           <FadeIn delay={300}>
-            <div className="">
-              <div className="">
-                <button
-                  className="transition duration-500 ease-in-out bg-blue-500 hover:bg-blue-700 transform hover:-translate-y-1 hover:scale-110 ... text-white font-bold py-2 px-4 rounded-xl"
-                  onClick={handleSubmit}
-                >
-                  Login
-                </button>
-              </div>
-            </div>
+            <InputFormButton type={"submit"} ButtonName={"Login"} />
           </FadeIn>
         </form>
       </div>
-      <FadeIn delay={400}>
-        <div>
-          <div className="pt-20 hidden sm:flex flex-col justify-center">
-            <button
-              className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out pb-4"
-              onClick={() => navigate("/login")}
-            >
-              Login as Staff
-            </button>
-            <button
-              className="text-blue-300 hover:text-blue-500 hover:-translate-y-1 hover:scale-110 transition duration-500 ease-in-out"
-              onClick={() => navigate("/")}
-            >
-              Back to Top
-            </button>
-          </div>
-        </div>
-      </FadeIn>
+      <NavigateButton MoveTo={"Create Staff"} Path={"/employee/create"} />
+      <NavigateButton MoveTo={"Home"} Path={"/"} />
     </div>
   );
 };
-export default ManagerLogin;
+export default EmployeeLogin;
