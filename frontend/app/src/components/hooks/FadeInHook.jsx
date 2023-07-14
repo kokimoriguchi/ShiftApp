@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+//delayはミリ秒で指定する。
+//したから上にフェードインするコンポーネント
 export const FadeIn = ({ children, delay = 0 }) => {
   const [inView, setInView] = useState(false);
   const location = useLocation();

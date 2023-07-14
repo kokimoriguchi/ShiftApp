@@ -1,8 +1,9 @@
-import { useManagerCreate } from "../hooks/ManagerCreateHook";
 import { useState } from "react";
-
-import HandleCreateFormPage from "../hooks/CreateFormPage";
+import { useManagerCreate } from "../hooks/ManagerCreateHook";
+import { FadeIn } from "../hooks/FadeInHook";
+import InputForm from "../hooks/InputForm";
 import NavigateButton from "../hooks/NavigateButton";
+import InputFormButton from "../hooks/InputFromButton";
 
 const ManagerCreate = () => {
   const [form, setForm] = useState({
@@ -40,13 +41,61 @@ const ManagerCreate = () => {
 
   return (
     <div className="pt-10">
-      <HandleCreateFormPage
-        form={form}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        title="New Manager"
-      />
-      <NavigateButton MoveTo={"Login as Manager"} Path={"manager/login"} />
+      <FadeIn delay={50}>
+        <div className="text-center text-gray-500 font-bold mb-5 text-3xl">
+          <h1>New Manager Create</h1>
+        </div>
+      </FadeIn>
+      <div className="flex justify-center">
+        <form
+          className="w-full md:max-w-md sm:max-w-sm max-w-xs"
+          onSubmit={handleSubmit}
+        >
+          <FadeIn delay={100}>
+            <InputForm
+              label="StaffName"
+              placeholder="StaffName"
+              name="employeeName"
+              value={form.employeeName}
+              onChange={handleChange}
+            />
+          </FadeIn>
+          <FadeIn delay={200}>
+            <InputForm
+              label="StaffNumber"
+              placeholder="StaffNumber"
+              name="employeeNumber"
+              value={form.employeeNumber}
+              onChange={handleChange}
+            />
+          </FadeIn>
+          <FadeIn delay={300}>
+            <InputForm
+              label="StaffPassword"
+              placeholder="StaffPassword"
+              name="employeePassword"
+              value={form.employeePassword}
+              onChange={handleChange}
+            />
+          </FadeIn>
+          <FadeIn delay={400}>
+            <InputForm
+              label="StoreNumber"
+              placeholder="StoreNumber"
+              name="storeNumber"
+              value={form.storeNumber}
+              onChange={handleChange}
+            />
+          </FadeIn>
+          <FadeIn delay={500}>
+            <InputFormButton type={"submit"} ButtonName={"Create"} />
+          </FadeIn>
+        </form>
+      </div>
+      <FadeIn delay={600}>
+        <NavigateButton MoveTo={"Manager Login"} Path={"manager/login"} />
+        <NavigateButton MoveTo={"Home"} Path={"/"} />
+      </FadeIn>
     </div>
   );
 };
