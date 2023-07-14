@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DarkModeButton from "../hooks/DarkModeButton";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -89,12 +90,15 @@ const Header = () => {
                     Create Store
                   </li>
                 </ul>
+                <div className="flex justify-center pt-5">
+                  <DarkModeButton />
+                </div>
               </div>
             </div>
           </div>
         </nav>
       </div>
-      <div className="w-full h-0.5 bg-gray-500 mb-5 z-[-1]"></div>
+      <div className="w-full h-0.5 dark:bg-white bg-gray-500 mb-5 z-[-1]"></div>
     </div>
   );
 };
