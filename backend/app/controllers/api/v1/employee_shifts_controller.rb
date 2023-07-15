@@ -15,13 +15,50 @@ class Api::V1::EmployeeShiftsController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       params[:shiftDates].each do |shift|
-        @shift_date = ShiftDate.new(shift_date_params(shift))
-        @shift_date.save!
-        @shift_time = ShiftTime.new(shift_time_params(shift).merge(shift_date_id: @shift_date.id))
-        @shift_time.save!
-        @employer_shifts = EmployerShift.new(shift_date_id: @shift_date.id, employee_id: @current_employee_id)
-        @employer_shifts.save!
+        begin
+          # find_or_initialize_byメソッドで、既に存在する場合は取得、存在しない場合は新規作成する
+          @shift_date = ShiftDate.find_or_initialize_by(shift_date_params(shift))
+          @shift_date.is_attendance = true
+          @shift_date.save!
+        rescue ActiveRecord::RecordInvalid => e
+          render json: {status: "error", message: "ShiftDate error: #{e.message}"}
+          return
+        end
+
+        begin
+          @shift_time = ShiftTime.new(shift_time_params(shift).merge(shift_date_id: @shift_date.id))
+          @shift_time.save!
+        rescue ActiveRecord::RecordInvalid => e
+          render json: {status: "error", message: "ShiftTime error: #{e.message}"}
+          return
+        end
+
+        begin
+          @employer_shifts = EmployerShift.new(shift_date_id: @shift_date.id, employee_id: @current_employee_id)
+          @employer_shifts.save!
+        rescue ActiveRecord::RecordInvalid => e
+          render json: {status: "error", message: "EmployerShift error: #{e.message}"}
+          return
+        end
       end
+
+      # 月初の日付を取得
+      first_day = Date.parse(params[:shiftDates][0][:shift_date][:work_day]).beginning_of_month
+      last_day = first_day.end_of_month
+      # 月初から月末までの日付を作成
+      (first_day..last_day).each do |date|
+        begin
+          # 作成した日付がShiftDateに存在するか確認
+          unless ShiftDate.exists?(work_day: date)
+            # 存在しない場合は、is_attendanceをfalseで作成
+            ShiftDate.create!(work_day: date, is_attendance: false)
+          end
+        rescue ActiveRecord::RecordInvalid => e
+          render json: {status: "error", message: "ShiftDate error: #{e.message}"}
+          return
+        end
+      end
+
       render json: {status: "create", data: {shift_date: params[:shiftDates], shift_time: params[:shiftTimes]}}
     rescue ActiveRecord::RecordInvalid => e
       render json: {status: "error", message: e.message}
