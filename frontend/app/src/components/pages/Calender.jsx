@@ -2,13 +2,16 @@ import { useGetEmployeeShifts } from "../hooks/GetShiftDataHook";
 import { useEffect, useMemo, useState } from "react";
 import { useGetSubmitMonth } from "../hooks/GetSubmitMonth";
 import { getDaysInMonth, week } from "../data/Date";
+import { useParams } from "react-router-dom";
 
-const Calender = ({ storeNumber }) => {
+const Calender = () => {
   const { employees, getEmployees } = useGetEmployeeShifts();
   const [shiftYearData, setShiftYearData] = useState(null);
   const [shiftMonthData, setShiftMonthData] = useState(null);
   const [days, setDays] = useState([]);
   const getSubmitMonth = useMemo(useGetSubmitMonth, []);
+  const { storeNumber } = useParams();
+  const store_number = Number(storeNumber);
 
   //シフト提出可能な年月を取得しstateに保存
   useEffect(() => {
@@ -23,7 +26,7 @@ const Calender = ({ storeNumber }) => {
   // shiftYearDataとshiftMonthDataが設定されてから、getEmployeesを実行し、store所属の従業員名とそのシフトを取得しstateに保存
   useEffect(() => {
     if (shiftYearData && shiftMonthData) {
-      getEmployees(storeNumber, shiftYearData, shiftMonthData);
+      getEmployees(store_number, shiftYearData, shiftMonthData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shiftYearData, shiftMonthData]);
@@ -65,7 +68,6 @@ const Calender = ({ storeNumber }) => {
         </tr>
         <tr>
           <th className="border border-slate-300">スキルチェック</th>
-          {/* スキルチェックのための空のセル */}
           {days.map((dayObj, index) => {
             const day = dayObj.date;
             const dayOfWeek = week[day.getDay()]; // 曜日を取得
@@ -78,24 +80,23 @@ const Calender = ({ storeNumber }) => {
         </tr>
       </thead>
       <tbody>
-        {/* 従業員とそのシフトを描画 */}
-        {employees &&
+        {employees && // 従業員のシフトを描画
           Object.entries(employees).map(([employeeName, shifts]) => (
             <tr key={employeeName}>
               <td className="border border-slate-300">{employeeName}</td>{" "}
-              {/* 従業員名 */}
-              {/* その月の全ての日に対するセルを作成 */}
-              {days.map((day, index) => {
+              {days.map((day) => {
                 // シフトが存在するかチェック
                 const shift = shifts.find(
                   (shift) =>
-                    shift.work_day ===
-                    day.date.toISOString("fr-CA").split("T")[0] // 日付が一致するかチェック
+                    shift.work_day === day.date.toISOString().split("T")[0] // 日付が一致するかチェック
                 );
+                // シフトが存在すれば、シフトの種類を描画
                 return (
-                  <td key={index} className="border border-slate-300">
+                  <td
+                    key={day.date.toISOString()}
+                    className="border border-slate-300"
+                  >
                     {shift ? "⚪︎" : "✖️"}
-                    {/* シフト情報を表示（ここでは出勤可能かどうかを表示） */}
                   </td>
                 );
               })}
