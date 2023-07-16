@@ -1,7 +1,7 @@
 export function data() {
   const today = new Date();
   const y = today.getFullYear();
-  const m = today.getMonth() + 1;
+  const m = ("0" + (today.getMonth() + 1)).slice(-2);
   const d = today.getDate();
   return { y, m, d };
 }

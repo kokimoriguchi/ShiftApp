@@ -1,20 +1,46 @@
-import { data, getDaysInMonth, week } from "../data/Date";
-import { useGetEmployees } from "../hooks/GetShiftDataHook";
-import { useEffect } from "react";
+import { useGetEmployeeShifts } from "../hooks/GetShiftDataHook";
+import { useEffect, useMemo, useState } from "react";
+import { useGetSubmitMonth } from "../hooks/GetSubmitMonth";
+import { getDaysInMonth, week } from "../data/Date";
 
 const Calender = ({ storeNumber }) => {
-  const { y, m } = data();
-  const days = getDaysInMonth(y, m);
-  const { employees, getEmployees } = useGetEmployees();
+  const { employees, getEmployees } = useGetEmployeeShifts();
+  const [employeeShifts, setEmployeeShifts] = useState({});
+  const [shiftYearData, setShiftYearData] = useState(null);
+  const [shiftMonthData, setShiftMonthData] = useState(null);
+  const [days, setDays] = useState([]);
+  const getSubmitMonth = useMemo(useGetSubmitMonth, []);
 
+  //シフト提出可能な年月を取得しstateに保存
   useEffect(() => {
-    getEmployees(storeNumber);
+    const submitMonthData = async () => {
+      const result = await getSubmitMonth();
+      setShiftMonthData(result.data[0].month);
+      setShiftYearData(result.data[0].year);
+    };
+    submitMonthData();
+  }, [getSubmitMonth]);
+
+  // shiftYearDataとshiftMonthDataが設定されてから、getEmployeesを実行し、store所属の従業員名とそのシフトを取得しstateに保存
+  useEffect(() => {
+    if (shiftYearData && shiftMonthData) {
+      getEmployees(storeNumber, shiftYearData, shiftMonthData);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [shiftYearData, shiftMonthData]);
+
+  //シフト提出可能な年月が変更されたら、その月の日付を取得しstateに保存
+  useEffect(() => {
+    if (shiftYearData && shiftMonthData) {
+      getDaysInMonth(shiftYearData, shiftMonthData);
+    }
+    setDays(getDaysInMonth(shiftYearData, shiftMonthData));
+  }, [shiftYearData, shiftMonthData]);
 
   useEffect(() => {
     console.log(employees);
-  }, [employees]);
+    console.log(days);
+  }, [employees, days]);
 
   return (
     <div className="flex justify-center px-20">
@@ -24,15 +50,15 @@ const Calender = ({ storeNumber }) => {
             <thead>
               <tr>
                 <th className="border border-slate-300 w-30" rowSpan={2}>
-                  {y}年
+                  {shiftYearData && `${shiftYearData}年`}
                 </th>
                 <th className="border border-slate-300 w-30" rowSpan={2}>
-                  {m}月
+                  {shiftMonthData && `${shiftMonthData}月`}
                 </th>
               </tr>
             </thead>
           </table>
-          <table className="table-fixed w-64">
+          {/* <table className="table-fixed w-64">
             <thead>
               <tr>
                 <th className="border border-slate-300 w-30" colSpan={2}>
@@ -72,7 +98,7 @@ const Calender = ({ storeNumber }) => {
                 ))}
               </tr>
             </tbody>
-          </table>
+          </table> */}
         </div>
       </div>
     </div>

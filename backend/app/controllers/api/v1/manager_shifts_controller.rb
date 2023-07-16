@@ -18,22 +18,33 @@ class Api::V1::ManagerShiftsController < ApplicationController
   end
 
   def get_shifts_by_month
-    store_number = params[:number]
-    year = params[:year].to_i
-    month = params[:month].to_i
-    # Store numberからstoreを取得
-    store = Store.find_by(number: store_number)
-    # Storeに紐づくemployeesを取得
-    employees = store.employees
-    # 指定した年月の範囲を作成
-    date_range = Date.new(year, month)..Date.new(year, month).end_of_month
+    begin
+      begin
+        store_number = params[:store_number]
+        year = params[:year].to_i
+        month = params[:month].to_i
+      rescue => e
+        return render json: {status: "error", message: e.message}
+      end
+      # Store numberからstoreを取得
+      begin
+        store = Store.find_by(number: store_number)
+        # Storeに紐づくemployeesを取得
+        employees = store.employees
+      rescue => e
+        return render json: {status: "error", message: e.message}
+      end
+      # 指定した年月の範囲を作成
+      date_range = Date.new(year, month)..Date.new(year, month).end_of_month
 
-    shifts = []
-    # EmployeeごとにShiftを取得
-    employees.each do |employee|
-      shifts << employee.shift_dates.where(work_day: date_range)
-      # ここで、shiftsを使って何か処理を行う...
+      employee_shifts = {}
+      # EmployeeごとにShiftを取得
+      employees.each do |employee|
+        employee_shifts[employee.name] = employee.shift_dates.where(work_day: date_range)
+      end
+    rescue => e
+      return render json: {status: "error", message: e.message}
     end
-    render json: {status: "success", data: shifts}
+    render json: {status: "success", data: employee_shifts}
   end
 end

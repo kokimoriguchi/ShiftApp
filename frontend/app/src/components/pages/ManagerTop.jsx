@@ -1,24 +1,12 @@
-import baseAxios from "../hooks/Axios";
 import Calender from "./Calender";
 import { useParams } from "react-router-dom";
 
 const ManagerTop = () => {
   const { storeNumber } = useParams();
-  const handleCheckUser = async () => {
-    try {
-      const response = await baseAxios.get("employees/me");
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <div>
       <h1>ManagerTop</h1>
       <Calender storeNumber={storeNumber} />
-      <div className="text-center pt-40">
-        <button onClick={handleCheckUser}>ユーザー情報取得</button>
-      </div>
     </div>
   );
 };

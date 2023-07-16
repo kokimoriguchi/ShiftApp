@@ -1,18 +1,17 @@
 import baseAxios from "./Axios";
 import { useState } from "react";
 
-export function useGetEmployees() {
+export function useGetEmployeeShifts() {
   const [employees, setEmployees] = useState(null);
 
-  const getEmployees = async (store_number) => {
+  const getEmployees = async (store_number, year, month) => {
     try {
-      const response = await baseAxios.get("get_employee", {
-        params: { store_number },
+      const response = await baseAxios.get("get_shifts_by_month", {
+        params: { store_number, year, month },
       });
-      // console.log(response.data.data);
-      setEmployees(response.data.data);
-      console.log(employees);
-      return response.data;
+      const employeesData = response.data;
+      setEmployees(employeesData);
+      return employeesData;
     } catch (error) {
       console.error(error);
     }
