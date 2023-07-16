@@ -20,6 +20,10 @@ function AllRoutes() {
   return (
     <Routes>
       <Route
+        path="/manager/:storeNumber/edit"
+        element={auth && isManager ? <Calender /> : <ManagerLogin />}
+      />
+      <Route
         path="/manager/:storeNumber"
         element={auth && isManager ? <ManagerTop /> : <ManagerLogin />}
       />

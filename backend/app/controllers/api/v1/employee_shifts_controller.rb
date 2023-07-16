@@ -5,8 +5,14 @@ class Api::V1::EmployeeShiftsController < ApplicationController
   #approve_monthテーブルのfalseのレコードを取得
   #この年月のデータをreact側に渡してworkdayと一緒に保存するようにする
   def get_submit_month
-    @get_submit_month = ApproveMonth.where(is_approve: false)
-    render json: {status: "success", data: @get_submit_month}
+    store_number = params[:store_number]
+    store = Store.find_by(number: store_number)
+    if store.present?
+      @get_submit_month = ApproveMonth.where(is_approve: false,  store_id: store.id)
+      render json: {status: "success", data: @get_submit_month}
+    else
+      render json: {status: "error", message: "store_numberが不正です"}
+    end
   end
 
   def create

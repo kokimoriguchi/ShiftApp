@@ -109,11 +109,11 @@ const SubmitCalender = () => {
   //シフト提出可能な月のデータを取得する
   useEffect(() => {
     const submitMonthData = async () => {
-      const result = await getSubmitMonth();
+      const result = await getSubmitMonth(storeNumber);
       setData(result.data[0]);
     };
     submitMonthData();
-  }, [getSubmitMonth]);
+  }, [getSubmitMonth, storeNumber]);
 
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
   if (!data) {
