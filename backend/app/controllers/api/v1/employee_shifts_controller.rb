@@ -1,14 +1,15 @@
 class Api::V1::EmployeeShiftsController < ApplicationController
   include Authentication
-  before_action :authenticate_employee, only: [:index, :create, :unapprove_month]
+  before_action :authenticate_employee, only: [:index, :create, :unapprove_month, :get_submit_month]
 
   #approve_monthテーブルのfalseのレコードを取得
   #この年月のデータをreact側に渡してworkdayと一緒に保存するようにする
   def get_submit_month
-    store_number = params[:store_number]
-    store = Store.find_by(number: store_number)
-    if store.present?
-      @get_submit_month = ApproveMonth.where(is_approve: false,  store_id: store.id)
+    Rails.logger.debug "Current employee ID: #{@current_employee_id}"
+    employee = Employee.find(@current_employee_id)
+    store = Store.find(employee.store_id)
+    if employee.present?
+      @get_submit_month = ApproveMonth.where(is_approve: false,  store_id: employee.store.id)
       render json: {status: "success", data: @get_submit_month}
     else
       render json: {status: "error", message: "store_numberが不正です"}
