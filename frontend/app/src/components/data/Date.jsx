@@ -7,14 +7,14 @@ export function data() {
 }
 
 export function getDaysInMonth(year, month) {
-  const date = new Date(year, month - 1, 1);
+  const date = new Date(Date.UTC(year, month - 1, 1));
   const days = [];
-  while (date.getMonth() === month - 1) {
+  while (date.getUTCMonth() === month - 1) {
     days.push({
       date: new Date(date), // 日付
       day: date.getDay(), // 曜日（0（日曜）から6（土曜）までの数字）
     });
-    date.setDate(date.getDate() + 1);
+    date.setUTCDate(date.getUTCDate() + 1);
   }
   return days;
 }

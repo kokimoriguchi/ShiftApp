@@ -5,7 +5,6 @@ import { getDaysInMonth, week } from "../data/Date";
 
 const Calender = ({ storeNumber }) => {
   const { employees, getEmployees } = useGetEmployeeShifts();
-  const [employeeShifts, setEmployeeShifts] = useState({});
   const [shiftYearData, setShiftYearData] = useState(null);
   const [shiftMonthData, setShiftMonthData] = useState(null);
   const [days, setDays] = useState([]);
@@ -43,65 +42,67 @@ const Calender = ({ storeNumber }) => {
   }, [employees, days]);
 
   return (
-    <div className="flex justify-center px-20">
-      <div className="flex flex-row">
-        <div className="flex flex-col">
-          <table className="">
-            <thead>
-              <tr>
-                <th className="border border-slate-300 w-30" rowSpan={2}>
-                  {shiftYearData && `${shiftYearData}年`}
-                </th>
-                <th className="border border-slate-300 w-30" rowSpan={2}>
-                  {shiftMonthData && `${shiftMonthData}月`}
-                </th>
-              </tr>
-            </thead>
-          </table>
-          {/* <table className="table-fixed w-64">
-            <thead>
-              <tr>
-                <th className="border border-slate-300 w-30" colSpan={2}>
-                  スキルチェック
-                </th>
-              </tr>
-            </thead>
-          </table>
-          <table className="table-fixed w-64">
-            <tbody>
-              {employees &&
-                employees.map((employee) => (
-                  <tr key={employee.id}>
-                    <td className="border border-slate-300 w-30">
-                      {employee.name}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="overflow-x-auto md:max-w-[60rem]">
-          <table className="table-fixed whitespace-nowrap">
-            <tbody className="pw-10">
-              <tr>
-                {days.map((day, index) => (
-                  <th key={index} className="border border-slate-300">
-                    {day.date.getDate()}
-                  </th>
-                ))}
-              </tr>
-              <tr>
-                {days.map((day, index) => (
-                  <th key={index} className="border border-slate-300">
-                    {week[day.date.getDay()]}
-                  </th>
-                ))}
-              </tr>
-            </tbody>
-          </table> */}
-        </div>
-      </div>
-    </div>
+    <table className="w-4/5 m-auto overflow-x-auto text-center">
+      <thead>
+        {/* 日付のヘッダーを描画 */}
+        <tr>
+          <th colSpan={days.length + 1}>
+            {`${shiftYearData}年${shiftMonthData}月`}
+          </th>
+        </tr>
+        <tr>
+          <th className="border border-slate-300">LOGO</th>
+          {/* 従業員名のための空のセル */}
+          {days.map((dayObj, index) => {
+            const day = dayObj.date;
+            const formattedDate = day.getUTCDate(); // 'yyyy/mm/dd' の形式
+            return (
+              <th key={index} className="border border-slate-300">
+                {formattedDate}
+              </th>
+            );
+          })}
+        </tr>
+        <tr>
+          <th className="border border-slate-300">スキルチェック</th>
+          {/* スキルチェックのための空のセル */}
+          {days.map((dayObj, index) => {
+            const day = dayObj.date;
+            const dayOfWeek = week[day.getDay()]; // 曜日を取得
+            return (
+              <th key={index} className="border border-slate-300">
+                {dayOfWeek}
+              </th>
+            );
+          })}
+        </tr>
+      </thead>
+      <tbody>
+        {/* 従業員とそのシフトを描画 */}
+        {employees &&
+          Object.entries(employees).map(([employeeName, shifts]) => (
+            <tr key={employeeName}>
+              <td className="border border-slate-300">{employeeName}</td>{" "}
+              {/* 従業員名 */}
+              {/* その月の全ての日に対するセルを作成 */}
+              {days.map((day, index) => {
+                // シフトが存在するかチェック
+                const shift = shifts.find(
+                  (shift) =>
+                    shift.work_day ===
+                    day.date.toISOString("fr-CA").split("T")[0] // 日付が一致するかチェック
+                );
+                return (
+                  <td key={index} className="border border-slate-300">
+                    {shift ? "⚪︎" : "✖️"}
+                    {/* シフト情報を表示（ここでは出勤可能かどうかを表示） */}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+      </tbody>
+    </table>
   );
 };
 
