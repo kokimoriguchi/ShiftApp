@@ -17,14 +17,19 @@ const ManagerTop = () => {
     );
 
     if (confirmResult) {
-      const response = await baseAxios.post("approve_months", {
-        year,
-        month,
-      });
+      try {
+        const response = await baseAxios.post("approve_months", {
+          year,
+          month,
+        });
 
-      if (response.data.status === "success") {
-        alert("シフト作成許可が完了しました。");
-      } else {
+        if (response.data.status === "success") {
+          alert("シフト作成許可が完了しました。");
+        } else {
+          alert(response.data.message);
+        }
+      } catch (error) {
+        console.error(error);
         alert("シフト作成許可に失敗しました。");
       }
     }
