@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_09_065510) do
+ActiveRecord::Schema.define(version: 2023_07_16_115436) do
 
   create_table "approve_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "store_id", null: false
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 2023_07_09_065510) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["store_id"], name: "index_approve_months_on_store_id"
-    t.index ["year", "month"], name: "index_approve_months_on_year_and_month", unique: true
   end
 
   create_table "employees", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
