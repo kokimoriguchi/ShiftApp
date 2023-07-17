@@ -5,6 +5,7 @@ import { getDaysInMonth, week } from "../data/Date";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
+// import { BiX, BiCircle } from "react-icons/bi";
 
 const Calender = () => {
   const { employees, getEmployees } = useGetEmployeeShifts();
@@ -48,30 +49,38 @@ const Calender = () => {
   }, [employees, days]);
 
   return (
-    <div>
+    <div className="h-screen dark:bg-black">
       <div className="w-5/6 m-auto flex">
         {/* 従業員名等の固定テーブル */}
         <table className="w-auto text-center h-10">
           <thead>
             <tr>
-              <th className="border border-slate-300" colSpan={2}>
+              <th
+                className="border border-slate-300 dark:text-white"
+                colSpan={2}
+              >
                 {shiftYearData}年
               </th>
             </tr>
             <tr>
-              <th className="border border-slate-300" colSpan={2}>
+              <th
+                className="border border-slate-300 dark:text-white"
+                colSpan={2}
+              >
                 {shiftMonthData}月
               </th>
             </tr>
             <tr>
-              <th className="border border-slate-300">スキルチェック</th>
+              <th className="border border-slate-300 dark:text-white">
+                スキルチェック
+              </th>
             </tr>
           </thead>
           <tbody>
             {employees &&
               Object.keys(employees).map((employeeName) => (
                 <tr key={employeeName}>
-                  <td className="border border-slate-300 w-72">
+                  <td className="border border-slate-300 w-72 dark:text-white">
                     {employeeName}
                   </td>
                 </tr>
@@ -88,7 +97,10 @@ const Calender = () => {
                   const day = dayObj.date;
                   const formattedDate = day.getUTCDate(); // 'yyyy/mm/dd' の形式
                   return (
-                    <th key={index} className="border border-slate-300">
+                    <th
+                      key={index}
+                      className="border border-slate-300 dark:text-white"
+                    >
                       {formattedDate}
                     </th>
                   );
@@ -101,7 +113,7 @@ const Calender = () => {
                   return (
                     <th
                       key={dayObj.date.toISOString()}
-                      className="border border-slate-300"
+                      className="border border-slate-300 dark:text-white"
                     >
                       {dayOfWeek}
                     </th>
@@ -113,7 +125,7 @@ const Calender = () => {
                   return (
                     <th
                       key={day.date.toISOString()}
-                      className="border border-slate-300"
+                      className="border border-slate-300 dark:text-white"
                     >
                       -
                     </th>
@@ -136,9 +148,9 @@ const Calender = () => {
                       return (
                         <td
                           key={day.date.toISOString()}
-                          className="border border-slate-300 min-w-72"
+                          className="border border-slate-300 min-w-72 dark:text-white"
                         >
-                          {shift ? "⚪︎" : "✖️"}
+                          {shift ? "⚪︎" : "-"}
                         </td>
                       );
                     })}
