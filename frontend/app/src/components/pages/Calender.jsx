@@ -50,73 +50,107 @@ const Calender = () => {
   }, [employees, days]);
 
   return (
-    <div className="w-5/6 m-auto">
-      <table className="w-full m-auto overflow-x-auto text-center">
-        {/* カレンダーのヘッダー部分 */}
+    <div>
+      <div className="w-5/6 m-auto flex">
+        {/* 従業員名等の固定テーブル */}
+        <table className="w-auto text-center h-10">
+          <thead>
+            <tr>
+              <th className="border border-slate-300" colSpan={2}>
+                {shiftYearData}年
+              </th>
+            </tr>
+            <tr>
+              <th className="border border-slate-300" colSpan={2}>
+                {shiftMonthData}月
+              </th>
+            </tr>
+            <tr>
+              <th className="border border-slate-300">スキルチェック</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees &&
+              Object.keys(employees).map((employeeName) => (
+                <tr key={employeeName}>
+                  <td className="border border-slate-300 w-72">
+                    {employeeName}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
 
-        <thead>
-          {/* 日付のヘッダーを描画 */}
-          <tr>
-            <th colSpan={days.length + 1}>
-              {`${shiftYearData}年${shiftMonthData}月`}
-            </th>
-          </tr>
-
-          <tr>
-            <th className="border border-slate-300" rowspan="2">
-              LOGO
-            </th>
-            {days.map((dayObj, index) => {
-              const day = dayObj.date;
-              const formattedDate = day.getUTCDate(); // 'yyyy/mm/dd' の形式
-              return (
-                <th key={index} className="border border-slate-300">
-                  {formattedDate}
-                </th>
-              );
-            })}
-          </tr>
-
-          <tr>
-            {days.map((dayObj, index) => {
-              const day = dayObj.date;
-              const dayOfWeek = week[day.getDay()]; // 曜日を取得
-              return (
-                <th key={index} className="border border-slate-300">
-                  {dayOfWeek}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        {/* カレンダーのヘッダー部分終了 */}
-
-        <tbody>
-          {employees && // 従業員のシフトを描画
-            Object.entries(employees).map(([employeeName, shifts]) => (
-              <tr key={employeeName}>
-                <td className="border border-slate-300">{employeeName}</td>{" "}
-                {days.map((day) => {
-                  // シフトが存在するかチェック
-                  const shift = shifts.find(
-                    (shift) =>
-                      shift.work_day === day.date.toISOString().split("T")[0] // 日付が一致するかチェック
-                  );
-                  // シフトが存在すれば、シフトの種類を描画
+        {/* スクロール可能なカレンダー部分 */}
+        <div className="w-full overflow-x-auto">
+          <table className="w-full m-auto text-center h-10">
+            <thead>
+              <tr>
+                {days.map((dayObj, index) => {
+                  const day = dayObj.date;
+                  const formattedDate = day.getUTCDate(); // 'yyyy/mm/dd' の形式
                   return (
-                    <td
-                      key={day.date.toISOString()}
-                      className="border border-slate-300"
-                    >
-                      {shift ? "⚪︎" : "✖️"}
-                    </td>
+                    <th key={index} className="border border-slate-300">
+                      {formattedDate}
+                    </th>
                   );
                 })}
               </tr>
-            ))}
-        </tbody>
-      </table>
-      <div className="flex justify-between py-3">
+              <tr>
+                {days.map((dayObj) => {
+                  const day = dayObj.date;
+                  const dayOfWeek = week[day.getDay()]; // 曜日を取得
+                  return (
+                    <th
+                      key={dayObj.date.toISOString()}
+                      className="border border-slate-300"
+                    >
+                      {dayOfWeek}
+                    </th>
+                  );
+                })}
+              </tr>
+              <tr>
+                {days.map((day) => {
+                  return (
+                    <th
+                      key={day.date.toISOString()}
+                      className="border border-slate-300"
+                    >
+                      -
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {employees &&
+                Object.values(employees).map((shifts, index) => (
+                  <tr key={index}>
+                    {days.map((day) => {
+                      // シフトが存在するかチェック
+                      const shift = shifts.find(
+                        (shift) =>
+                          shift.work_day ===
+                          day.date.toISOString().split("T")[0] // 日付が一致するかチェック
+                      );
+                      // シフトが存在すれば、シフトの種類を描画
+                      return (
+                        <td
+                          key={day.date.toISOString()}
+                          className="border border-slate-300 min-w-72"
+                        >
+                          {shift ? "⚪︎" : "✖️"}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className="flex w-5/6 m-auto justify-between py-3">
         <div className="inline-flex items-center rounded-full p-1 bg-zinc-400 text-white group transition-all duration-100 hover:ring-1 hover:ring-blue-300 hover:bg-blue-300 hover:ring-offset-1 hover:outline-none">
           <RiArrowGoBackFill />
           <button
