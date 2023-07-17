@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { HomeMoveButton } from "../hooks/HomeMoveButton";
 import baseAxios from "../hooks/Axios";
 
 const ManagerTop = () => {
@@ -36,18 +37,25 @@ const ManagerTop = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center">
-      <h1 className="py-10">ManagerTop</h1>
-      <button className="py10  hover:text-red-500" onClick={createApproveMonth}>
-        シフト作成許可
-      </button>
-      <button
-        className="py-10 hover:text-red-500"
-        onClick={() => navigate(`/manager/${storeNumber}/edit`)}
-      >
-        シフト編集
-      </button>
-      <button className="py-10 hover:text-red-500">シフト提出</button>
+    <div className="flex flex-col items-center dark:bg-black dark:text-white h-screen">
+      <div className="flex justify-center">ManagerTop</div>
+      <div className="pb-5 pt-20">
+        <HomeMoveButton onClick={createApproveMonth}>
+          シフト作成許可
+        </HomeMoveButton>
+      </div>
+      <div className="pb-5">
+        <HomeMoveButton
+          onClick={() => navigate(`/manager/${storeNumber}/edit`)}
+        >
+          シフト編集
+        </HomeMoveButton>
+      </div>
+      <div>
+        <HomeMoveButton onClick={() => navigate(`/`)}>
+          シフト確定
+        </HomeMoveButton>
+      </div>
     </div>
   );
 };
