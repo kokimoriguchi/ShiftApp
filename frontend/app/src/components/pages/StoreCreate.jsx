@@ -40,10 +40,10 @@ const StoreCreate = () => {
   };
 
   return (
-    <div className="pt-10">
+    <div className="pt-24 h-screen dark:bg-black">
       <FadeIn delay={50}>
-        <div className="text-center text-gray-500 font-bold mb-5 text-3xl">
-          <h1>New Staff Create</h1>
+        <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
+          <h1>店舗新規作成</h1>
         </div>
       </FadeIn>
       <div className="flex justify-center">
@@ -79,14 +79,16 @@ const StoreCreate = () => {
             />
           </FadeIn>
           <FadeIn delay={400}>
-            <InputFormButton type={"submit"} ButtonName={"Create"} />
+            <InputFormButton type={"submit"} ButtonName={"新規作成"} />
           </FadeIn>
         </form>
       </div>
-      <FadeIn delay={500}>
-        <NavigateButton MoveTo={"Login"} Path={"/login"} />
-        <NavigateButton MoveTo={"Home"} Path={"/"} />
-      </FadeIn>
+      <div className="pt-8">
+        <FadeIn delay={500}>
+          <NavigateButton MoveTo={"スタッフログイン"} Path={"/login"} />
+          <NavigateButton MoveTo={"戻る"} Path={"/"} />
+        </FadeIn>
+      </div>
     </div>
   );
 };

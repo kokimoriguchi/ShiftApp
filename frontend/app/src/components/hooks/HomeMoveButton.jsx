@@ -9,7 +9,7 @@ export const HomeMoveButton = ({ onClick, children }) => {
       <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-sky-800 group-hover:translate-x-0 ease">
         <HiOutlineArrowRight className="font-bold text-2xl" />
       </span>
-      <span className="font-mono font-extrabold absolute flex items-center justify-center w-full h-full dark:text-white text-sky-800 transition-all duration-300 transform group-hover:translate-x-full ease">
+      <span className="text-sm font-extrabold absolute flex items-center justify-center w-full h-full dark:text-white text-sky-800 transition-all duration-300 transform group-hover:translate-x-full ease">
         {children}
       </span>
       <span className="relative invisible">{children}</span>

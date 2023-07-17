@@ -14,7 +14,7 @@ export const HeaderMoveButton = ({ type, onClick, children }) => {
   return (
     <li
       onClick={onClick}
-      className="flex flex-row dark:text-white dark:hover:text-gray-500 cursor-pointer hover:text-white pb-3"
+      className="flex flex-row font-extrabold dark:text-white dark:hover:text-gray-500 cursor-pointer hover:text-white pb-3"
     >
       <Icon />
       {children}

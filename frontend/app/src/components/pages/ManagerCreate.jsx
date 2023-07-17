@@ -40,10 +40,10 @@ const ManagerCreate = () => {
   };
 
   return (
-    <div className="pt-10">
+    <div className="pt-20 h-screen dark:bg-black">
       <FadeIn delay={50}>
         <div className="text-center text-gray-500 font-bold mb-5 text-3xl">
-          <h1>New Manager Create</h1>
+          <h1>新店舗マネージャー登録</h1>
         </div>
       </FadeIn>
       <div className="flex justify-center">
@@ -88,14 +88,19 @@ const ManagerCreate = () => {
             />
           </FadeIn>
           <FadeIn delay={500}>
-            <InputFormButton type={"submit"} ButtonName={"Create"} />
+            <InputFormButton type={"submit"} ButtonName={"登録"} />
           </FadeIn>
         </form>
       </div>
-      <FadeIn delay={600}>
-        <NavigateButton MoveTo={"Manager Login"} Path={"manager/login"} />
-        <NavigateButton MoveTo={"Home"} Path={"/"} />
-      </FadeIn>
+      <div>
+        <FadeIn delay={600}>
+          <NavigateButton
+            MoveTo={"マネージャーログイン"}
+            Path={"manager/login"}
+          />
+          <NavigateButton MoveTo={"戻る"} Path={"/"} />
+        </FadeIn>
+      </div>
     </div>
   );
 };

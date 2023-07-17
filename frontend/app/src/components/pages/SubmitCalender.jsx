@@ -116,77 +116,83 @@ const SubmitCalender = () => {
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
   if (!data) {
     return (
-      <div className="pt-36 top-1/2 left-1/2 text-center">
-        今は提出できる月のシフトがありません
+      <div className="h-screen dark:bg-black">
+        <div className="pt-72 text-center dark:text-white">
+          今は提出できる月のシフトがありません🙇
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="m-auto w-5/6">
-      <div className="flex flex-row justify-center sm:block sm:h-24 h-10 text-center bg-blue-300 text-white border-2">
-        <h1 className="sm:pt-5 pr-3 sm:pr-0">Submit Shifts</h1>
-        {data && <p>{`${data.year}. ${data.month}`}</p>}
-      </div>
-      <div className="flex justify-center pt-0.5">
-        <table className="w-full h-96 p-4">
-          <thead>
-            <tr>
-              {week.map((day, index) => (
-                <th
-                  key={day}
-                  className={`border border-slate-300 ${
-                    index === 0 ? "text-red-500" : ""
-                  } ${index === 6 ? "text-blue-500" : ""}`}
-                >
-                  {day}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data && (
-              <CalenderRender
-                days={days}
-                handleClickDay={handleClickDay}
-                renderShiftData={renderShiftData}
-              />
-            )}
-          </tbody>
-        </table>
-      </div>
-      {modalOpen && (
-        <Modal
-          setTime={setTime}
-          closeModal={closeModal}
-          day={selectedDate.day}
-          month={selectedDate.month}
-          year={selectedDate.year}
-        />
-      )}
-      <div className="flex justify-between py-3">
-        <SubmitFlexButton
-          type={"back"}
-          onClick={() => navigate(`/staff/${storeNumber}`)}
-        >
-          back
-        </SubmitFlexButton>
-        <div className="flex flex-row">
+    <div className="h-screen dark:bg-black">
+      <div className="m-auto w-5/6 pt-5">
+        <div className="flex flex-row justify-center sm:block sm:h-24 h-10 text-center dark:bg-sky-800 bg-sky-300 text-white border-2">
+          <h1 className="sm:pt-5 pr-3 sm:pr-0 font-mono font-extrabold">
+            Submit Shifts
+          </h1>
+          {data && <p>{`${data.year}. ${data.month}`}</p>}
+        </div>
+        <div className="flex justify-center pt-0.5">
+          <table className="w-full h-96 p-4 dark:text-white dark:bg-sky-800">
+            <thead>
+              <tr>
+                {week.map((day, index) => (
+                  <th
+                    key={day}
+                    className={`border border-slate-300 ${
+                      index === 0 ? "text-red-500" : ""
+                    } ${index === 6 ? "text-blue-500" : ""}`}
+                  >
+                    {day}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data && (
+                <CalenderRender
+                  days={days}
+                  handleClickDay={handleClickDay}
+                  renderShiftData={renderShiftData}
+                />
+              )}
+            </tbody>
+          </table>
+        </div>
+        {modalOpen && (
+          <Modal
+            setTime={setTime}
+            closeModal={closeModal}
+            day={selectedDate.day}
+            month={selectedDate.month}
+            year={selectedDate.year}
+          />
+        )}
+        <div className="flex justify-between py-8">
           <SubmitFlexButton
-            type={"save"}
-            onClick={() => saveToLocalStorage("shiftDates", shiftDates)}
+            type={"back"}
+            onClick={() => navigate(`/staff/${storeNumber}`)}
           >
-            save
+            戻る
           </SubmitFlexButton>
-          <SubmitFlexButton
-            type={"send"}
-            onClick={() => SubmitShift(shiftDates)}
-          >
-            submit
-          </SubmitFlexButton>
-          <SubmitFlexButton type={"trash"} onClick={handleDelete}>
-            reset
-          </SubmitFlexButton>
+          <div className="flex flex-row">
+            <SubmitFlexButton
+              type={"save"}
+              onClick={() => saveToLocalStorage("shiftDates", shiftDates)}
+            >
+              一時保存
+            </SubmitFlexButton>
+            <SubmitFlexButton
+              type={"send"}
+              onClick={() => SubmitShift(shiftDates)}
+            >
+              送信
+            </SubmitFlexButton>
+            <SubmitFlexButton type={"trash"} onClick={handleDelete}>
+              リセット
+            </SubmitFlexButton>
+          </div>
         </div>
       </div>
     </div>

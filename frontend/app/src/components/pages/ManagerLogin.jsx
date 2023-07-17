@@ -34,10 +34,10 @@ const EmployeeLogin = () => {
   };
 
   return (
-    <div className="pt-10">
+    <div className="pt-24 h-screen dark:bg-black">
       <FadeIn delay={50}>
-        <div className="text-center text-gray-500 font-bold mb-5 text-3xl">
-          <h1>Manager Login</h1>
+        <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
+          <h1>マネージャーログイン</h1>
         </div>
       </FadeIn>
       <div className="flex justify-center">
@@ -64,12 +64,19 @@ const EmployeeLogin = () => {
             />
           </FadeIn>
           <FadeIn delay={300}>
-            <InputFormButton type={"submit"} ButtonName={"Login"} />
+            <InputFormButton type={"submit"} ButtonName={"ログイン"} />
           </FadeIn>
         </form>
       </div>
-      <NavigateButton MoveTo={"Create Staff"} Path={"/employee/create"} />
-      <NavigateButton MoveTo={"Home"} Path={"/"} />
+      <div className="pt-10">
+        <FadeIn delay={500}>
+          <NavigateButton
+            MoveTo={"スタッフ新規作成"}
+            Path={"/employee/create"}
+          />
+          <NavigateButton MoveTo={"戻る"} Path={"/"} />
+        </FadeIn>
+      </div>
     </div>
   );
 };

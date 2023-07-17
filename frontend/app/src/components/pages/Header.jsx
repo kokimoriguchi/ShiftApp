@@ -59,7 +59,10 @@ const Header = () => {
               }`}
             >
               <div className="z-50 mx-auto h-full bg-sky-500 dark:bg-black sm:dark:bg-opacity-80 sm:bg-opacity-80">
-                <ul className="pt-32 flex flex-col items-center justify-center">
+                <ul className="pt-28 flex flex-col items-center justify-center">
+                  <li className="pb-5 text-white font-mono font-extrabold">
+                    MENU
+                  </li>
                   <HeaderMoveButton
                     type="home"
                     onClick={() => handleMenuItemClick("/")}
@@ -70,25 +73,25 @@ const Header = () => {
                     type="login"
                     onClick={() => handleMenuItemClick("login")}
                   >
-                    Login Staff
+                    スタッフログイン
                   </HeaderMoveButton>
                   <HeaderMoveButton
                     type="login"
                     onClick={() => handleMenuItemClick("manager/login")}
                   >
-                    Login Manager
+                    マネージャーログイン
                   </HeaderMoveButton>
                   <HeaderMoveButton
                     type="createUser"
                     onClick={() => handleMenuItemClick("/employee/create")}
                   >
-                    Create New Staff
+                    スタッフ新規作成
                   </HeaderMoveButton>
                   <HeaderMoveButton
                     type="createStore"
                     onClick={() => handleMenuItemClick("/store/create")}
                   >
-                    Create New Store
+                    店舗新規作成
                   </HeaderMoveButton>
                 </ul>
                 <div className="flex justify-center pt-5">
