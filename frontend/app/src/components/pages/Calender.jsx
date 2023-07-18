@@ -22,6 +22,7 @@ const Calender = () => {
   const [endTime, setEndTime] = useState(null);
   const [date, setDate] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [workId, setWorkId] = useState(null);
 
   //シフト提出可能な年月を取得しstateに保存
   useEffect(() => {
@@ -38,10 +39,11 @@ const Calender = () => {
     const fetchData = async () => {
       if (selectedShiftId !== null) {
         const data = await getShiftData(selectedShiftId);
-        console.log(data);
+        console.log(data.date.id);
         setStartTime(data.start_time);
         setEndTime(data.end_time);
-        setDate(data.date);
+        setDate(data.date.work_day);
+        setWorkId(data.date.id);
       }
     };
     fetchData();
@@ -55,6 +57,13 @@ const Calender = () => {
   useEffect(() => {
     console.log(employees);
   }, [employees]);
+
+  function formatTime(timeString) {
+    const date = new Date(timeString);
+    const hours = date.getUTCHours().toString().padStart(2, "0");
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  }
 
   // shiftYearDataとshiftMonthDataが設定されてから、getEmployeesを実行し、store所属の従業員名とそのシフトを取得しstateに保存
   useEffect(() => {
@@ -169,11 +178,19 @@ const Calender = () => {
                           className="border border-slate-300 dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
                           style={{ minWidth: "110px" }}
                           onClick={() => {
-                            if (shift) setSelectedShiftId(shift.id);
-                            setModalOpen(true);
+                            if (shift) {
+                              setSelectedShiftId(shift.id);
+                              setModalOpen(true);
+                            }
                           }}
                         >
-                          {shift ? "⚪︎" : "-"}
+                          {shift
+                            ? shift.is_attendance
+                              ? `${formatTime(
+                                  shift.shift_time.start_time
+                                )} - ${formatTime(shift.shift_time.end_time)}` // シフトの開始時間と終了時間を表示
+                              : "⚪︎"
+                            : "-"}
                         </td>
                       );
                     })}
@@ -189,6 +206,7 @@ const Calender = () => {
               year={shiftYearData}
               startTime={startTime}
               endTime={endTime}
+              workId={workId}
             />
           )}
         </div>

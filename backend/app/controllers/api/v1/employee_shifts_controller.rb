@@ -26,7 +26,7 @@ class Api::V1::EmployeeShiftsController < ApplicationController
 
           # EmployerShiftテーブルにレコードが存在しない場合は、ShiftDateとShiftTimeを作成し、EmployerShiftを作成する
           if @employer_shift.nil?
-            @shift_date = ShiftDate.create!(shift_date_params(shift).merge(is_attendance: true))
+            @shift_date = ShiftDate.create!(shift_date_params(shift))
             @shift_time = ShiftTime.create!(shift_time_params(shift).merge(shift_date_id: @shift_date.id))
             @employer_shift = EmployerShift.create!(employee_id: @current_employee_id, shift_date_id: @shift_date.id)
           else

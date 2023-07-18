@@ -29,6 +29,10 @@ Rails.application.routes.draw do
       get "get_employee_shifts", to: "manager_shifts#get_employee_shifts"
       get "get_shifts_by_month", to: "manager_shifts#get_shifts_by_month"
       get "get_shift_by_day/:id", to: "manager_shifts#get_shift_by_day"
+
+      #managerのシフトupdateのroutes
+      put "update_shift/:id", to: "manager_shifts#update_shift"
+
     end
   end
 end

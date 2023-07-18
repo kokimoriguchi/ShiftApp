@@ -1,13 +1,23 @@
 import { useState } from "react";
 import { VscError } from "react-icons/vsc";
+import { EditShiftUpdate } from "./EditShiftUpdate";
 
-const ModalManager = ({ closeModal, day, month, year, startTime, endTime }) => {
-  const [updateStartTime, setUpdateStartTime] = useState(startTime);
-  const [updateEndTime, setUpdateEndTime] = useState(endTime);
-  const [updateShift, setUpdateShift] = useState();
+const ModalManager = ({
+  closeModal,
+  day,
+  month,
+  year,
+  startTime,
+  endTime,
+  workId,
+}) => {
+  const [updateStartTime, setUpdateStartTime] = useState(formatTime(startTime));
+  const [updateEndTime, setUpdateEndTime] = useState(formatTime(endTime));
 
+  //出勤時間の更新する関数の呼び出し
   const handleClickSetTime = () => {
-    setUpdateShift(day, month, year, startTime, endTime);
+    EditShiftUpdate(workId, updateStartTime, updateEndTime);
+    console.log("workId:", workId);
     closeModal();
   };
 
@@ -19,15 +29,13 @@ const ModalManager = ({ closeModal, day, month, year, startTime, endTime }) => {
     setUpdateEndTime(event.target.value);
   };
 
+  //time型で保存されて入るデータを表示用に変換する
   function formatTime(timeString) {
     const date = new Date(timeString);
     const hours = date.getUTCHours().toString().padStart(2, "0");
     const minutes = date.getUTCMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   }
-
-  const formattedStartTime = formatTime(startTime);
-  const formattedEndTime = formatTime(endTime);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50">
@@ -47,7 +55,7 @@ const ModalManager = ({ closeModal, day, month, year, startTime, endTime }) => {
             <input
               type="time"
               id="startTime"
-              value={formattedStartTime}
+              value={updateStartTime}
               onChange={handleStartTimeChange}
             />
           </div>
@@ -57,7 +65,7 @@ const ModalManager = ({ closeModal, day, month, year, startTime, endTime }) => {
             <input
               type="time"
               id="endTime"
-              value={formattedEndTime}
+              value={updateEndTime}
               onChange={handleEndTimeChange}
             />
           </div>
