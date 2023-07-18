@@ -37,7 +37,7 @@ const EmployeeLogin = () => {
     <div className="pt-24 h-screen dark:bg-black dark:text-white">
       <FadeIn delay={50}>
         <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
-          <h1>ログイン</h1>
+          <h1 className="font-mono">Login</h1>
         </div>
       </FadeIn>
       <div className="flex justify-center">
@@ -64,7 +64,7 @@ const EmployeeLogin = () => {
             />
           </FadeIn>
           <FadeIn delay={300}>
-            <InputFormButton type={"submit"} ButtonName={"ログイン"} />
+            <InputFormButton type={"submit"} ButtonName={"login"} />
           </FadeIn>
         </form>
       </div>
