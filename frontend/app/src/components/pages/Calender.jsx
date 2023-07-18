@@ -5,7 +5,8 @@ import { getDaysInMonth, week } from "../data/Date";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
-// import { BiX, BiCircle } from "react-icons/bi";
+import { getShiftData } from "../hooks/useGetShiftDataHook";
+import ModalManager from "../hooks/ModalManager";
 
 const Calender = () => {
   const { employees, getEmployees } = useGetEmployeeShifts();
@@ -16,6 +17,11 @@ const Calender = () => {
   const { storeNumber } = useParams();
   const store_number = Number(storeNumber);
   const navigate = useNavigate();
+  const [selectedShiftId, setSelectedShiftId] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [date, setDate] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   //シフト提出可能な年月を取得しstateに保存
   useEffect(() => {
@@ -26,6 +32,29 @@ const Calender = () => {
     };
     submitMonthData();
   }, [getSubmitMonth]);
+
+  //クリックされた日付の出勤可能時間の取得
+  useEffect(() => {
+    const fetchData = async () => {
+      if (selectedShiftId !== null) {
+        const data = await getShiftData(selectedShiftId);
+        console.log(data);
+        setStartTime(data.start_time);
+        setEndTime(data.end_time);
+        setDate(data.date);
+      }
+    };
+    fetchData();
+  }, [selectedShiftId]);
+
+  //モーダルを閉じる
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  useEffect(() => {
+    console.log(employees);
+  }, [employees]);
 
   // shiftYearDataとshiftMonthDataが設定されてから、getEmployeesを実行し、store所属の従業員名とそのシフトを取得しstateに保存
   useEffect(() => {
@@ -43,30 +72,19 @@ const Calender = () => {
     setDays(getDaysInMonth(shiftYearData, shiftMonthData));
   }, [shiftYearData, shiftMonthData]);
 
-  useEffect(() => {
-    console.log(employees);
-    console.log(days);
-  }, [employees, days]);
-
   return (
-    <div className="h-screen dark:bg-black">
+    <div className="h-screen dark:bg-black pt-5">
       <div className="w-5/6 m-auto flex">
         {/* 従業員名等の固定テーブル */}
         <table className="w-auto text-center h-10">
           <thead>
             <tr>
-              <th
-                className="border border-slate-300 dark:text-white"
-                colSpan={2}
-              >
+              <th className="border border-slate-300 dark:text-white">
                 {shiftYearData}年
               </th>
             </tr>
             <tr>
-              <th
-                className="border border-slate-300 dark:text-white"
-                colSpan={2}
-              >
+              <th className="border border-slate-300 dark:text-white">
                 {shiftMonthData}月
               </th>
             </tr>
@@ -148,7 +166,12 @@ const Calender = () => {
                       return (
                         <td
                           key={day.date.toISOString()}
-                          className="border border-slate-300 min-w-72 dark:text-white"
+                          className="border border-slate-300 dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                          style={{ minWidth: "110px" }}
+                          onClick={() => {
+                            if (shift) setSelectedShiftId(shift.id);
+                            setModalOpen(true);
+                          }}
                         >
                           {shift ? "⚪︎" : "-"}
                         </td>
@@ -158,6 +181,16 @@ const Calender = () => {
                 ))}
             </tbody>
           </table>
+          {selectedShiftId && modalOpen && (
+            <ModalManager
+              closeModal={closeModal}
+              day={date}
+              month={shiftMonthData}
+              year={shiftYearData}
+              startTime={startTime}
+              endTime={endTime}
+            />
+          )}
         </div>
       </div>
       <div className="flex w-5/6 m-auto justify-between py-3">
@@ -165,17 +198,17 @@ const Calender = () => {
           type={"back"}
           onClick={() => navigate(`/manager/${storeNumber}`)}
         >
-          back
+          戻る
         </SubmitFlexButton>
         <div className="flex flex-row">
           <SubmitFlexButton type={"save"} onClick={() => console.log("save")}>
-            save
+            一時保存
           </SubmitFlexButton>
           <SubmitFlexButton type={"send"} onClick={() => console.log("submit")}>
-            submit
+            確定
           </SubmitFlexButton>
           <SubmitFlexButton type={"trash"} onClick={() => console.log("trash")}>
-            reset
+            リセット
           </SubmitFlexButton>
         </div>
       </div>

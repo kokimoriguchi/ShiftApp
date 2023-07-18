@@ -1,22 +1,15 @@
 class Api::V1::ManagerShiftsController < ApplicationController
-  #受け取ったストアナンバーをもとに、そのストアナンバーに所属する従業員を取得する
-  def get_employee
-    store = Store.find_by(number: params[:store_number])
-    if store
-      @employees = store.employees
-      render json: {status: "success", data: @employees}
-    end
+  include Authentication
+  before_action :authenticate_manager
+
+  # sift_dateテーブルのIDを受け取りその日のシフトを返す
+  def get_shift_by_day
+    shift_time = ShiftTime.find_by(shift_date_id: params[:id])
+    shift_date = ShiftDate.find(params[:id])
+    render json: {start_time: shift_time.start_time, end_time: shift_time.end_time, date: shift_date.work_day}
   end
 
-  #employee_idをもとに、その従業員のシフトを取得する
-  def get_employee_shifts
-    employee = Employee.find(params[:employee_id])
-    if employee
-      @shifts = employee.employer_shifts
-      render json: {status: "success", data: @shifts}
-    end
-  end
-
+  # 店番と年月を受け取り、その店の従業員の名前とその従業員の持つshift_dateテーブルを返す
   def get_shifts_by_month
     begin
       begin
