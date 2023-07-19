@@ -29,7 +29,7 @@ function AllRoutes() {
         element={auth && isManager ? <ManagerTop /> : <ManagerLogin />}
       />
       <Route
-        path="/staff/:storeNumber/calender/confirm"
+        path="/:storeNumber/calender/:year/:month"
         element={auth ? <ConfirmShiftCalender /> : <EmployeeLogin />}
       />
       <Route

@@ -14,7 +14,7 @@ const Home = () => {
         <h2 className="text-2xl font-bold font-mono">
           Welcome to the Store Management System
         </h2>
-        <p className="py-3 font-mono text-sm">click below!!</p>
+        <p className="py-3 font-mono text-sm">click login!!</p>
         <p className="m-auto animate-bounce w-6 h-6">⬇︎</p>
       </FadeIn>
       <div className="pt-3">
@@ -33,7 +33,9 @@ const Home = () => {
           </div>
         </FadeIn>
         <FadeIn delay={900}>
-          <div className="pb-5">
+          <p className="py-3 font-mono text-sm">start new!!</p>
+          <p className="m-auto animate-bounce w-6 h-6">⬇︎</p>
+          <div className="pb-5 pt-2">
             <HomeMoveButton onClick={() => navigate("store/create")}>
               新規店舗登録
             </HomeMoveButton>

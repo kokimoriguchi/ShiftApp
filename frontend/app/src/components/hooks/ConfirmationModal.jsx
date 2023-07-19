@@ -9,6 +9,7 @@ const ConfirmationModal = ({
   button,
   number,
   handle,
+  children,
 }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50">
@@ -26,7 +27,7 @@ const ConfirmationModal = ({
             Store {number}
           </h2>
           <h2 className="text-xl font-bold font-mono text-center pt-4">
-            {year}/{month}
+            {children ? children : `${year}/${month}`}
           </h2>
         </div>
         <div className="flex flex-col justify-center items-center">
