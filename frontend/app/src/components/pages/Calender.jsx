@@ -107,7 +107,7 @@ const Calender = () => {
     );
     // API呼び出しが成功した場合にリダイレクト
     if (response.status === "success") {
-      navigate(`/staff/${storeNumber}/calender/confirm`);
+      navigate(`/manager/${storeNumber}`);
     } else {
       // API呼び出しが失敗した場合はエラーメッセージを表示
       alert("シフト確定に失敗しました。");

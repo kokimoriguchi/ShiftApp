@@ -79,7 +79,7 @@ const ManagerTop = () => {
       }
     };
     getApproveMonths();
-  }, []);
+  }, [storeNumber]);
 
   return (
     <div className="flex flex-col items-center dark:bg-black dark:text-white h-screen">
@@ -111,7 +111,11 @@ const ManagerTop = () => {
           <div>
             <label>
               Year:
-              <select value={selectedYear} onChange={handleYearChange}>
+              <select
+                value={selectedYear}
+                onChange={handleYearChange}
+                className="dark:bg-black dark:text-white"
+              >
                 {approveMonths &&
                   approveMonths.map((data, index) => (
                     <option key={index} value={data.year}>
@@ -122,7 +126,11 @@ const ManagerTop = () => {
             </label>
             <label>
               Month:
-              <select value={selectedMonth} onChange={handleMonthChange}>
+              <select
+                value={selectedMonth}
+                onChange={handleMonthChange}
+                className="dark:bg-black dark:text-white"
+              >
                 {approveMonths &&
                   approveMonths.map((data, index) => (
                     <option key={index} value={data.month}>
