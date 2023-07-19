@@ -14,6 +14,7 @@ import SubmitCalender from "./components/pages/SubmitCalender";
 import ManagerTop from "./components/pages/ManagerTop";
 import EmployeeLogin from "./components/pages/EmployeeLogin";
 import EmployeeTop from "./components/pages/EmployeeTop";
+import ConfirmShiftCalender from "./components/pages/ConfirmShiftCalender";
 
 function AllRoutes() {
   const { auth, isManager } = useContext(AuthContext);
@@ -26,6 +27,10 @@ function AllRoutes() {
       <Route
         path="/manager/:storeNumber"
         element={auth && isManager ? <ManagerTop /> : <ManagerLogin />}
+      />
+      <Route
+        path="/staff/:storeNumber/calender/confirm"
+        element={auth ? <ConfirmShiftCalender /> : <EmployeeLogin />}
       />
       <Route
         path="/staff/:storeNumber/calender/submit"

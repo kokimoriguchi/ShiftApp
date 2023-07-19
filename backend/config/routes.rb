@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
       #approve_monthの作成のコントローラーのroutes
       resources :approve_months, only: %i[create]
+      #managerのシフト確定のroutes
+      patch "confirm_shift/:store_number", to: "approve_months#confirm_shift"
 
       #sign_inとoutのコントローラーのroutes
       post "/sign_in", to: "sessions#create"

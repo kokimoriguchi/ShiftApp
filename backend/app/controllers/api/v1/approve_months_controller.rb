@@ -1,6 +1,6 @@
 class Api::V1::ApproveMonthsController < ApplicationController
   include Authentication
-  before_action :authenticate_manager, only: [:create]
+  before_action :authenticate_manager, only: [:create, :confirm_month]
 
   def create
     # 現在の店舗においてまだ未公開のApproveMonthが存在するか確認
@@ -18,6 +18,25 @@ class Api::V1::ApproveMonthsController < ApplicationController
         render json: {status: "success", data: approve_month}
       else
         render json: {status: "error", message: approve_month.errors.full_messages}
+      end
+    end
+  end
+
+  def confirm_shift
+    ActiveRecord::Base.transaction do
+      begin
+        store_id = Store.find_by(number: params[:store_number])
+        approve_month = ApproveMonth.find_by(store_id: store_id, year: params[:year], month: params[:month])
+
+        if approve_month.nil?
+          return render json: {status: "error", message: "ApproveMonth not found"}
+        end
+
+        approve_month.update!(is_approve: true)
+        render json: {status: "success", message: "シフトを公開しました。"}
+
+      rescue => exception
+        return render json: {status: "error", message: exception.message}
       end
     end
   end

@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
 import { getShiftData } from "../hooks/useGetShiftDataHook";
 import ModalManager from "../hooks/ModalManager";
+import ConfirmationModal from "../hooks/ConfirmationModal";
+import ConfirmShift from "../hooks/ConfirmShift";
 
 const Calender = () => {
   const { employees, getEmployees } = useGetEmployeeShifts();
@@ -23,13 +25,21 @@ const Calender = () => {
   const [date, setDate] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [workId, setWorkId] = useState(null);
+  const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
+  const [noAvailableShifts, setNoAvailableShifts] = useState(false);
 
   //シフト提出可能な年月を取得しstateに保存
   useEffect(() => {
     const submitMonthData = async () => {
       const result = await getSubmitMonth();
-      setShiftMonthData(result.data[0].month);
-      setShiftYearData(result.data[0].year);
+      // 結果が存在するか確認します
+      if (result && result.data && result.data[0]) {
+        setShiftMonthData(result.data[0].month);
+        setShiftYearData(result.data[0].year);
+      } else {
+        // 提出可能なシフトが存在しないとマークします
+        setNoAvailableShifts(true);
+      }
     };
     submitMonthData();
   }, [getSubmitMonth]);
@@ -54,10 +64,16 @@ const Calender = () => {
     setModalOpen(false);
   };
 
+  //確認用のモーダルを閉じる
+  const closeConfirmationModal = () => {
+    setModalConfirmationOpen(false);
+  };
+
   useEffect(() => {
     console.log(employees);
   }, [employees]);
 
+  //時間を表示用に整形する関数
   function formatTime(timeString) {
     const date = new Date(timeString);
     const hours = date.getUTCHours().toString().padStart(2, "0");
@@ -81,155 +97,192 @@ const Calender = () => {
     setDays(getDaysInMonth(shiftYearData, shiftMonthData));
   }, [shiftYearData, shiftMonthData]);
 
-  return (
-    <div className="h-screen dark:bg-black pt-5">
-      <div className="w-5/6 m-auto flex">
-        {/* 従業員名等の固定テーブル */}
-        <table className="w-auto text-center h-10">
-          <thead>
-            <tr>
-              <th className="border border-slate-300 dark:text-white">
-                {shiftYearData}年
-              </th>
-            </tr>
-            <tr>
-              <th className="border border-slate-300 dark:text-white">
-                {shiftMonthData}月
-              </th>
-            </tr>
-            <tr>
-              <th className="border border-slate-300 dark:text-white">
-                スキルチェック
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {employees &&
-              Object.keys(employees).map((employeeName) => (
-                <tr key={employeeName}>
-                  <td className="border border-slate-300 w-72 dark:text-white">
-                    {employeeName}
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+  //モーダル内で確定された際に呼び出す関数
+  const handleConfirm = async () => {
+    // APIを呼び出す
+    const response = await ConfirmShift(
+      store_number,
+      shiftYearData,
+      shiftMonthData
+    );
+    // API呼び出しが成功した場合にリダイレクト
+    if (response.status === "success") {
+      navigate(`/staff/${storeNumber}/calender/confirm`);
+    } else {
+      // API呼び出しが失敗した場合はエラーメッセージを表示
+      alert("シフト確定に失敗しました。");
+    }
+  };
 
-        {/* スクロール可能なカレンダー部分 */}
-        <div className="w-full overflow-x-auto">
-          <table className="w-full m-auto text-center h-10">
-            <thead>
-              <tr>
-                {days.map((dayObj, index) => {
-                  const day = dayObj.date;
-                  const formattedDate = day.getUTCDate(); // 'yyyy/mm/dd' の形式
-                  return (
-                    <th
-                      key={index}
-                      className="border border-slate-300 dark:text-white"
-                    >
-                      {formattedDate}
-                    </th>
-                  );
-                })}
-              </tr>
-              <tr>
-                {days.map((dayObj) => {
-                  const day = dayObj.date;
-                  const dayOfWeek = week[day.getDay()]; // 曜日を取得
-                  return (
-                    <th
-                      key={dayObj.date.toISOString()}
-                      className="border border-slate-300 dark:text-white"
-                    >
-                      {dayOfWeek}
-                    </th>
-                  );
-                })}
-              </tr>
-              <tr>
-                {days.map((day) => {
-                  return (
-                    <th
-                      key={day.date.toISOString()}
-                      className="border border-slate-300 dark:text-white"
-                    >
-                      -
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {employees &&
-                Object.values(employees).map((shifts, index) => (
-                  <tr key={index}>
-                    {days.map((day) => {
-                      // シフトが存在するかチェック
-                      const shift = shifts.find(
-                        (shift) =>
-                          shift.work_day ===
-                          day.date.toISOString().split("T")[0] // 日付が一致するかチェック
-                      );
-                      // シフトが存在すれば、シフトの種類を描画
+  //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
+
+  return (
+    <div className="h-screen dark:bg-black pt-5 font-mono">
+      {/* もし提出可能なシフトが存在しない場合はメッセージを表示します */}
+      {noAvailableShifts ? (
+        <div className="dark:text-white text-center pt-40 font-mono">
+          <div>編集可能なシフトはありません</div>
+          <div>シフト作成をするには次のシフト提出を許可してください</div>
+        </div>
+      ) : (
+        <>
+          <div className="w-5/6 m-auto flex">
+            {/* 従業員名等の固定テーブル */}
+            <table className="w-auto text-center h-10">
+              <thead>
+                <tr>
+                  <th className="border border-slate-300 dark:text-white">
+                    {shiftYearData}年
+                  </th>
+                </tr>
+                <tr>
+                  <th className="border border-slate-300 dark:text-white">
+                    {shiftMonthData}月
+                  </th>
+                </tr>
+                <tr>
+                  <th className="border border-slate-300 dark:text-white">
+                    スキルチェック
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {employees &&
+                  Object.keys(employees).map((employeeName) => (
+                    <tr key={employeeName}>
+                      <td className="border border-slate-300 w-72 dark:text-white">
+                        {employeeName}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+
+            {/* スクロール可能なカレンダー部分 */}
+            <div className="w-full overflow-x-auto">
+              <table className="w-full m-auto text-center h-10">
+                <thead>
+                  <tr>
+                    {days.map((dayObj, index) => {
+                      const day = dayObj.date;
+                      const formattedDate = day.getUTCDate(); // 'yyyy/mm/dd' の形式
                       return (
-                        <td
-                          key={day.date.toISOString()}
-                          className="border border-slate-300 dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
-                          style={{ minWidth: "110px" }}
-                          onClick={() => {
-                            if (shift) {
-                              setSelectedShiftId(shift.id);
-                              setModalOpen(true);
-                            }
-                          }}
+                        <th
+                          key={index}
+                          className="border border-slate-300 dark:text-white"
                         >
-                          {shift
-                            ? shift.is_attendance
-                              ? `${formatTime(
-                                  shift.shift_time.start_time
-                                )} - ${formatTime(shift.shift_time.end_time)}` // シフトの開始時間と終了時間を表示
-                              : "⚪︎"
-                            : "-"}
-                        </td>
+                          {formattedDate}
+                        </th>
                       );
                     })}
                   </tr>
-                ))}
-            </tbody>
-          </table>
-          {selectedShiftId && modalOpen && (
-            <ModalManager
-              closeModal={closeModal}
-              day={date}
-              month={shiftMonthData}
-              year={shiftYearData}
-              startTime={startTime}
-              endTime={endTime}
-              workId={workId}
-            />
-          )}
-        </div>
-      </div>
-      <div className="flex w-5/6 m-auto justify-between py-3">
-        <SubmitFlexButton
-          type={"back"}
-          onClick={() => navigate(`/manager/${storeNumber}`)}
-        >
-          戻る
-        </SubmitFlexButton>
-        <div className="flex flex-row">
-          <SubmitFlexButton type={"save"} onClick={() => console.log("save")}>
-            一時保存
-          </SubmitFlexButton>
-          <SubmitFlexButton type={"send"} onClick={() => console.log("submit")}>
-            確定
-          </SubmitFlexButton>
-          <SubmitFlexButton type={"trash"} onClick={() => console.log("trash")}>
-            リセット
-          </SubmitFlexButton>
-        </div>
-      </div>
+                  <tr>
+                    {days.map((dayObj) => {
+                      const day = dayObj.date;
+                      const dayOfWeek = week[day.getDay()]; // 曜日を取得
+                      return (
+                        <th
+                          key={dayObj.date.toISOString()}
+                          className="border border-slate-300 dark:text-white"
+                        >
+                          {dayOfWeek}
+                        </th>
+                      );
+                    })}
+                  </tr>
+                  <tr>
+                    {days.map((day) => {
+                      return (
+                        <th
+                          key={day.date.toISOString()}
+                          className="border border-slate-300 dark:text-white"
+                        >
+                          -
+                        </th>
+                      );
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {employees &&
+                    Object.values(employees).map((shifts, index) => (
+                      <tr key={index}>
+                        {days.map((day) => {
+                          // シフトが存在するかチェック
+                          const shift = shifts.find(
+                            (shift) =>
+                              shift.work_day ===
+                              day.date.toISOString().split("T")[0] // 日付が一致するかチェック
+                          );
+                          // シフトが存在すれば、シフトの種類を描画
+                          return (
+                            <td
+                              key={day.date.toISOString()}
+                              className="border border-slate-300 dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                              style={{ minWidth: "150px" }}
+                              onClick={() => {
+                                if (shift) {
+                                  setSelectedShiftId(shift.id);
+                                  setModalOpen(true);
+                                }
+                              }}
+                            >
+                              {shift
+                                ? shift.is_attendance
+                                  ? `${formatTime(
+                                      shift.shift_time.start_time
+                                    )} - ${formatTime(
+                                      shift.shift_time.end_time
+                                    )}` // シフトの開始時間と終了時間を表示
+                                  : "⚪︎"
+                                : "-"}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+              {selectedShiftId && modalOpen && (
+                <ModalManager
+                  closeModal={closeModal}
+                  day={date}
+                  startTime={startTime}
+                  endTime={endTime}
+                  workId={workId}
+                />
+              )}
+            </div>
+          </div>
+          <div className="flex w-5/6 m-auto justify-between py-3">
+            <SubmitFlexButton
+              type={"back"}
+              onClick={() => navigate(`/manager/${storeNumber}`)}
+            >
+              戻る
+            </SubmitFlexButton>
+            <div className="flex flex-row">
+              <SubmitFlexButton
+                type={"send"}
+                onClick={() => setModalConfirmationOpen(true)}
+              >
+                確定
+              </SubmitFlexButton>
+            </div>
+            {modalConfirmationOpen && (
+              <ConfirmationModal
+                year={shiftYearData}
+                month={shiftMonthData}
+                closeModal={closeConfirmationModal}
+                text={"シフトを確定しますか？"}
+                button={"確定する"}
+                number={storeNumber}
+                handle={handleConfirm}
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

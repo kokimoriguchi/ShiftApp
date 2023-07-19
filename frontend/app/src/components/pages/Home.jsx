@@ -6,7 +6,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="text-center h-full pt-10 sm:pt-20 pb-20 dark:bg-black dark:text-white">
+    <div className="text-center h-screen pt-10 sm:pt-20 pb-20 dark:bg-black dark:text-white">
       <FadeIn delay={0}>
         <h1 className="text-3xl font-extrabold font-mono">Home</h1>
       </FadeIn>

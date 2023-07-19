@@ -38,8 +38,8 @@ const ManagerTop = () => {
 
   return (
     <div className="flex flex-col items-center dark:bg-black dark:text-white h-screen">
-      <div className="flex justify-center">ManagerTop</div>
-      <div className="pb-5 pt-20">
+      <div className="flex justify-center pt-10 font-mono">ManagerTop</div>
+      <div className="pb-5 pt-10">
         <HomeMoveButton onClick={createApproveMonth}>
           シフト作成許可
         </HomeMoveButton>
@@ -52,8 +52,10 @@ const ManagerTop = () => {
         </HomeMoveButton>
       </div>
       <div>
-        <HomeMoveButton onClick={() => navigate(`/`)}>
-          シフト確定
+        <HomeMoveButton
+          onClick={() => navigate(`/staff/${storeNumber}/calender/confirm`)}
+        >
+          確定シフト一覧
         </HomeMoveButton>
       </div>
     </div>
