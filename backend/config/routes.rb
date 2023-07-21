@@ -37,6 +37,9 @@ Rails.application.routes.draw do
 
       #確定しているシフトの取得のroutes
       get "get_approve_month/:store_number", to: "confirm_shifts#get_approve_month"
+
+      #ヘルスチェックのroutes
+      get "health_check", to: "health_check#index"
     end
   end
 end
