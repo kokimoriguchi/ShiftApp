@@ -43,6 +43,7 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV['SHIFT_APP_DATABASE_NAME'] %>
-  username: <%= ENV['DATABASE_DEFAULT_USERNAME'] %>
-  password: <%= ENV['SHIFT_APP_DATABASE_PASSWORD'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
