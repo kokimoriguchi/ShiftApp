@@ -37,11 +37,16 @@ jobs:
           docker build --platform linux/amd64 -f production/nginx/Dockerfile -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }} ./production/nginx --no-cache
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }}:latest
 
+      - name: Get Current Task Definition
+        id: current-task-definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_NAME }} --region ${{ env.AWS_REGION }} > current-task-definition.json
+
       - name: Fill in the new image ID in the Amazon ECS task definition for Rails
         id: task-def-rails
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: current-task-definition.json
           container-name: rails
           image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }}:latest
 
