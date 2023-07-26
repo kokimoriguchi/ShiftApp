@@ -34,7 +34,7 @@ jobs:
         run: |
           docker build --platform linux/amd64 -f production/Dockerfile -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }} ./backend --no-cache
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }}:latest
-          docker build --platform linux/amd64 -f production/nginx/Dockerfile -t ${{ env.ECR_REPOSITORY_NGINX }} ./production/nginx --no-cache
+          docker build --platform linux/amd64 -f production/nginx/Dockerfile -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }} ./production/nginx --no-cache
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }}:latest
 
       - name: Fill in the new image ID in the Amazon ECS task definition for Rails
