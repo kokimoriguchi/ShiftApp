@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Rails Nginx ECS Deploy
 
 on:
   push:
@@ -32,23 +32,31 @@ jobs:
 
       - name: Build and push Docker images
         run: |
-          docker build --platform linux/amd64 -f production/Dockerfile -t $ECR_REPOSITORY_RAILS ./backend --no-cache
-          docker push $ECR_REPOSITORY_RAILS:latest
-          docker build --platform linux/amd64 -f production/nginx/Dockerfile -t $ECR_REPOSITORY_NGINX ./production/nginx --no-cache
-          docker push $ECR_REPOSITORY_NGINX:latest
+          docker build --platform linux/amd64 -f production/Dockerfile -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }} ./backend --no-cache
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }}:latest
+          docker build --platform linux/amd64 -f production/nginx/Dockerfile -t ${{ env.ECR_REPOSITORY_NGINX }} ./production/nginx --no-cache
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }}:latest
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
+      - name: Fill in the new image ID in the Amazon ECS task definition for Rails
+        id: task-def-rails
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: ${{ env.ECS_TASK_NAME }}
+          container-name: rails
           image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }}:latest
+
+      - name: Fill in the new image ID in the Amazon ECS task definition for NGINX
+        id: task-def-nginx
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-rails.outputs.task-definition }}
+          container-name: nginx
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }}:latest
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: ${{ steps.task-def-nginx.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE_NAME }}
           cluster: ${{ env.ECS_CLUSTER_NAME }}
           wait-for-service-stability: true

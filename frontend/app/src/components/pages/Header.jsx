@@ -33,7 +33,7 @@ const Header = () => {
       <div className="flex justify-between pt-4 px-8">
         <div className="h-full text-center">
           <p className="font-mono text-2xl dark:text-white">
-            {auth ? `welcome` : `ShiftApp`}
+            {auth ? `welcome` : `Shift-App`}
           </p>
         </div>
 
