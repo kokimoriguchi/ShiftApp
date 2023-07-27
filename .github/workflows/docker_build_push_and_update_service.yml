@@ -1,9 +1,9 @@
 name: Rails Nginx ECS Deploy
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [closed]
+    branches: [main]
 
 env:
   AWS_REGION: ap-northeast-1
@@ -16,6 +16,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - name: Check out code
         uses: actions/checkout@v2

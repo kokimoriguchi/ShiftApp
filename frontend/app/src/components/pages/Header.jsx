@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import DarkModeButton from "../hooks/DarkModeButton";
 import { AuthContext } from "../hooks/Auth";
 import HamburgerMenuDefault from "../hooks/HamburgerMenuDefault";
+import HamburgerMenuEmployee from "../hooks/HamburgerMenuEmployee";
+import HamburgerMenuManager from "../hooks/HamburgerMenuManager";
 
 const Header = () => {
-  const { auth, employeeName, storeName } = useContext(AuthContext);
+  const { auth, isManager, employeeName, storeName } = useContext(AuthContext);
   const [openMenu, setOpenMenu] = useState(false);
   const [sideOpen, setSideOpen] = useState(false);
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const Header = () => {
     <div className="dark:bg-black">
       <div className="flex justify-between pt-4 px-8">
         <div className="h-full text-center">
-          <p className="font-mono sm:text-2xl text-base dark:text-white">
+          <p className="font-mono sm:text-2xl sm:pt-0 pt-0.5 text-base dark:text-white">
             {auth ? `${storeName}店:${employeeName}` : `Shift-App`}
           </p>
         </div>
@@ -70,10 +71,19 @@ const Header = () => {
                 >
                   <div className="z-50 mx-auto h-full bg-sky-500 dark:bg-black sm:dark:bg-opacity-80 sm:bg-opacity-80">
                     <div className="flex justify-center pt-5">
-                      <HamburgerMenuDefault
-                        handleMenuItemClick={handleMenuItemClick}
-                      />
-                      <DarkModeButton />
+                      {isManager && auth ? (
+                        <HamburgerMenuManager
+                          handleMenuItemClick={handleMenuItemClick}
+                        />
+                      ) : auth ? (
+                        <HamburgerMenuEmployee
+                          handleMenuItemClick={handleMenuItemClick}
+                        />
+                      ) : (
+                        <HamburgerMenuDefault
+                          handleMenuItemClick={handleMenuItemClick}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
