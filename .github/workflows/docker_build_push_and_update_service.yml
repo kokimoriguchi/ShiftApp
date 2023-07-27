@@ -47,6 +47,10 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_NAME }} --region ${{ env.AWS_REGION }} > current-task-definition.json
 
+      - name: Print task definition content after updating NGINX image
+        run: |
+          cat current-task-definition.json
+
         # 下記でrailsとnginxのコンテナのイメージをtask定義のJSONに書き換えている。
       - name: Fill in the new image ID in the Amazon ECS task definition for Rails
         id: task-def-rails
