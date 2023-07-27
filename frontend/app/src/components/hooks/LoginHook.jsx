@@ -34,8 +34,8 @@ export function useLogin() {
 
 // マネージャーログイン用のカスタムフック
 export function useManagerLogin() {
-  const { setAuth } = useContext(AuthContext);
-  const { setIsManager } = useContext(AuthContext);
+  const { setAuth, setIsManager, setEmployeeName, setStoreName } =
+    useContext(AuthContext);
   const navigate = useNavigate();
 
   const login = async (userData) => {
@@ -45,6 +45,8 @@ export function useManagerLogin() {
       if (response.data.status === "create") {
         setAuth(true);
         setIsManager(true);
+        setEmployeeName(response.data.employee_name);
+        setStoreName(response.data.store_name);
         navigate(`/manager/${response.data.store_number}`);
         console.log(response.data.store_number);
       } else {

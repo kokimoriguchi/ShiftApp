@@ -41,11 +41,6 @@ const Home = () => {
             </HomeMoveButton>
           </div>
         </FadeIn>
-        <FadeIn delay={1200}>
-          <HomeMoveButton onClick={() => navigate("/employee/create")}>
-            新規スタッフ登録
-          </HomeMoveButton>
-        </FadeIn>
       </div>
     </div>
   );

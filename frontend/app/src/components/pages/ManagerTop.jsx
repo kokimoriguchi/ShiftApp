@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
 import { useEffect, useState } from "react";
+import { useLogout } from "../hooks/LogoutHook";
 import baseAxios from "../hooks/Axios";
 import ConfirmationModal from "../hooks/ConfirmationModal";
 
@@ -9,6 +10,7 @@ const ManagerTop = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const { storeNumber } = useParams();
+  const logout = useLogout();
 
   const [approveMonths, setApproveMonths] = useState();
   const [selectedYear, setSelectedYear] = useState(""); // 選択した年
@@ -27,6 +29,11 @@ const ManagerTop = () => {
   //モーダルを閉じる
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const handleClickLogout = () => {
+    logout();
+    console.log("done");
   };
 
   const createApproveMonth = async () => {
@@ -85,22 +92,31 @@ const ManagerTop = () => {
     <div className="flex flex-col items-center dark:bg-black dark:text-white h-screen">
       <div className="flex justify-center pt-10 font-mono">ManagerTop</div>
       <div className="pb-5 pt-10">
-        <HomeMoveButton onClick={createApproveMonth}>
-          シフト作成許可
-        </HomeMoveButton>
-      </div>
-      <div className="pb-5">
         <HomeMoveButton
           onClick={() => navigate(`/manager/${storeNumber}/edit`)}
         >
           シフト編集
         </HomeMoveButton>
       </div>
-      <div>
+      <div className="pb-5">
         <HomeMoveButton onClick={() => setModalOpen(true)}>
           確定シフト一覧
         </HomeMoveButton>
       </div>
+      <div className="pb-5">
+        <HomeMoveButton onClick={() => navigate("/employee/create")}>
+          新規スタッフ登録
+        </HomeMoveButton>
+      </div>
+      <div className="pb-5">
+        <HomeMoveButton onClick={createApproveMonth}>
+          シフト作成許可
+        </HomeMoveButton>
+      </div>
+      <div>
+        <HomeMoveButton onClick={handleClickLogout}>ログアウト</HomeMoveButton>
+      </div>
+
       {modalOpen && (
         <ConfirmationModal
           closeModal={closeModal}
