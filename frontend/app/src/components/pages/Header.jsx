@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { HeaderMoveButton } from "../hooks/HeaderMoveButton";
 import DarkModeButton from "../hooks/DarkModeButton";
 import { AuthContext } from "../hooks/Auth";
+import HamburgerMenuDefault from "../hooks/HamburgerMenuDefault";
 
 const Header = () => {
   const { auth, employeeName, storeName } = useContext(AuthContext);
@@ -32,7 +32,7 @@ const Header = () => {
     <div className="dark:bg-black">
       <div className="flex justify-between pt-4 px-8">
         <div className="h-full text-center">
-          <p className="font-mono text-2xl dark:text-white">
+          <p className="font-mono sm:text-2xl text-base dark:text-white">
             {auth ? `${storeName}店:${employeeName}` : `Shift-App`}
           </p>
         </div>
@@ -69,42 +69,10 @@ const Header = () => {
                   }`}
                 >
                   <div className="z-50 mx-auto h-full bg-sky-500 dark:bg-black sm:dark:bg-opacity-80 sm:bg-opacity-80">
-                    <ul className="pt-28 flex flex-col items-center justify-center">
-                      <li className="pb-5 text-white font-mono font-extrabold">
-                        MENU
-                      </li>
-                      <HeaderMoveButton
-                        type="home"
-                        onClick={() => handleMenuItemClick("/")}
-                      >
-                        ホーム
-                      </HeaderMoveButton>
-                      <HeaderMoveButton
-                        type="login"
-                        onClick={() => handleMenuItemClick("login")}
-                      >
-                        スタッフログイン
-                      </HeaderMoveButton>
-                      <HeaderMoveButton
-                        type="login"
-                        onClick={() => handleMenuItemClick("manager/login")}
-                      >
-                        マネージャーログイン
-                      </HeaderMoveButton>
-                      <HeaderMoveButton
-                        type="createUser"
-                        onClick={() => handleMenuItemClick("/employee/create")}
-                      >
-                        スタッフ新規作成
-                      </HeaderMoveButton>
-                      <HeaderMoveButton
-                        type="createStore"
-                        onClick={() => handleMenuItemClick("/store/create")}
-                      >
-                        店舗新規作成
-                      </HeaderMoveButton>
-                    </ul>
                     <div className="flex justify-center pt-5">
+                      <HamburgerMenuDefault
+                        handleMenuItemClick={handleMenuItemClick}
+                      />
                       <DarkModeButton />
                     </div>
                   </div>
