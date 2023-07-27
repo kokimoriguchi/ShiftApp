@@ -1,9 +1,7 @@
 name: Rails Nginx ECS Deploy
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - main
 
@@ -17,7 +15,6 @@ env:
 
 jobs:
   build-and-deploy:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -48,7 +45,7 @@ jobs:
       - name: Get Current Task Definition
         id: current-task-definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_NAME }} --region ${{ env.AWS_REGION }} --query taskDefinition > current-task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_NAME }} --region ${{ env.AWS_REGION }} > current-task-definition.json
 
         # 下記でrailsとnginxのコンテナのイメージをtask定義のJSONに書き換えている。
       - name: Fill in the new image ID in the Amazon ECS task definition for Rails
