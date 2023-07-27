@@ -5,7 +5,7 @@ import DarkModeButton from "../hooks/DarkModeButton";
 import { AuthContext } from "../hooks/Auth";
 
 const Header = () => {
-  const { auth } = useContext(AuthContext);
+  const { auth, employeeName, storeName } = useContext(AuthContext);
   const [openMenu, setOpenMenu] = useState(false);
   const [sideOpen, setSideOpen] = useState(false);
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Header = () => {
       <div className="flex justify-between pt-4 px-8">
         <div className="h-full text-center">
           <p className="font-mono text-2xl dark:text-white">
-            {auth ? `welcome` : `Shift-App`}
+            {auth ? `${storeName}店:${employeeName}` : `Shift-App`}
           </p>
         </div>
 

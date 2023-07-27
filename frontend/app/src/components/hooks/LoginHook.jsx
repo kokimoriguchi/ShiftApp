@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 // ログイン用のカスタムフック
 export function useLogin() {
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth, setEmployeeName, setStoreName } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const login = async (userData) => {
@@ -16,6 +16,8 @@ export function useLogin() {
         setAuth(true);
         navigate(`/staff/${response.data.store_number}`);
         console.log(response.data.store_number);
+        setEmployeeName(response.data.employee_name);
+        setStoreName(response.data.store_name);
       } else {
         console.log(response.data.message);
         alert(response.data.message);

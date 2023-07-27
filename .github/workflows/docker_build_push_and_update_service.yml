@@ -23,6 +23,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+        # AWSの認証情報を設定する。これはdockerのbuildとpushで使う。
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -30,22 +31,26 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+        # AWSのIDを取得する。これはdockerのbuildとpushで使う。
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build and push Docker images
+        # dockerののbuildとpushする。steps.login-ecr.outputs.registryは上段部分でAWSのIDを取得しコマンドに入れ込みしている。
         run: |
           docker build --platform linux/amd64 -f production/Dockerfile -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }} ./backend --no-cache
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }}:latest
           docker build --platform linux/amd64 -f production/nginx/Dockerfile -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }} ./production/nginx --no-cache
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }}:latest
 
+        # 現在のtask定義のJSONを取得する
       - name: Get Current Task Definition
         id: current-task-definition
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_NAME }} --region ${{ env.AWS_REGION }} --query taskDefinition > current-task-definition.json
 
+        # 下記でrailsとnginxのコンテナのイメージをtask定義のJSONに書き換えている。
       - name: Fill in the new image ID in the Amazon ECS task definition for Rails
         id: task-def-rails
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -62,6 +67,7 @@ jobs:
           container-name: nginx
           image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }}:latest
 
+        # 新しく書き換えたtask定義のJSONファイルを下記でクラスターとサービス指定してデプロイする。
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:

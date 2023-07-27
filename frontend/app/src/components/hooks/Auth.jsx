@@ -8,9 +8,22 @@ export const AuthContext = createContext({});
 const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(false);
   const [isManager, setIsManager] = useState(false);
+  const [employeeName, setEmployeeName] = useState("");
+  const [storeName, setStoreName] = useState("");
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, isManager, setIsManager }}>
+    <AuthContext.Provider
+      value={{
+        auth,
+        setAuth,
+        isManager,
+        setIsManager,
+        employeeName,
+        setEmployeeName,
+        storeName,
+        setStoreName,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

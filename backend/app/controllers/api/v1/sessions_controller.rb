@@ -9,9 +9,12 @@ class Api::V1::SessionsController < ApplicationController
       cookies[:token] = { value: token, httponly: true }
 
       # Storeのnumberを取得する
-      store_number = employee.store.number
+      store_name = employee.store.name
 
-      render json: {status: "create", data: employee, store_number: store_number}
+      # Employeeのnameを取得する
+      employee_name = employee.name
+
+      render json: {status: "create", data: employee, store_name: store_name, employee_name: employee_name}
     else
       render json: {status: "error", message: "ログインに失敗しました！！"}
     end
