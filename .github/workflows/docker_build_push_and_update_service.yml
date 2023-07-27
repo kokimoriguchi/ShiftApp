@@ -46,17 +46,23 @@ jobs:
         id: current-task-definition
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_NAME }} --region ${{ env.AWS_REGION }} > current-task-definition.json
+        env:
+          ECS_TASK_NAME: shifttask
+
+      - name: Fix task definition
+        run: |
+          jq '.taskDefinition' current-task-definition.json > fixed-task-definition.json
 
       - name: Print task definition content after updating NGINX image
         run: |
-          cat current-task-definition.json
+          cat fixed-task-definition.json
 
         # 下記でrailsとnginxのコンテナのイメージをtask定義のJSONに書き換えている。
       - name: Fill in the new image ID in the Amazon ECS task definition for Rails
         id: task-def-rails
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: current-task-definition.json
+          task-definition: fixed-task-definition.json
           container-name: rails
           image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RAILS }}:latest
 
