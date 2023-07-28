@@ -8,17 +8,17 @@ const Home = () => {
   return (
     <div className="text-center h-auto pt-5 sm:pt-16 sm:pb-20 bg-sky-100 bg-opacity-95 dark:bg-black dark:text-white">
       <div className="">
-        <FadeIn delay={100}>
-          <h1 className="md:text-[100px] md:pt-4 pt-8 text-4xl font-extrabold font-mono">
-            ShiftHub
-          </h1>
-          <p className="sm:pt-10 sm:text-base sm:block hidden">
-            ShiftHubは日々のシフト管理をWeb上で完結することのできるサービスです。
-          </p>
-          <p className="pt-4 sm:text-base text-sm">
-            あなたのお店のシフト管理をShiftHubで始めましょう。
-          </p>
-        </FadeIn>
+        {/* <FadeIn delay={100}> */}
+        <h1 className="animate-tracking-in-expand duration-1000 tracking-in-expand  md:text-[100px] md:pt-4 pt-8 text-4xl font-bold font-mono">
+          ShiftHub
+        </h1>
+        <p className="animate-tracking-in-expand sm:pt-10 sm:text-base sm:block hidden font-mono">
+          ShiftHubは日々のシフト管理をWeb上で完結することのできるサービスです。
+        </p>
+        <p className="animate-tracking-in-expand pt-4 sm:text-base text-sm font-mono">
+          あなたのお店のシフト管理をShiftHubで始めましょう。
+        </p>
+        {/* </FadeIn> */}
       </div>
       <div className="">
         <FadeIn delay={150}>

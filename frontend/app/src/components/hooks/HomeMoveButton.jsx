@@ -12,7 +12,7 @@ export const HomeMoveButton = ({ onClick, children, reverseColor }) => {
     >
       <span
         className={`${
-          reverseColor ? "bg-white dark:bg-sky-900" : "bg-sky-800 text-white "
+          reverseColor ? "bg-sky-100 dark:bg-sky-900" : "bg-sky-800 text-white "
         } absolute inset-0 duration-300 flex items-center justify-center w-full h-full  -translate-x-full group-hover:translate-x-0 ease`}
       >
         <HiOutlineArrowRight className="font-bold text-2xl" />
