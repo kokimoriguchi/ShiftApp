@@ -34,7 +34,7 @@ const Header = () => {
       <div className="flex justify-between pt-4 px-8">
         <div className="h-full text-center">
           <p className="font-mono sm:text-2xl sm:pt-0 pt-0.5 text-base dark:text-white">
-            {auth ? `${storeName}店:${employeeName}` : `Shift-App`}
+            {auth ? `${storeName}:${employeeName}` : `Shift-App`}
           </p>
         </div>
 

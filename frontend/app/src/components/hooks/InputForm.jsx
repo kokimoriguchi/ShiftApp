@@ -1,5 +1,25 @@
+import React, { useState } from "react";
+
 //フォームの入力部分のコンポーネント
-const InputForm = ({ type, name, value, onChange, placeholder }) => {
+const InputForm = ({
+  type,
+  name,
+  value,
+  onChange,
+  placeholder,
+  validator,
+  onValidChange,
+}) => {
+  const [error, setError] = useState(null);
+
+  const checkValidate = (e) => {
+    const value = e.target.value;
+    const error = validator(value);
+    setError(error);
+    onChange(e);
+    if (!error) onValidChange(e);
+  };
+
   return (
     <div className="items-center mb-6">
       <label className="dark:text-white text-gray-500 font-bold text-right mb-1">
@@ -11,8 +31,9 @@ const InputForm = ({ type, name, value, onChange, placeholder }) => {
         placeholder={placeholder}
         name={name}
         value={value}
-        onChange={onChange}
+        onChange={checkValidate}
       />
+      {error && <p className="text-sm font-mono text-rose-500">{error}</p>}
     </div>
   );
 };

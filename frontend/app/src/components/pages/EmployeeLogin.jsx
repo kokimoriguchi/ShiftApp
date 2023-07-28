@@ -4,6 +4,7 @@ import { FadeIn } from "../hooks/FadeInHook";
 import InputForm from "../hooks/InputForm";
 import NavigateButton from "../hooks/NavigateButton";
 import InputFormButton from "../hooks/InputFromButton";
+import { validateNumber, validatePassword } from "../hooks/Validators";
 
 const EmployeeLogin = () => {
   const [form, setForm] = useState({
@@ -52,6 +53,8 @@ const EmployeeLogin = () => {
               name="Number"
               value={form.Number}
               onChange={handleChange}
+              validator={validateNumber}
+              onValidChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
@@ -61,6 +64,8 @@ const EmployeeLogin = () => {
               name="Password"
               value={form.Password}
               onChange={handleChange}
+              validator={validatePassword}
+              onValidChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={300}>
@@ -71,8 +76,8 @@ const EmployeeLogin = () => {
       <div className="pt-10">
         <FadeIn delay={500}>
           <NavigateButton
-            MoveTo={"スタッフ新規作成"}
-            Path={"/employee/create"}
+            MoveTo={"ログインマネージャー"}
+            Path={"/manager/login"}
           />
           <NavigateButton MoveTo={"戻る"} Path={"/"} />
         </FadeIn>

@@ -17,12 +17,12 @@ const icons = {
 export const HeaderMoveButton = ({ type, onClick, children }) => {
   const Icon = icons[type];
   return (
-    <li
+    <div
       onClick={onClick}
       className="flex flex-row font-extrabold dark:text-white dark:hover:text-sky-500 cursor-pointer hover:text-white pb-3"
     >
       <Icon className="mt-1" />
       {children}
-    </li>
+    </div>
   );
 };
