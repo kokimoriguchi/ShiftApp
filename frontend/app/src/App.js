@@ -25,6 +25,10 @@ function AllRoutes() {
         element={auth && isManager ? <Calender /> : <ManagerLogin />}
       />
       <Route
+        path="/manager/:storeNumber/create/employee"
+        element={auth && isManager ? <EmployeeCreate /> : <ManagerLogin />}
+      />
+      <Route
         path="/manager/:storeNumber"
         element={auth && isManager ? <ManagerTop /> : <ManagerLogin />}
       />
@@ -41,7 +45,7 @@ function AllRoutes() {
         path="/staff/:storeNumber"
         element={auth ? <EmployeeTop /> : <EmployeeLogin />}
       />
-      <Route path="/manager/create" element={<ManagerCreate />} />
+      <Route path="/manager/:storeNumber/create" element={<ManagerCreate />} />
       <Route path="/employee/create" element={<EmployeeCreate />} />
       <Route path="/store/create" element={<StoreCreate />} />
       <Route path="/manager/login" element={<ManagerLogin />} />

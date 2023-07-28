@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useEmployeeCreate } from "../hooks/EmployeeCreateHook";
 import { FadeIn } from "../hooks/FadeInHook";
 import InputForm from "../hooks/InputForm";
 import NavigateButton from "../hooks/NavigateButton";
 import InputFormButton from "../hooks/InputFromButton";
+import {
+  validateNumber,
+  validatePassword,
+  validateName,
+} from "../hooks/Validators";
+import { useParams } from "react-router-dom";
+import { AuthContext } from "../hooks/Auth";
 
 const EmployeeCreate = () => {
+  const { storeNumber } = useParams();
+  const { storeName } = useContext(AuthContext);
   const [form, setForm] = useState({
     Name: "",
     Number: "",
     Password: "",
-    storeNumber: "",
+    storeNumber: storeNumber,
   });
   const employeeCreate = useEmployeeCreate();
 
@@ -28,14 +37,13 @@ const EmployeeCreate = () => {
       name: form.Name,
       number: form.Number,
       password: form.Password,
-      store_number: form.storeNumber,
+      store_number: storeNumber,
     };
     await employeeCreate(employeeData);
     setForm({
       Name: "",
       Number: "",
       Password: "",
-      storeNumber: "",
     });
   };
 
@@ -43,7 +51,7 @@ const EmployeeCreate = () => {
     <div className="pt-20 h-screen dark:bg-black">
       <FadeIn delay={50}>
         <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
-          <h1>スタッフ新規作成</h1>
+          <h1>{storeName}:新規スタッフ登録</h1>
         </div>
       </FadeIn>
       <div className="flex justify-center">
@@ -58,6 +66,8 @@ const EmployeeCreate = () => {
               name="Name"
               value={form.Name}
               onChange={handleChange}
+              validator={validateName}
+              onValidChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
@@ -67,6 +77,8 @@ const EmployeeCreate = () => {
               name="Number"
               value={form.Number}
               onChange={handleChange}
+              validator={validateNumber}
+              onValidChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={300}>
@@ -76,26 +88,18 @@ const EmployeeCreate = () => {
               name="Password"
               value={form.Password}
               onChange={handleChange}
-            />
-          </FadeIn>
-          <FadeIn delay={400}>
-            <InputForm
-              type={"text"}
-              placeholder="StoreNumber"
-              name="storeNumber"
-              value={form.storeNumber}
-              onChange={handleChange}
+              validator={validatePassword}
+              onValidChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={500}>
-            <InputFormButton type={"submit"} ButtonName={"新規作成"} />
+            <InputFormButton type={"submit"} ButtonName={"新規登録"} />
           </FadeIn>
         </form>
       </div>
       <div className="pt-3">
         <FadeIn delay={600}>
-          <NavigateButton MoveTo={"スタッフログイン"} Path={"/login"} />
-          <NavigateButton MoveTo={"戻る"} Path={"/"} />
+          <NavigateButton MoveTo={"戻る"} Path={`/manager/${storeNumber}`} />
         </FadeIn>
       </div>
     </div>

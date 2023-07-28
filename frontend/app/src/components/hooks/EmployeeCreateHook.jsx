@@ -1,10 +1,7 @@
 import baseAxios from "./Axios";
-import { useNavigate } from "react-router-dom";
 
 // 従業員登録用のカスタムフック
 export function useEmployeeCreate() {
-  const navigate = useNavigate();
-
   const employeeCreate = async (employeeData) => {
     try {
       const response = await baseAxios.post("employees", {
@@ -13,8 +10,8 @@ export function useEmployeeCreate() {
       console.log(employeeData);
       console.log(response.data);
       if (response.data.status === "create") {
-        navigate("/login");
         console.log(response);
+        alert("登録が完了しました。");
       } else {
         console.log("error");
         alert(response.data.message);

@@ -104,7 +104,9 @@ const ManagerTop = () => {
         </HomeMoveButton>
       </div>
       <div className="pb-5">
-        <HomeMoveButton onClick={() => navigate("/employee/create")}>
+        <HomeMoveButton
+          onClick={() => navigate(`/manager/${storeNumber}/create/employee`)}
+        >
           新規スタッフ登録
         </HomeMoveButton>
       </div>

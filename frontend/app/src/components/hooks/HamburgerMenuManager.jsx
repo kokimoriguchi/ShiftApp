@@ -34,7 +34,9 @@ const HamburgerMenuManager = ({ handleMenuItemClick }) => {
       <li className="pb-1">
         <HeaderMoveButton
           type="createUser"
-          onClick={() => handleMenuItemClick("/employee/create")}
+          onClick={() =>
+            handleMenuItemClick(`/manager/${storeNumber}create/employee`)
+          }
         >
           スタッフ新規作成
         </HeaderMoveButton>

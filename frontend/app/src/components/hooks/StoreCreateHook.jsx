@@ -11,7 +11,7 @@ export function useStoreCreate() {
       console.log(storeData);
       console.log(response.data);
       if (response.data.status === "create") {
-        navigate("/manager/create");
+        navigate(`/manager/${response.data.data.number}/create`);
         console.log(response);
       } else {
         console.log("error");

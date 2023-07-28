@@ -4,6 +4,7 @@ import InputForm from "../hooks/InputForm";
 import NavigateButton from "../hooks/NavigateButton";
 import InputFormButton from "../hooks/InputFromButton";
 import { useState } from "react";
+import { validateNumber, validateName } from "../hooks/Validators";
 
 const StoreCreate = () => {
   const [form, setForm] = useState({
@@ -24,18 +25,18 @@ const StoreCreate = () => {
   //formボタンで送信すると下記の関数呼び出してその後stateを空にする。
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //ランダムなパスワードを生成する
+    const randomPassword = Math.random().toString(36).slice(-8);
+
     const storeData = {
       name: form.Name,
       number: form.Number,
-      password: form.Password,
-      store_number: form.storeNumber,
+      password: randomPassword,
     };
     await storeCreate(storeData);
     setForm({
       Name: "",
       Number: "",
-      Password: "",
-      storeNumber: "",
     });
   };
 
@@ -43,7 +44,7 @@ const StoreCreate = () => {
     <div className="pt-24 h-screen dark:bg-black">
       <FadeIn delay={50}>
         <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
-          <h1>店舗新規作成</h1>
+          <h1>新規店舗登録</h1>
         </div>
       </FadeIn>
       <div className="flex justify-center">
@@ -58,6 +59,8 @@ const StoreCreate = () => {
               name="Name"
               value={form.Name}
               onChange={handleChange}
+              validator={validateName}
+              onValidChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
@@ -67,24 +70,17 @@ const StoreCreate = () => {
               name="Number"
               value={form.Number}
               onChange={handleChange}
+              validator={validateNumber}
+              onValidChange={handleChange}
             />
           </FadeIn>
           <FadeIn delay={300}>
-            <InputForm
-              type={"password"}
-              placeholder="Password"
-              name="Password"
-              value={form.Password}
-              onChange={handleChange}
-            />
-          </FadeIn>
-          <FadeIn delay={400}>
             <InputFormButton type={"submit"} ButtonName={"新規作成"} />
           </FadeIn>
         </form>
       </div>
       <div className="pt-8">
-        <FadeIn delay={500}>
+        <FadeIn delay={400}>
           <NavigateButton MoveTo={"スタッフログイン"} Path={"/login"} />
           <NavigateButton MoveTo={"戻る"} Path={"/"} />
         </FadeIn>
