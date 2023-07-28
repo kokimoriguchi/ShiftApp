@@ -2,6 +2,9 @@ export const validateNumber = (value) => {
   if (!/^\d+$/.test(value)) {
     return "※半角数字を入力してください";
   }
+  if (value.length < 5) {
+    return "※5桁以上で入力してください";
+  }
   return null;
 };
 
@@ -9,8 +12,8 @@ export const validatePassword = (value) => {
   if (!/^[a-zA-Z0-9.-]+$/.test(value)) {
     return "※半角英数字を入力してください";
   }
-  if (value.length < 8) {
-    return "※パスワードは8文字以上で設定してください";
+  if (value.length < 5) {
+    return "※パスワードは5文字以上で入力してください";
   }
   return null;
 };

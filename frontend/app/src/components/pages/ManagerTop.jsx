@@ -89,7 +89,7 @@ const ManagerTop = () => {
   }, [storeNumber]);
 
   return (
-    <div className="flex flex-col items-center bg-sky-100 dark:bg-black dark:text-white h-auto">
+    <div className="flex flex-col pb-40 pt-16 items-center bg-sky-100 dark:bg-black dark:text-white h-auto">
       <div className="flex justify-center pt-10 font-mono">ManagerTop</div>
       <div className="pb-5 pt-10">
         <HomeMoveButton
