@@ -59,7 +59,7 @@ const StoreCreate = () => {
   };
 
   return (
-    <div className="pt-24 h-screen dark:bg-black">
+    <div className="pt-24 h-auto sm:pb-40 pb-20 bg-sky-100 dark:bg-black">
       <FadeIn delay={50}>
         <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
           <h1>新規店舗登録</h1>

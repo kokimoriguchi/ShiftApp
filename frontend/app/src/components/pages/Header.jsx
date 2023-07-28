@@ -34,7 +34,7 @@ const Header = () => {
       <div className="flex justify-between pt-4 px-8">
         <div className="h-full text-center">
           <p className="font-mono sm:text-2xl sm:pt-0 pt-0.5 text-base dark:text-white">
-            {auth ? `${storeName}:${employeeName}` : `Shift-App`}
+            {auth ? `${storeName}:${employeeName}` : `ShiftHub`}
           </p>
         </div>
 
@@ -69,7 +69,7 @@ const Header = () => {
                     sideOpen ? "translate-x-0" : "translate-x-full"
                   }`}
                 >
-                  <div className="z-50 mx-auto h-full bg-sky-500 dark:bg-black sm:dark:bg-opacity-80 sm:bg-opacity-80">
+                  <div className="z-50 mx-auto h-full bg-sky-800 dark:bg-black sm:dark:bg-opacity-80 sm:bg-opacity-80">
                     <div className="flex justify-center pt-5">
                       {isManager && auth ? (
                         <HamburgerMenuManager

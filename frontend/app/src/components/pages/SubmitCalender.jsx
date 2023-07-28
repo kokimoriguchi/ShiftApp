@@ -116,7 +116,7 @@ const SubmitCalender = () => {
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
   if (!data) {
     return (
-      <div className="h-screen dark:bg-black">
+      <div className="h-auto dark:bg-black">
         <div className="pt-72 text-center dark:text-white">
           今は提出できる月のシフトがありません🙇
         </div>
@@ -125,7 +125,7 @@ const SubmitCalender = () => {
   }
 
   return (
-    <div className="h-screen dark:bg-black">
+    <div className="h-screen bg-sky-100 dark:bg-black">
       <div className="m-auto w-5/6 pt-5">
         <div className="flex flex-row justify-center sm:block sm:h-24 h-10 text-center dark:bg-sky-800 bg-sky-300 text-white border-2">
           <h1 className="sm:pt-5 pr-3 sm:pr-0 font-mono font-extrabold">

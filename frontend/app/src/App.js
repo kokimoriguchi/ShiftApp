@@ -15,6 +15,7 @@ import ManagerTop from "./components/pages/ManagerTop";
 import EmployeeLogin from "./components/pages/EmployeeLogin";
 import EmployeeTop from "./components/pages/EmployeeTop";
 import ConfirmShiftCalender from "./components/pages/ConfirmShiftCalender";
+import Footer from "./components/pages/Footer";
 
 function AllRoutes() {
   const { auth, isManager } = useContext(AuthContext);
@@ -57,12 +58,15 @@ function AllRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Header />
-        <AllRoutes />
-      </Router>
-    </AuthProvider>
+    <div className="min-h-screen dark:bg-black">
+      <AuthProvider>
+        <Router>
+          <Header />
+          <AllRoutes />
+          <Footer />
+        </Router>
+      </AuthProvider>
+    </div>
   );
 }
 export default App;

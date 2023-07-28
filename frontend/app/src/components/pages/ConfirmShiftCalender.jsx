@@ -35,7 +35,7 @@ const ConfirmShiftCalender = () => {
   }
 
   return (
-    <div className="h-screen dark:bg-black pt-5 font-mono">
+    <div className="h-auto dark:bg-black bg-sky-100 pt-5 font-mono">
       <div className="w-5/6 m-auto flex">
         {/* 従業員名等の固定テーブル */}
         <table className="w-auto text-center h-10">
