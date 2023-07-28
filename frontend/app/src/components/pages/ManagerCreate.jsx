@@ -1,11 +1,10 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useManagerCreate } from "../hooks/ManagerCreateHook";
 import { FadeIn } from "../hooks/FadeInHook";
 import InputForm from "../hooks/InputForm";
 import NavigateButton from "../hooks/NavigateButton";
 import InputFormButton from "../hooks/InputFromButton";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../hooks/Auth";
 import {
   validateName,
   validateNumber,
@@ -14,7 +13,6 @@ import {
 
 const ManagerCreate = () => {
   const { storeNumber } = useParams();
-  const { storeName } = useContext(AuthContext);
   const [form, setForm] = useState({
     Name: "",
     Number: "",
@@ -23,6 +21,12 @@ const ManagerCreate = () => {
   });
   const managerCreate = useManagerCreate();
 
+  const [formValid, setFormValid] = useState({
+    Name: false,
+    Number: false,
+    Password: false,
+  });
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -30,9 +34,19 @@ const ManagerCreate = () => {
     });
   };
 
+  const handleValidChange = (e) => {
+    setFormValid({
+      ...formValid,
+      [e.target.name]: true,
+    });
+  };
+
   //formボタンで送信すると下記の関数呼び出してその後stateを空にする。
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formValid.Number || !formValid.Password) {
+      return; // 無効な入力値がある場合、処理を中止
+    }
     const employeeData = {
       name: form.Name,
       number: form.Number,
@@ -44,6 +58,11 @@ const ManagerCreate = () => {
       Name: "",
       Number: "",
       Password: "",
+    });
+    setFormValid({
+      Name: false,
+      Number: false,
+      Password: false,
     });
   };
 
@@ -67,7 +86,7 @@ const ManagerCreate = () => {
               value={form.Name}
               onChange={handleChange}
               validator={validateName}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
@@ -78,7 +97,7 @@ const ManagerCreate = () => {
               value={form.Number}
               onChange={handleChange}
               validator={validateNumber}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={300}>
@@ -89,11 +108,23 @@ const ManagerCreate = () => {
               value={form.Password}
               onChange={handleChange}
               validator={validatePassword}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={400}>
-            <InputFormButton type={"submit"} ButtonName={"登録"} />
+            <InputFormButton
+              type={
+                formValid.Name && formValid.Number && formValid.Password
+                  ? "submit"
+                  : "button"
+              }
+              ButtonName={"登録"}
+              isValid={
+                formValid.Name && formValid.Number && formValid.Password
+                  ? true
+                  : false
+              }
+            />
           </FadeIn>
         </form>
       </div>

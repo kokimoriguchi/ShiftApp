@@ -7,16 +7,29 @@ import InputFormButton from "../hooks/InputFromButton";
 import { validateNumber, validatePassword } from "../hooks/Validators";
 
 const EmployeeLogin = () => {
+  const login = useManagerLogin();
   const [form, setForm] = useState({
     Number: "",
     Password: "",
   });
-  const login = useManagerLogin();
 
+  const [formValid, setFormValid] = useState({
+    Number: false,
+    Password: false,
+  });
+
+  //validateが通った場合にstateを更新する。
   const handleChange = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleValidChange = (e) => {
+    setFormValid({
+      ...formValid,
+      [e.target.name]: true,
     });
   };
 
@@ -31,6 +44,10 @@ const EmployeeLogin = () => {
     setForm({
       Number: "",
       Password: "",
+    });
+    setFormValid({
+      Number: false,
+      Password: false,
     });
   };
 
@@ -54,7 +71,7 @@ const EmployeeLogin = () => {
               value={form.Number}
               onChange={handleChange}
               validator={validateNumber}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
@@ -65,11 +82,17 @@ const EmployeeLogin = () => {
               value={form.Password}
               onChange={handleChange}
               validator={validatePassword}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={300}>
-            <InputFormButton type={"submit"} ButtonName={"login"} />
+            <InputFormButton
+              type={
+                formValid.Number && formValid.Password ? "submit" : "button"
+              }
+              ButtonName={"login"}
+              isValid={formValid.Number && formValid.Password ? true : false}
+            />
           </FadeIn>
         </form>
       </div>

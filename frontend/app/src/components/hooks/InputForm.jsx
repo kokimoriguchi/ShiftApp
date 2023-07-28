@@ -12,6 +12,7 @@ const InputForm = ({
 }) => {
   const [error, setError] = useState(null);
 
+  //onchangeで下記のバリデーションを行い、成功していればonValidChangeで受け取った関数を実行する流れ
   const checkValidate = (e) => {
     const value = e.target.value;
     const error = validator(value);

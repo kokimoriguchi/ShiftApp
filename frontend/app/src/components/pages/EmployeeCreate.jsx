@@ -23,6 +23,13 @@ const EmployeeCreate = () => {
   });
   const employeeCreate = useEmployeeCreate();
 
+  const [formValid, setFormValid] = useState({
+    Name: false,
+    Number: false,
+    Password: false,
+  });
+
+  //validateが通った場合にstateを更新する。
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -30,20 +37,36 @@ const EmployeeCreate = () => {
     });
   };
 
+  const handleValidChange = (e) => {
+    setFormValid({
+      ...formValid,
+      [e.target.name]: true,
+    });
+  };
+
   //formボタンで送信すると下記の関数呼び出してその後stateを空にする。
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formValid.Name || !formValid.Number || !formValid.Password) {
+      return; // 無効な入力値がある場合、処理を中止
+    }
     const employeeData = {
       name: form.Name,
       number: form.Number,
       password: form.Password,
       store_number: storeNumber,
     };
+    console.log(employeeData);
     await employeeCreate(employeeData);
     setForm({
       Name: "",
       Number: "",
       Password: "",
+    });
+    setFormValid({
+      Name: false,
+      Number: false,
+      Password: false,
     });
   };
 
@@ -67,7 +90,7 @@ const EmployeeCreate = () => {
               value={form.Name}
               onChange={handleChange}
               validator={validateName}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
@@ -78,7 +101,7 @@ const EmployeeCreate = () => {
               value={form.Number}
               onChange={handleChange}
               validator={validateNumber}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={300}>
@@ -89,11 +112,23 @@ const EmployeeCreate = () => {
               value={form.Password}
               onChange={handleChange}
               validator={validatePassword}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={500}>
-            <InputFormButton type={"submit"} ButtonName={"新規登録"} />
+            <InputFormButton
+              type={
+                formValid.Name && formValid.Number && formValid.Password
+                  ? "submit"
+                  : "button"
+              }
+              isValid={
+                formValid.Name && formValid.Number && formValid.Password
+                  ? true
+                  : false
+              }
+              ButtonName={"新規登録"}
+            />
           </FadeIn>
         </form>
       </div>

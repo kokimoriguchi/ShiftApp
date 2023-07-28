@@ -10,11 +10,15 @@ const StoreCreate = () => {
   const [form, setForm] = useState({
     Name: "",
     Number: "",
-    Password: "",
-    storeNumber: "",
   });
   const storeCreate = useStoreCreate();
 
+  const [formValid, setFormValid] = useState({
+    Name: false,
+    Number: false,
+  });
+
+  //validateが通った場合にstateを更新する。
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -22,9 +26,19 @@ const StoreCreate = () => {
     });
   };
 
+  const handleValidChange = (e) => {
+    setFormValid({
+      ...formValid,
+      [e.target.name]: true,
+    });
+  };
+
   //formボタンで送信すると下記の関数呼び出してその後stateを空にする。
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formValid.Name || !formValid.Number) {
+      return; // 無効な入力値がある場合、処理を中止
+    }
     //ランダムなパスワードを生成する
     const randomPassword = Math.random().toString(36).slice(-8);
 
@@ -37,6 +51,10 @@ const StoreCreate = () => {
     setForm({
       Name: "",
       Number: "",
+    });
+    setFormValid({
+      Name: false,
+      Number: false,
     });
   };
 
@@ -60,7 +78,7 @@ const StoreCreate = () => {
               value={form.Name}
               onChange={handleChange}
               validator={validateName}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={200}>
@@ -71,11 +89,15 @@ const StoreCreate = () => {
               value={form.Number}
               onChange={handleChange}
               validator={validateNumber}
-              onValidChange={handleChange}
+              onValidChange={handleValidChange}
             />
           </FadeIn>
           <FadeIn delay={300}>
-            <InputFormButton type={"submit"} ButtonName={"新規作成"} />
+            <InputFormButton
+              type={formValid.Name && formValid.Number ? "submit" : "button"}
+              ButtonName={"新規作成"}
+              isValid={formValid.Name && formValid.Number ? true : false}
+            />
           </FadeIn>
         </form>
       </div>
