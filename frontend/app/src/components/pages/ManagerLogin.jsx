@@ -52,7 +52,7 @@ const EmployeeLogin = () => {
   };
 
   return (
-    <div className="sm:pt-32 sm:pb-32 pt-20 pb-20 h-auto bg-sky-100 dark:bg-black">
+    <div className="min-h-[500px] sm:min-h-[650px] sm:pt-32 pt-24 h-auto bg-sky-100 dark:bg-black">
       <FadeIn delay={50}>
         <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
           <h1 className="font-mono">Login Manager</h1>

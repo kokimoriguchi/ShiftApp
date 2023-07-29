@@ -132,11 +132,11 @@ const SubmitCalender = () => {
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
   if (!data) {
     return (
-      <div className="h-auto pb-96  bg-sky-100 dark:bg-black">
-        <div className="pt-64 text-center dark:text-white">
+      <div className="h-auto min-h-[500px] sm:min-h-[650px]  bg-sky-100 dark:bg-black">
+        <div className="pt-40 text-center dark:text-white">
           今は提出できる月のシフトがありません🙇
         </div>
-        <div className="flex justify-center pt-20 pb-60">
+        <div className="flex justify-center pt-20">
           <HomeMoveButton onClick={() => navigate(`/staff/${storeNumber}`)}>
             戻る
           </HomeMoveButton>

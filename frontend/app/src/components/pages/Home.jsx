@@ -6,7 +6,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="text-center h-auto pt-5 sm:pt-16 sm:pb-20 bg-sky-100 bg-opacity-95 dark:bg-black dark:text-white">
+    <div className="text-center h-auto sm:pt-16 min-h-[500px] sm:min-h-[650px] bg-sky-100 bg-opacity-95 dark:bg-black dark:text-white">
       <div className="">
         {/* <FadeIn delay={100}> */}
         <h1 className="animate-tracking-in-expand duration-1000 tracking-in-expand  md:text-[100px] md:pt-4 pt-8 text-4xl font-bold font-mono">

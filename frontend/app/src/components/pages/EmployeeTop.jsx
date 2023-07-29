@@ -24,7 +24,7 @@ const EmployeeTop = () => {
   };
 
   return (
-    <div className="flex flex-col sm:pb-60 pb-40 sm:pt-20 items-center bg-sky-100 dark:bg-black dark:text-white h-auto">
+    <div className="flex flex-col min-h-[500px] sm:min-h-[650px] sm:pt-24 pt-10 items-center bg-sky-100 dark:bg-black dark:text-white h-auto">
       <h1 className="font-mono font-extrabold pt-20">StaffTop</h1>
       <div className="pb-5 pt-10">
         <HomeMoveButton onClick={handleCheckUser}>ユーザー確認</HomeMoveButton>
