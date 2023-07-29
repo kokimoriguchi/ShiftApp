@@ -35,6 +35,9 @@ Rails.application.routes.draw do
       #managerのシフトupdateのroutes
       put "update_shift/:id", to: "manager_shifts#update_shift"
 
+      #managerの従業員一覧取得のroute
+      get "get_employees/:store_number", to: "managers#get_employees"
+
       #確定しているシフトの取得のroutes
       get "get_approve_month/:store_number", to: "confirm_shifts#get_approve_month"
 

@@ -1,7 +1,7 @@
 class Api::V1::ManagersController < ApplicationController
   include Authentication
   before_action :authenticate_manager, only: [:get_employees]
-  before_action :set_store, only: [:create, :get_employees]
+  before_action :set_store, only: [:create]
 
   def create
     # storeが存在し、そのstoreにmanagerが存在しない場合はemployeesに保存しトークンを返す
@@ -20,8 +20,9 @@ class Api::V1::ManagersController < ApplicationController
   end
 
   def get_employees
-    employees = @store.employees.where(is_manager: false)
-    render json: { status: "success", data: employees }
+    store = Store.find_by(number: params[:store_number])
+    employees = store.employees.where(is_manager: false)
+    render json: { status: "success", employees: employees }
   end
 
   private

@@ -7,6 +7,7 @@ import baseAxios from "../hooks/Axios";
 import ConfirmationModal from "../hooks/ConfirmationModal";
 import { AuthContext } from "../hooks/Auth";
 import AccordionItem from "../hooks/AccordionItem";
+import createApproveMonth from "../hooks/CreateApproveMonth";
 
 const ManagerTop = () => {
   const { storeName } = useContext(AuthContext);
@@ -45,35 +46,6 @@ const ManagerTop = () => {
     console.log("done");
   };
 
-  const createApproveMonth = async () => {
-    const nextMonth = new Date();
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
-    const year = nextMonth.getFullYear();
-    const month = nextMonth.getMonth() + 1;
-
-    const confirmResult = window.confirm(
-      `次の月の${year}年${month}月としてシフトを作成しますか？`
-    );
-
-    if (confirmResult) {
-      try {
-        const response = await baseAxios.post("approve_months", {
-          year,
-          month,
-        });
-
-        if (response.data.status === "success") {
-          alert("シフト作成許可が完了しました。");
-        } else {
-          alert(response.data.message);
-        }
-      } catch (error) {
-        console.error(error);
-        alert("シフト作成許可に失敗しました。");
-      }
-    }
-  };
-
   useEffect(() => {
     //ここでrailsのAPIのget_approve_month/:store_numberを叩いて、月と年を取得する
     const getApproveMonths = async () => {
@@ -101,7 +73,7 @@ const ManagerTop = () => {
     <div className="flex flex-col sm:pb-20 pb-10 sm:pt-16 items-center bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[500px] sm:min-h-[650px]">
       {/* PCサイズ */}
       <div className="lg:flex flex-col w-3/5 hidden">
-        <div className="flex justify-center pt-5 font-mono text-2xl">
+        <div className="flex justify-center pt-5 font-mono text-2xl animate-tracking-in-expand duration-1000 tracking-in-expand">
           ManagerTop
         </div>
 
@@ -117,12 +89,12 @@ const ManagerTop = () => {
             <HomeMoveButton onClick={() => setModalOpen(true)}>
               確定シフト一覧
             </HomeMoveButton>
-            <HomeMoveButton onClick={createApproveMonth}>
+            <HomeMoveButton onClick={() => createApproveMonth()}>
               シフト作成許可
             </HomeMoveButton>
           </div>
         </div>
-        <div className="pt-20">
+        <div className="pt-10">
           <p className="font-mono">Staff Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
           <div className="grid grid-cols-3 pt-8">
@@ -130,11 +102,26 @@ const ManagerTop = () => {
               onClick={() =>
                 navigate(`/manager/${storeNumber}/create/employee`)
               }
+              className="col-span-2"
             >
               新規スタッフ登録
             </HomeMoveButton>
+            {/* <HomeMoveButton>スキル登録</HomeMoveButton> */}
+            <HomeMoveButton
+              onClick={() =>
+                navigate(`/manager/${storeNumber}/index/employees`)
+              }
+            >
+              スタッフ一覧表示
+            </HomeMoveButton>
+          </div>
+        </div>
+        <div className="pt-10">
+          <p className="font-mono">Store Management</p>
+          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
+          <div className="grid grid-cols-3 pt-8">
             <HomeMoveButton>スキル登録</HomeMoveButton>
-            <HomeMoveButton>スタッフ一覧表示</HomeMoveButton>
+            <HomeMoveButton>スキル一覧表示</HomeMoveButton>
           </div>
         </div>
       </div>
@@ -144,7 +131,7 @@ const ManagerTop = () => {
         <div className="flex justify-center pt-5 font-mono text-2xl">
           ManagerTop
         </div>
-        <div className="pt-14">
+        <div className="pt-20">
           <AccordionItem title="シフト管理">
             <HomeMoveButton
               onClick={() => navigate(`/manager/${storeNumber}/edit`)}
@@ -154,7 +141,7 @@ const ManagerTop = () => {
             <HomeMoveButton onClick={() => setModalOpen(true)}>
               確定シフト一覧
             </HomeMoveButton>
-            <HomeMoveButton onClick={createApproveMonth}>
+            <HomeMoveButton onClick={() => createApproveMonth()}>
               シフト作成許可
             </HomeMoveButton>
           </AccordionItem>
@@ -166,17 +153,24 @@ const ManagerTop = () => {
               onClick={() =>
                 navigate(`/manager/${storeNumber}/create/employee`)
               }
+              className="col-span-2"
             >
               新規スタッフ登録
             </HomeMoveButton>
-            <HomeMoveButton>スキル登録</HomeMoveButton>
-            <HomeMoveButton>スタッフ一覧表示</HomeMoveButton>
+            <HomeMoveButton
+              onClick={() =>
+                navigate(`/manager/${storeNumber}/index/employees`)
+              }
+            >
+              スタッフ一覧表示
+            </HomeMoveButton>
           </AccordionItem>
         </div>
-        <div className="pt-10 m-auto">
-          <HomeMoveButton onClick={handleClickLogout}>
-            ログアウト
-          </HomeMoveButton>
+        <div className="pt-10">
+          <AccordionItem title="店舗管理">
+            <HomeMoveButton>スキル登録</HomeMoveButton>
+            <HomeMoveButton>スキル一覧表示</HomeMoveButton>
+          </AccordionItem>
         </div>
       </div>
 

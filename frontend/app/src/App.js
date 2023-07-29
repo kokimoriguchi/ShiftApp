@@ -15,6 +15,7 @@ import ManagerTop from "./components/pages/ManagerTop";
 import EmployeeLogin from "./components/pages/EmployeeLogin";
 import EmployeeTop from "./components/pages/EmployeeTop";
 import ConfirmShiftCalender from "./components/pages/ConfirmShiftCalender";
+import ManagerIndexEmployees from "./components/pages/ManagerIndexEmployees";
 import Footer from "./components/pages/Footer";
 
 function AllRoutes() {
@@ -24,6 +25,12 @@ function AllRoutes() {
       <Route
         path="/manager/:storeNumber/edit"
         element={auth && isManager ? <Calender /> : <ManagerLogin />}
+      />
+      <Route
+        path="/manager/:storeNumber/index/employees"
+        element={
+          auth && isManager ? <ManagerIndexEmployees /> : <ManagerLogin />
+        }
       />
       <Route
         path="/manager/:storeNumber/create/employee"
