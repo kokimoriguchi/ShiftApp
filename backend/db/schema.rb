@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_16_115436) do
+ActiveRecord::Schema.define(version: 2023_07_29_062023) do
 
   create_table "approve_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "store_id", null: false
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 2023_07_16_115436) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["store_id"], name: "index_approve_months_on_store_id"
+  end
+
+  create_table "employee_skills", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "skill_id", null: false
+    t.bigint "employee_id", null: false
+    t.integer "level", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_id"], name: "index_employee_skills_on_employee_id"
+    t.index ["skill_id"], name: "index_employee_skills_on_skill_id"
   end
 
   create_table "employees", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -59,6 +69,14 @@ ActiveRecord::Schema.define(version: 2023_07_16_115436) do
     t.index ["shift_date_id"], name: "index_shift_times_on_shift_date_id"
   end
 
+  create_table "skills", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "store_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_skills_on_store_id"
+  end
+
   create_table "stores", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.integer "number", null: false
@@ -71,8 +89,11 @@ ActiveRecord::Schema.define(version: 2023_07_16_115436) do
   end
 
   add_foreign_key "approve_months", "stores"
+  add_foreign_key "employee_skills", "employees"
+  add_foreign_key "employee_skills", "skills"
   add_foreign_key "employees", "stores"
   add_foreign_key "employer_shifts", "employees"
   add_foreign_key "employer_shifts", "shift_dates"
   add_foreign_key "shift_times", "shift_dates"
+  add_foreign_key "skills", "stores"
 end
