@@ -7,8 +7,9 @@ const ConfirmationModal = ({
   month,
   closeModal,
   button,
-  number,
+  storeName,
   handle,
+  errorMessage,
   children,
 }) => {
   return (
@@ -24,7 +25,7 @@ const ConfirmationModal = ({
         </div>
         <div>
           <h2 className="text-xl font-bold font-mono text-center">
-            Store {number}
+            Store {storeName}
           </h2>
           <h2 className="text-xl font-bold font-mono text-center pt-4">
             {children ? children : `${year}/${month}`}
@@ -36,6 +37,9 @@ const ConfirmationModal = ({
         <div className="flex justify-center pt-5">
           <HomeMoveButton onClick={handle}>{button}</HomeMoveButton>
         </div>
+        <p className="pt-1 text-center text-red-500 font-mono text-sm">
+          {errorMessage}
+        </p>
       </div>
     </div>
   );

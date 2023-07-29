@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLogout } from "../hooks/LogoutHook";
 import baseAxios from "../hooks/Axios";
 import ConfirmationModal from "../hooks/ConfirmationModal";
+import { AuthContext } from "../hooks/Auth";
 
 const ManagerTop = () => {
+  const { storeName } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const { storeNumber } = useParams();
@@ -21,9 +24,14 @@ const ManagerTop = () => {
 
   const handleConfirmation = () => {
     // handleConfirmation関数の中で選択した年と月を使用
-    navigate(`/${storeNumber}/calender/${selectedYear}/${selectedMonth}`);
-    console.log(selectedYear, selectedMonth);
-    closeModal();
+    if (selectedYear && selectedMonth) {
+      navigate(`/${storeNumber}/calender/${selectedYear}/${selectedMonth}`);
+      console.log(selectedYear, selectedMonth);
+      closeModal();
+    } else {
+      // 年と月が選択されていない場合にエラーメッセージを設定
+      setErrorMessage("年と月を選択してください");
+    }
   };
 
   //モーダルを閉じる
@@ -89,7 +97,7 @@ const ManagerTop = () => {
   }, [storeNumber]);
 
   return (
-    <div className="flex flex-col pb-40 pt-16 items-center bg-sky-100 dark:bg-black dark:text-white h-auto">
+    <div className="flex flex-col sm:pb-40 pb-10 sm:pt-16 items-center bg-sky-100 dark:bg-black dark:text-white h-auto">
       <div className="flex justify-center pt-10 font-mono">ManagerTop</div>
       <div className="pb-5 pt-10">
         <HomeMoveButton
@@ -123,8 +131,9 @@ const ManagerTop = () => {
         <ConfirmationModal
           closeModal={closeModal}
           button={"表示する"}
-          number={storeNumber}
+          storeName={storeName}
           handle={handleConfirmation}
+          errorMessage={errorMessage}
         >
           <div>
             <label>

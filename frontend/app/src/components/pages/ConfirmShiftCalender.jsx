@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useGetEmployeeShifts } from "../hooks/GetShiftDataHook";
 import { getDaysInMonth, week } from "../data/Date";
 import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
+import { HomeMoveButton } from "../hooks/HomeMoveButton";
 
 const ConfirmShiftCalender = () => {
   const navigate = useNavigate();
@@ -32,6 +33,15 @@ const ConfirmShiftCalender = () => {
     const hours = date.getUTCHours().toString().padStart(2, "0");
     const minutes = date.getUTCMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
+  }
+
+  if (!year || !month) {
+    return (
+      <div className="py-32">
+        <div>確定しているシフトはありません🙇</div>
+        <HomeMoveButton onClick={() => navigate("/")} />
+      </div>
+    );
   }
 
   return (

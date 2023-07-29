@@ -9,6 +9,8 @@ import { getShiftData } from "../hooks/useGetShiftDataHook";
 import ModalManager from "../hooks/ModalManager";
 import ConfirmationModal from "../hooks/ConfirmationModal";
 import ConfirmShift from "../hooks/ConfirmShift";
+import Loading from "../hooks/Loading";
+import { HomeMoveButton } from "../hooks/HomeMoveButton";
 
 const Calender = () => {
   const { employees, getEmployees } = useGetEmployeeShifts();
@@ -27,6 +29,7 @@ const Calender = () => {
   const [workId, setWorkId] = useState(null);
   const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
   const [noAvailableShifts, setNoAvailableShifts] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   //シフト提出可能な年月を取得しstateに保存
   useEffect(() => {
@@ -34,10 +37,14 @@ const Calender = () => {
       const result = await getSubmitMonth();
       // 結果が存在するか確認します
       if (result && result.data && result.data[0]) {
+        setTimeout(() => {
+          setLoading(false); // データ取得成功時に loading を false に設定
+        }, 500);
         setShiftMonthData(result.data[0].month);
         setShiftYearData(result.data[0].year);
       } else {
         // 提出可能なシフトが存在しないとマークします
+        setLoading(false);
         setNoAvailableShifts(true);
       }
     };
@@ -114,15 +121,26 @@ const Calender = () => {
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
 
   return (
     <div className="h-auto dark:bg-black bg-sky-100 pt-5 font-mono">
       {/* もし提出可能なシフトが存在しない場合はメッセージを表示します */}
       {noAvailableShifts ? (
-        <div className="dark:text-white text-center pt-40 font-mono">
-          <div>編集可能なシフトはありません</div>
-          <div>シフト作成をするには次のシフト提出を許可してください</div>
+        <div className="h-auto bg-sky-100 dark:bg-black">
+          <div className="pt-64 text-center dark:text-white">
+            <p>編集可能なシフトが存在しません。</p>
+            <p>次のシフト作成を許可してください。</p>
+          </div>
+          <div className="flex justify-center pt-20 pb-60">
+            <HomeMoveButton onClick={() => navigate(`/manager/${storeNumber}`)}>
+              戻る
+            </HomeMoveButton>
+          </div>
         </div>
       ) : (
         <>

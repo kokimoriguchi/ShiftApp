@@ -12,6 +12,8 @@ import CalenderRender from "../hooks/CalenderRender";
 import Modal from "../hooks/Modal";
 import { SubmitShift } from "../hooks/SubmitShift";
 import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
+import Loading from "../hooks/Loading";
+import { HomeMoveButton } from "../hooks/HomeMoveButton";
 
 const SubmitCalender = () => {
   const [data, setData] = useState(null);
@@ -22,6 +24,7 @@ const SubmitCalender = () => {
   const [shiftDates, setShiftDates] = useState([]);
   const navigate = useNavigate();
   const { storeNumber } = useParams();
+  const [loading, setLoading] = useState(true);
 
   //shiftDatesにデータがあれば、その日のシフト時間を描画する。
   const renderShiftData = (date) => {
@@ -107,25 +110,43 @@ const SubmitCalender = () => {
   //シフト提出可能な月のデータを取得する
   useEffect(() => {
     const submitMonthData = async () => {
-      const result = await getSubmitMonth();
-      setData(result.data[0]);
+      setLoading(true); // データ取得開始時に loading を true に設定
+      try {
+        const result = await getSubmitMonth();
+        setData(result.data[0]);
+        setTimeout(() => {
+          setLoading(false); // データ取得成功時に loading を false に設定
+        }, 500);
+      } catch (error) {
+        setLoading(false); // データ取得失敗時にも loading を false に設定
+      }
     };
     submitMonthData();
   }, [getSubmitMonth]);
 
+  // データが取得中の場合、ローディングメッセージを表示
+  if (loading) {
+    return <Loading />;
+  }
+
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
   if (!data) {
     return (
-      <div className="h-auto dark:bg-black">
-        <div className="pt-72 text-center dark:text-white">
+      <div className="h-auto pb-96  bg-sky-100 dark:bg-black">
+        <div className="pt-64 text-center dark:text-white">
           今は提出できる月のシフトがありません🙇
+        </div>
+        <div className="flex justify-center pt-20 pb-60">
+          <HomeMoveButton onClick={() => navigate(`/staff/${storeNumber}`)}>
+            戻る
+          </HomeMoveButton>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-sky-100 dark:bg-black">
+    <div className="h-auto sm:pt-8 sm:pb-6 bg-sky-100 dark:bg-black">
       <div className="m-auto w-5/6 pt-5">
         <div className="flex flex-row justify-center sm:block sm:h-24 h-10 text-center dark:bg-sky-800 bg-sky-300 text-white border-2">
           <h1 className="sm:pt-5 pr-3 sm:pr-0 font-mono font-extrabold">
@@ -169,7 +190,7 @@ const SubmitCalender = () => {
             year={selectedDate.year}
           />
         )}
-        <div className="flex justify-between py-8">
+        <div className="flex justify-between sm:py-8 py-3">
           <SubmitFlexButton
             type={"back"}
             onClick={() => navigate(`/staff/${storeNumber}`)}
