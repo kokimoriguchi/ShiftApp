@@ -1,4 +1,4 @@
-# ShiftApp
+# ShiftHub
 
 <br>
 
@@ -94,7 +94,7 @@ https://web.realworld-demo.com
 
 ## ER 図
 
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2741017/298e20b1-b220-88fc-cd1b-7f983a5e622e.png">
+<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2741017/b98f5762-2f3c-889f-3aa0-1d9a7283da0d.png">
 
 <br>
 
