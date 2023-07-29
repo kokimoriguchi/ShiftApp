@@ -6,6 +6,7 @@ import { useLogout } from "../hooks/LogoutHook";
 import baseAxios from "../hooks/Axios";
 import ConfirmationModal from "../hooks/ConfirmationModal";
 import { AuthContext } from "../hooks/Auth";
+import AccordionItem from "../hooks/AccordionItem";
 
 const ManagerTop = () => {
   const { storeName } = useContext(AuthContext);
@@ -97,34 +98,86 @@ const ManagerTop = () => {
   }, [storeNumber]);
 
   return (
-    <div className="flex flex-col sm:pb-40 pb-10 sm:pt-16 items-center bg-sky-100 dark:bg-black dark:text-white h-auto">
-      <div className="flex justify-center pt-10 font-mono">ManagerTop</div>
-      <div className="pb-5 pt-10">
-        <HomeMoveButton
-          onClick={() => navigate(`/manager/${storeNumber}/edit`)}
-        >
-          シフト編集
-        </HomeMoveButton>
+    <div className="flex flex-col sm:pb-20 pb-10 sm:pt-16 items-center bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[500px] sm:min-h-[650px]">
+      {/* PCサイズ */}
+      <div className="lg:flex flex-col w-3/5 hidden">
+        <div className="flex justify-center pt-5 font-mono text-2xl">
+          ManagerTop
+        </div>
+
+        <div className="pt-10">
+          <p className="font-mono">Shift Management</p>
+          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
+          <div className="grid grid-cols-3 justify-center pt-8">
+            <HomeMoveButton
+              onClick={() => navigate(`/manager/${storeNumber}/edit`)}
+            >
+              シフト編集
+            </HomeMoveButton>
+            <HomeMoveButton onClick={() => setModalOpen(true)}>
+              確定シフト一覧
+            </HomeMoveButton>
+            <HomeMoveButton onClick={createApproveMonth}>
+              シフト作成許可
+            </HomeMoveButton>
+          </div>
+        </div>
+        <div className="pt-20">
+          <p className="font-mono">Staff Management</p>
+          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
+          <div className="grid grid-cols-3 pt-8">
+            <HomeMoveButton
+              onClick={() =>
+                navigate(`/manager/${storeNumber}/create/employee`)
+              }
+            >
+              新規スタッフ登録
+            </HomeMoveButton>
+            <HomeMoveButton>スキル登録</HomeMoveButton>
+            <HomeMoveButton>スタッフ一覧表示</HomeMoveButton>
+          </div>
+        </div>
       </div>
-      <div className="pb-5">
-        <HomeMoveButton onClick={() => setModalOpen(true)}>
-          確定シフト一覧
-        </HomeMoveButton>
-      </div>
-      <div className="pb-5">
-        <HomeMoveButton
-          onClick={() => navigate(`/manager/${storeNumber}/create/employee`)}
-        >
-          新規スタッフ登録
-        </HomeMoveButton>
-      </div>
-      <div className="pb-5">
-        <HomeMoveButton onClick={createApproveMonth}>
-          シフト作成許可
-        </HomeMoveButton>
-      </div>
-      <div>
-        <HomeMoveButton onClick={handleClickLogout}>ログアウト</HomeMoveButton>
+
+      {/* モバイルサイズ */}
+      <div className="lg:hidden">
+        <div className="flex justify-center pt-5 font-mono text-2xl">
+          ManagerTop
+        </div>
+        <div className="pt-14">
+          <AccordionItem title="シフト管理">
+            <HomeMoveButton
+              onClick={() => navigate(`/manager/${storeNumber}/edit`)}
+            >
+              シフト編集
+            </HomeMoveButton>
+            <HomeMoveButton onClick={() => setModalOpen(true)}>
+              確定シフト一覧
+            </HomeMoveButton>
+            <HomeMoveButton onClick={createApproveMonth}>
+              シフト作成許可
+            </HomeMoveButton>
+          </AccordionItem>
+        </div>
+
+        <div className="pt-10">
+          <AccordionItem title="スタッフ管理">
+            <HomeMoveButton
+              onClick={() =>
+                navigate(`/manager/${storeNumber}/create/employee`)
+              }
+            >
+              新規スタッフ登録
+            </HomeMoveButton>
+            <HomeMoveButton>スキル登録</HomeMoveButton>
+            <HomeMoveButton>スタッフ一覧表示</HomeMoveButton>
+          </AccordionItem>
+        </div>
+        <div className="pt-10 m-auto">
+          <HomeMoveButton onClick={handleClickLogout}>
+            ログアウト
+          </HomeMoveButton>
+        </div>
       </div>
 
       {modalOpen && (
