@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
 import { useEffect, useState, useContext } from "react";
-import { useLogout } from "../hooks/LogoutHook";
 import baseAxios from "../hooks/Axios";
 import ConfirmationModal from "../hooks/ConfirmationModal";
 import { AuthContext } from "../hooks/Auth";
@@ -15,7 +14,6 @@ const ManagerTop = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const { storeNumber } = useParams();
-  const logout = useLogout();
 
   const [approveMonths, setApproveMonths] = useState();
   const [selectedYear, setSelectedYear] = useState(""); // 選択した年
@@ -39,11 +37,6 @@ const ManagerTop = () => {
   //モーダルを閉じる
   const closeModal = () => {
     setModalOpen(false);
-  };
-
-  const handleClickLogout = () => {
-    logout();
-    console.log("done");
   };
 
   useEffect(() => {

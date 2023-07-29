@@ -128,7 +128,7 @@ const Calender = () => {
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
 
   return (
-    <div className="h-auto dark:bg-black bg-sky-100 pt-5 font-mono">
+    <div className="h-auto min-h-[500px] sm:min-h-[650px] dark:bg-black bg-sky-100 pt-5 font-mono">
       {/* もし提出可能なシフトが存在しない場合はメッセージを表示します */}
       {noAvailableShifts ? (
         <div className="h-auto bg-sky-100 dark:bg-black">

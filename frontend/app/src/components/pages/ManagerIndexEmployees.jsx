@@ -1,36 +1,35 @@
 import getEmployeesBelongsToStore from "../hooks/GetEmployeesBelongsToStore";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { GoPersonFill } from "react-icons/go";
 import Loading from "../hooks/Loading";
 import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
 
 const ManagerIndexEmployees = () => {
   const [employees, setEmployees] = useState([]);
-  const [selectedEmployees, setSelectedEmployees] = useState([]);
-  const [allSelected, setAllSelected] = useState(false);
+  // const [selectedEmployees, setSelectedEmployees] = useState([]);
+  // const [allSelected, setAllSelected] = useState(false);
   const { storeNumber } = useParams();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleSelectAll = (e) => {
-    setAllSelected(e.target.checked);
-    if (e.target.checked) {
-      setSelectedEmployees(employees);
-    } else {
-      setSelectedEmployees([]);
-    }
-  };
+  // const handleSelectAll = (e) => {
+  //   setAllSelected(e.target.checked);
+  //   if (e.target.checked) {
+  //     setSelectedEmployees(employees);
+  //   } else {
+  //     setSelectedEmployees([]);
+  //   }
+  // };
 
-  const handleSelect = (e, employee) => {
-    if (e.target.checked) {
-      setSelectedEmployees([...selectedEmployees, employee]);
-    } else {
-      setSelectedEmployees(
-        selectedEmployees.filter((selected) => selected.id !== employee.id)
-      );
-    }
-  };
+  // const handleSelect = (e, employee) => {
+  //   if (e.target.checked) {
+  //     setSelectedEmployees([...selectedEmployees, employee]);
+  //   } else {
+  //     setSelectedEmployees(
+  //       selectedEmployees.filter((selected) => selected.id !== employee.id)
+  //     );
+  //   }
+  // };
 
   useEffect(() => {
     const getEmployees = async () => {
