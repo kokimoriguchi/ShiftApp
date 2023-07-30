@@ -5,7 +5,7 @@ class Api::V1::SkillsController < ApplicationController
 
   def create
     begin
-      skill = Skill.new(skill_params)
+      skill = Skill.new(skill_params.merge({store_id: @store.id}))
       skill.save!
       render json: { status: "success", message: "Skill created successfully." }, status: 200
     rescue => e
@@ -15,6 +15,10 @@ class Api::V1::SkillsController < ApplicationController
 
   private
   def set_store
-    @store = Store.find(params[:store_id])
+    @store = Store.find_by(number: params[:store_number])
+  end
+
+  def skill_params
+    params.require(:skill).permit(:name)
   end
 end

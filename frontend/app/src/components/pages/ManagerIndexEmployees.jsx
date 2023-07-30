@@ -53,11 +53,7 @@ const ManagerIndexEmployees = () => {
       <table className="w-3/5 h-auto max-h-[450] mt-10 m-auto">
         <thead className="">
           <tr className="border-b border-slate-300 dark:text-white font-mono">
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
+            <th>Select</th>
             <th>Name</th>
             <th>Number</th>
             <th>skill</th>

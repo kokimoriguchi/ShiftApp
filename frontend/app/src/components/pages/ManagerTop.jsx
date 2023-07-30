@@ -7,12 +7,16 @@ import ConfirmationModal from "../hooks/ConfirmationModal";
 import { AuthContext } from "../hooks/Auth";
 import AccordionItem from "../hooks/AccordionItem";
 import createApproveMonth from "../hooks/CreateApproveMonth";
+import ModalGeneral from "../hooks/ModalGeneral";
+import CreateSkill from "../hooks/CreateSkill";
 
 const ManagerTop = () => {
   const { storeName } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [skillModalOpen, setSkillModalOpen] = useState(false);
+  const [skillName, setSkillName] = useState("");
   const { storeNumber } = useParams();
 
   const [approveMonths, setApproveMonths] = useState();
@@ -37,6 +41,19 @@ const ManagerTop = () => {
   //モーダルを閉じる
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  //skillモーダルを閉じる
+  const closeSkillModal = () => {
+    setSkillModalOpen(false);
+  };
+
+  //スキルを作成する
+  const handleSkillCreate = async () => {
+    const response = await CreateSkill(skillName, storeNumber);
+    if (response) {
+      setSkillModalOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -105,7 +122,7 @@ const ManagerTop = () => {
                 navigate(`/manager/${storeNumber}/index/employees`)
               }
             >
-              スタッフ一覧表示
+              登録スタッフ一覧
             </HomeMoveButton>
           </div>
         </div>
@@ -113,8 +130,10 @@ const ManagerTop = () => {
           <p className="font-mono">Store Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
           <div className="grid grid-cols-3 pt-8">
-            <HomeMoveButton>スキル登録</HomeMoveButton>
-            <HomeMoveButton>スキル一覧表示</HomeMoveButton>
+            <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
+              スキル登録
+            </HomeMoveButton>
+            <HomeMoveButton>登録スキル一覧</HomeMoveButton>
           </div>
         </div>
       </div>
@@ -155,18 +174,43 @@ const ManagerTop = () => {
                 navigate(`/manager/${storeNumber}/index/employees`)
               }
             >
-              スタッフ一覧表示
+              登録スタッフ一覧
             </HomeMoveButton>
           </AccordionItem>
         </div>
         <div className="pt-10">
           <AccordionItem title="店舗管理">
-            <HomeMoveButton>スキル登録</HomeMoveButton>
-            <HomeMoveButton>スキル一覧表示</HomeMoveButton>
+            <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
+              スキル登録
+            </HomeMoveButton>
+            <HomeMoveButton>登録スキル一覧</HomeMoveButton>
           </AccordionItem>
         </div>
       </div>
 
+      {/* スキル登録モーダル */}
+      {skillModalOpen && (
+        <ModalGeneral
+          closeModal={closeSkillModal}
+          button={"登録"}
+          storeName={storeName}
+          handle={handleSkillCreate}
+        >
+          <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center">
+              <label className="font-mono">スキル登録</label>
+              <input
+                type="text"
+                className="w-60 h-10 rounded-md border-2 border-gray-400 dark:bg-black dark:text-white"
+                value={skillName}
+                onChange={(e) => setSkillName(e.target.value)}
+              />
+            </div>
+          </div>
+        </ModalGeneral>
+      )}
+
+      {/* 確定シフト一覧モーダル */}
       {modalOpen && (
         <ConfirmationModal
           closeModal={closeModal}
