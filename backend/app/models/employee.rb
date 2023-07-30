@@ -3,6 +3,8 @@ class Employee < ApplicationRecord
   belongs_to :store
   has_many :employer_shifts
   has_many :shift_dates, through: :employer_shifts
+  has_many :employee_skills
+  has_many :skills, through: :employee_skills
   validates :number, format: { with: /\A\d+\z/, message: "半角数字を入力してください" }
   validates :number, length: { minimum: 5, message: "5桁以上で入力してください" }
   validates :password, format: { with: /\A[a-zA-Z0-9.-]+\z/, message: "半角英数字を入力してください" }

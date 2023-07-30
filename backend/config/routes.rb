@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       # skill作成コントローラーのroutes
       post "skill_create/:store_number", to: "skills#create"
       get "skills/:store_number", to: "skills#index"
+      post "employee_add_skills/:employee_id", to: "skills#employee_add_skills"
 
       #ヘルスチェックのroutes
       get "health_check", to: "health_check#index"

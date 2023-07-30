@@ -32,9 +32,11 @@ const ModalGeneral = ({
         <div className="flex flex-col justify-center items-center">
           <p className="py-4 font-bold">{text}</p>
         </div>
-        <div className="flex justify-center pt-5">
-          <HomeMoveButton onClick={handle}>{button}</HomeMoveButton>
-        </div>
+        {button && (
+          <div className="flex justify-center pt-5">
+            <HomeMoveButton onClick={handle}>{button}</HomeMoveButton>
+          </div>
+        )}
         <p className="pt-1 text-center text-red-500 font-mono text-sm">
           {errorMessage}
         </p>

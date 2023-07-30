@@ -1,6 +1,6 @@
 class Api::V1::EmployeesController < ApplicationController
   include Authentication
-  before_action :authenticate_employee, only: [:show]
+  before_action :authenticate_manager, only: [:show]
 
   def show
     # employeesが取得できた場合はユーザー情報を返す
