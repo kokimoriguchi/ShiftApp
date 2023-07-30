@@ -9,6 +9,7 @@ import AccordionItem from "../hooks/AccordionItem";
 import createApproveMonth from "../hooks/CreateApproveMonth";
 import ModalGeneral from "../hooks/ModalGeneral";
 import CreateSkill from "../hooks/CreateSkill";
+import { validateSkillName } from "../hooks/Validators";
 
 const ManagerTop = () => {
   const { storeName } = useContext(AuthContext);
@@ -17,6 +18,7 @@ const ManagerTop = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [skillModalOpen, setSkillModalOpen] = useState(false);
   const [skillName, setSkillName] = useState("");
+  const [skillErrorMessage, setSkillErrorMessage] = useState("");
   const { storeNumber } = useParams();
 
   const [approveMonths, setApproveMonths] = useState();
@@ -48,11 +50,18 @@ const ManagerTop = () => {
     setSkillModalOpen(false);
   };
 
-  //スキルを作成する
+  //バリデート通ればスキルを作成する
   const handleSkillCreate = async () => {
+    const error = validateSkillName(skillName);
+    if (error) {
+      setSkillErrorMessage(error);
+      return;
+    }
     const response = await CreateSkill(skillName, storeNumber);
     if (response) {
       setSkillModalOpen(false);
+      setSkillName("");
+      setSkillErrorMessage("");
     }
   };
 
@@ -116,7 +125,6 @@ const ManagerTop = () => {
             >
               新規スタッフ登録
             </HomeMoveButton>
-            {/* <HomeMoveButton>スキル登録</HomeMoveButton> */}
             <HomeMoveButton
               onClick={() =>
                 navigate(`/manager/${storeNumber}/index/employees`)
@@ -195,13 +203,14 @@ const ManagerTop = () => {
           button={"登録"}
           storeName={storeName}
           handle={handleSkillCreate}
+          errorMessage={skillErrorMessage}
         >
           <div className="flex flex-col items-center">
             <div className="flex flex-col items-center">
               <label className="font-mono">スキル登録</label>
               <input
                 type="text"
-                className="w-60 h-10 rounded-md border-2 border-gray-400 dark:bg-black dark:text-white"
+                className="w-60 h-10 rounded-md border-2 border-gray-400 text-center dark:bg-black dark:text-white"
                 value={skillName}
                 onChange={(e) => setSkillName(e.target.value)}
               />

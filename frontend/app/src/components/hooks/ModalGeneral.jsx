@@ -8,6 +8,7 @@ const ModalGeneral = ({
   storeName,
   handle,
   children,
+  errorMessage,
 }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50">
@@ -34,6 +35,9 @@ const ModalGeneral = ({
         <div className="flex justify-center pt-5">
           <HomeMoveButton onClick={handle}>{button}</HomeMoveButton>
         </div>
+        <p className="pt-1 text-center text-red-500 font-mono text-sm">
+          {errorMessage}
+        </p>
       </div>
     </div>
   );
