@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
   const [isManager, setIsManager] = useState(false);
   const [employeeName, setEmployeeName] = useState("");
   const [storeName, setStoreName] = useState("");
+  const [contextStoreNumber, setContextStoreNumber] = useState("");
 
   return (
     <AuthContext.Provider
@@ -22,6 +23,8 @@ const AuthProvider = ({ children }) => {
         setEmployeeName,
         storeName,
         setStoreName,
+        contextStoreNumber,
+        setContextStoreNumber,
       }}
     >
       {children}

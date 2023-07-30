@@ -3,7 +3,7 @@ import DarkModeButton from "../hooks/DarkModeButton";
 
 const HamburgerMenuDefault = ({ handleMenuItemClick }) => {
   return (
-    <ul className="pt-28 flex flex-col items-center justify-center">
+    <ul className="pt-28 flex flex-col justify-left">
       <li className="pb-5 text-white font-mono font-extrabold">MENU</li>
       <li className="pb-1">
         <HeaderMoveButton type="home" onClick={() => handleMenuItemClick("/")}>

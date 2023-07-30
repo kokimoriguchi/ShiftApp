@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
 import { useLogout } from "../hooks/LogoutHook";
+import { AuthContext } from "../hooks/Auth";
+import { useContext, useEffect } from "react";
 
 const EmployeeTop = () => {
   const navigate = useNavigate();
+  const { setContextStoreNumber } = useContext(AuthContext);
   const { storeNumber } = useParams();
   const logout = useLogout();
 
@@ -17,6 +20,10 @@ const EmployeeTop = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    setContextStoreNumber(storeNumber);
+  }, [storeNumber, setContextStoreNumber]);
 
   const handleClickLogout = () => {
     logout();

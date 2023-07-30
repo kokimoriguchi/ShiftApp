@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
 import { useEffect, useState, useContext } from "react";
 import baseAxios from "../hooks/Axios";
@@ -13,6 +12,7 @@ import { validateSkillName } from "../hooks/Validators";
 
 const ManagerTop = () => {
   const { storeName } = useContext(AuthContext);
+  const { setContextStoreNumber } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
@@ -64,6 +64,12 @@ const ManagerTop = () => {
       setSkillErrorMessage("");
     }
   };
+
+  // ページが読み込まれたら実行
+  // storeNumberをcontextにセットする
+  useEffect(() => {
+    setContextStoreNumber(storeNumber);
+  }, [storeNumber, setContextStoreNumber]);
 
   useEffect(() => {
     //ここでrailsのAPIのget_approve_month/:store_numberを叩いて、月と年を取得する

@@ -1,11 +1,12 @@
 import { HeaderMoveButton } from "../hooks/HeaderMoveButton";
 import DarkModeButton from "../hooks/DarkModeButton";
 import { useLogout } from "../hooks/LogoutHook";
-import { useParams } from "react-router-dom";
+import { AuthContext } from "./Auth";
+import { useContext } from "react";
 
 const HamburgerMenuEmployee = ({ handleMenuItemClick }) => {
   const logout = useLogout();
-  const { storeNumber } = useParams();
+  const { contextStoreNumber } = useContext(AuthContext);
 
   const handleClickLogout = () => {
     logout();
@@ -13,24 +14,24 @@ const HamburgerMenuEmployee = ({ handleMenuItemClick }) => {
   };
 
   return (
-    <ul className="pt-28 flex flex-col items-center justify-center">
+    <ul className="pt-28 flex flex-col justify-left">
       <li className="pb-5 text-white font-mono font-extrabold">MENU</li>
+      <li className="pt-1">
+        <HeaderMoveButton
+          type="home"
+          onClick={() => handleMenuItemClick(`/staff/${contextStoreNumber}`)}
+        >
+          トップページ
+        </HeaderMoveButton>
+      </li>
       <li>
         <HeaderMoveButton
-          type="calenderCheck"
+          type="calender"
           onClick={() =>
-            handleMenuItemClick(`/staff/${storeNumber}/calender/submit`)
+            handleMenuItemClick(`/staff/${contextStoreNumber}/calender/submit`)
           }
         >
           シフト提出
-        </HeaderMoveButton>
-      </li>
-      <li className="pt-1">
-        <HeaderMoveButton
-          type="calender"
-          onClick={() => handleMenuItemClick("/")}
-        >
-          シフト確認
         </HeaderMoveButton>
       </li>
       <li className="pt-1">

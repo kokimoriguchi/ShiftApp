@@ -4,8 +4,13 @@ import { AuthContext } from "./Auth";
 import { useNavigate } from "react-router-dom";
 
 export function useLogout() {
-  const { setAuth, setIsManager, setEmployeeName, setStoreName } =
-    useContext(AuthContext);
+  const {
+    setAuth,
+    setIsManager,
+    setEmployeeName,
+    setStoreName,
+    setContextStoreNumber,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const logout = async () => {
@@ -18,6 +23,7 @@ export function useLogout() {
         setIsManager(false);
         setEmployeeName("");
         setStoreName("");
+        setContextStoreNumber("");
         navigate("/");
       } else {
         console.log("error");

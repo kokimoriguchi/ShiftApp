@@ -1,41 +1,55 @@
 import { HeaderMoveButton } from "../hooks/HeaderMoveButton";
 import DarkModeButton from "../hooks/DarkModeButton";
 import { useLogout } from "../hooks/LogoutHook";
-import { useParams } from "react-router-dom";
+import { AuthContext } from "./Auth";
+import { useContext } from "react";
 
 const HamburgerMenuManager = ({ handleMenuItemClick }) => {
   const logout = useLogout();
-  const { storeNumber } = useParams();
+  const { contextStoreNumber } = useContext(AuthContext);
 
   const handleClickLogout = () => {
     logout();
-    console.log("done");
   };
 
   return (
-    <ul className="pt-28 flex flex-col items-center justify-center">
+    <ul className="pt-28 flex flex-col justify-left">
       <li className="pb-5 text-white font-mono font-extrabold">MENU</li>
       <li className="pb-1">
         <HeaderMoveButton
-          type="login"
-          onClick={() => handleMenuItemClick(`/manager/${storeNumber}/edit`)}
+          type="home"
+          onClick={() => handleMenuItemClick(`/manager/${contextStoreNumber}`)}
+        >
+          トップページ
+        </HeaderMoveButton>
+      </li>
+      <li className="pb-1">
+        <HeaderMoveButton
+          type="calender"
+          onClick={() =>
+            handleMenuItemClick(`/manager/${contextStoreNumber}/edit`)
+          }
         >
           シフト編集
         </HeaderMoveButton>
       </li>
       <li className="pb-1">
         <HeaderMoveButton
-          type="login"
-          onClick={() => handleMenuItemClick("/calender")}
+          type="employees"
+          onClick={() =>
+            handleMenuItemClick(`/manager/${contextStoreNumber}/index/employee`)
+          }
         >
-          シフト確認
+          スタッフ一覧
         </HeaderMoveButton>
       </li>
       <li className="pb-1">
         <HeaderMoveButton
           type="createUser"
           onClick={() =>
-            handleMenuItemClick(`/manager/${storeNumber}create/employee`)
+            handleMenuItemClick(
+              `/manager/${contextStoreNumber}/create/employee`
+            )
           }
         >
           スタッフ新規作成
