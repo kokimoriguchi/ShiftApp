@@ -101,7 +101,6 @@ const ManagerTop = () => {
         <div className="flex justify-center pt-5 font-mono text-2xl animate-tracking-in-expand duration-1000 tracking-in-expand">
           ManagerTop
         </div>
-
         <div className="pt-10">
           <p className="font-mono">Shift Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
@@ -147,7 +146,11 @@ const ManagerTop = () => {
             <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
               スキル登録
             </HomeMoveButton>
-            <HomeMoveButton>登録スキル一覧</HomeMoveButton>
+            <HomeMoveButton
+              onClick={() => navigate(`/manager/${storeNumber}/index/skills`)}
+            >
+              登録スキル一覧
+            </HomeMoveButton>
           </div>
         </div>
       </div>

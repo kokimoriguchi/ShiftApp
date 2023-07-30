@@ -3,6 +3,15 @@ class Api::V1::SkillsController < ApplicationController
   before_action :authenticate_manager
   before_action :set_store
 
+  #そのstoreのIdを元に店舗のスキル一覧を取得
+  # skills/:store_number
+  def index
+    skills = @store.skills
+    render json: { status: "success", skills: skills }, status: 200
+  end
+
+  #そのstoreのIdを元に店舗のスキルを作成
+  # skill_create/:store_number
   def create
     begin
       skill = Skill.new(skill_params.merge({store_id: @store.id}))
