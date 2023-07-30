@@ -14,7 +14,6 @@ const ManagerTop = () => {
   const { storeName } = useContext(AuthContext);
   const { setContextStoreNumber } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [skillModalOpen, setSkillModalOpen] = useState(false);
   const [skillName, setSkillName] = useState("");
@@ -24,15 +23,15 @@ const ManagerTop = () => {
   const [approveMonths, setApproveMonths] = useState();
   const [selectedYear, setSelectedYear] = useState(""); // 選択した年
   const [selectedMonth, setSelectedMonth] = useState(""); // 選択した月
-
+  const navigate = useNavigate();
   const handleYearChange = (e) => setSelectedYear(e.target.value);
   const handleMonthChange = (e) => setSelectedMonth(e.target.value);
 
+  // 確定シフト一覧モーダルを開く
   const handleConfirmation = () => {
     // handleConfirmation関数の中で選択した年と月を使用
     if (selectedYear && selectedMonth) {
       navigate(`/${storeNumber}/calender/${selectedYear}/${selectedMonth}`);
-      console.log(selectedYear, selectedMonth);
       closeModal();
     } else {
       // 年と月が選択されていない場合にエラーメッセージを設定
@@ -84,11 +83,9 @@ const ManagerTop = () => {
           // APIから取得した初期値をstateにセットします。
           setSelectedYear(response.data[0].year);
           setSelectedMonth(response.data[0].month);
-        } else {
-          console.error(response.data.message);
         }
-      } catch (error) {
-        console.error(error);
+      } catch (message) {
+        console.log("確定している月がありません");
       }
     };
     getApproveMonths();

@@ -22,6 +22,7 @@ class Api::V1::ApproveMonthsController < ApplicationController
     end
   end
 
+  #confirm_shift/:store_number
   def confirm_shift
     ActiveRecord::Base.transaction do
       begin

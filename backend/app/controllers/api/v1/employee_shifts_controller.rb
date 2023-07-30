@@ -4,6 +4,7 @@ class Api::V1::EmployeeShiftsController < ApplicationController
 
   #approve_monthテーブルのfalseのレコードを取得
   #この年月のデータをreact側に渡してworkdayと一緒に保存するようにする
+  #get_submit_month
   def get_submit_month
     Rails.logger.debug "Current employee ID: #{@current_employee_id}"
     employee = Employee.find(@current_employee_id)
