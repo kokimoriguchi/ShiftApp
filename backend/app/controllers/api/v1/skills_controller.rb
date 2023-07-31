@@ -22,6 +22,16 @@ class Api::V1::SkillsController < ApplicationController
     end
   end
 
+  # skills/destroy
+  def destroy
+    ActiveRecord::Base.transaction do
+      skill_ids = params[:skill_ids]
+      Skill.where(id: skill_ids).destroy_all
+
+      render json: {status: "success", message: "Skills deleted successfully."}, status: 200
+    end
+  end
+
   #employeeIDと複数のskillIDを受け取り、employee_skillsテーブルに保存。すでにある場合は更新する。
   #employee_add_skills/:employee_id
   def employee_add_skills

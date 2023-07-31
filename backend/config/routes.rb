@@ -42,10 +42,11 @@ Rails.application.routes.draw do
       #確定しているシフトの取得のroutes
       get "get_approve_month/:store_number", to: "confirm_shifts#get_approve_month"
 
-      # skill作成コントローラーのroutes
+      # skillコントローラーのroutes
       post "skill_create/:store_number", to: "skills#create"
       get "skills/:store_number", to: "skills#index"
       post "employee_add_skills/:employee_id", to: "skills#employee_add_skills"
+      put "skills/destroy", to: "skills#destroy"
 
       #ヘルスチェックのroutes
       get "health_check", to: "health_check#index"

@@ -49,6 +49,7 @@ const ManagerIndexEmployees = () => {
     );
   };
 
+  // 従業員の削除ボタンのクリックイベントハンドラ
   const handleDeleteEmployee = async () => {
     try {
       const result = await deleteEmployee(checkEmployees);
