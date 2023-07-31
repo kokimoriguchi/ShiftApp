@@ -1,6 +1,6 @@
 class Api::V1::EmployeesController < ApplicationController
   include Authentication
-  before_action :authenticate_manager, only: [:show]
+  before_action :authenticate_manager, only: [:show, :destroy]
 
   def show
     # employeesが取得できた場合はユーザー情報を返す
@@ -24,6 +24,16 @@ class Api::V1::EmployeesController < ApplicationController
       end
     else
       render json: {status: "error", message: "The store does not exist"}
+    end
+  end
+
+  # employees/destroy
+  def destroy
+    ActiveRecord::Base.transaction do
+      employee_ids = params[:employee_ids]
+      Employee.where(id: employee_ids).destroy_all
+
+      render json: {status: "success", message: "Employees deleted successfully."}, status: 200
     end
   end
 

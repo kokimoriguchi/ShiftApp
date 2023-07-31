@@ -17,10 +17,8 @@ const Calender = () => {
   const [shiftYearData, setShiftYearData] = useState(null);
   const [shiftMonthData, setShiftMonthData] = useState(null);
   const [days, setDays] = useState([]);
-  const getSubmitMonth = useMemo(useGetSubmitMonth, []);
   const { storeNumber } = useParams();
   const store_number = Number(storeNumber);
-  const navigate = useNavigate();
   const [selectedShiftId, setSelectedShiftId] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
@@ -30,6 +28,8 @@ const Calender = () => {
   const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
   const [noAvailableShifts, setNoAvailableShifts] = useState(false);
   const [loading, setLoading] = useState(true);
+  const getSubmitMonth = useMemo(useGetSubmitMonth, []);
+  const navigate = useNavigate();
 
   //シフト提出可能な年月を取得しstateに保存
   useEffect(() => {
@@ -51,20 +51,20 @@ const Calender = () => {
     submitMonthData();
   }, [getSubmitMonth]);
 
-  //クリックされた日付の出勤可能時間の取得
-  useEffect(() => {
-    const fetchData = async () => {
-      if (selectedShiftId !== null) {
-        const data = await getShiftData(selectedShiftId);
-        console.log(data.date.id);
-        setStartTime(data.start_time);
-        setEndTime(data.end_time);
-        setDate(data.date.work_day);
-        setWorkId(data.date.id);
-      }
-    };
-    fetchData();
-  }, [selectedShiftId]);
+  // //クリックされた日付の出勤可能時間の取得
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (selectedShiftId !== null) {
+  //       const data = await getShiftData(selectedShiftId);
+  //       console.log(data.date.id);
+  //       setStartTime(data.start_time);
+  //       setEndTime(data.end_time);
+  //       setDate(data.date.work_day);
+  //       setWorkId(data.date.id);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [selectedShiftId]);
 
   //モーダルを閉じる
   const closeModal = () => {
@@ -75,10 +75,6 @@ const Calender = () => {
   const closeConfirmationModal = () => {
     setModalConfirmationOpen(false);
   };
-
-  useEffect(() => {
-    console.log(employees);
-  }, [employees]);
 
   //時間を表示用に整形する関数
   function formatTime(timeString) {
@@ -238,8 +234,14 @@ const Calender = () => {
                               key={day.date.toISOString()}
                               className="border border-slate-300 dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
                               style={{ minWidth: "150px" }}
-                              onClick={() => {
+                              onClick={async () => {
                                 if (shift) {
+                                  // シフトが存在する場合は、モーダルを開く
+                                  const data = await getShiftData(shift.id);
+                                  setStartTime(data.start_time);
+                                  setEndTime(data.end_time);
+                                  setWorkId(data.work_id);
+                                  setDate(data.date.work_day);
                                   setSelectedShiftId(shift.id);
                                   setModalOpen(true);
                                 }
@@ -272,6 +274,8 @@ const Calender = () => {
               )}
             </div>
           </div>
+
+          {/* ボタン部分 */}
           <div className="flex w-5/6 m-auto justify-between py-3">
             <SubmitFlexButton
               type={"back"}

@@ -197,7 +197,11 @@ const ManagerTop = () => {
             <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
               スキル登録
             </HomeMoveButton>
-            <HomeMoveButton>登録スキル一覧</HomeMoveButton>
+            <HomeMoveButton
+              onClick={() => navigate(`/manager/${storeNumber}/index/skills`)}
+            >
+              登録スキル一覧
+            </HomeMoveButton>
           </AccordionItem>
         </div>
       </div>

@@ -1,9 +1,9 @@
 class Employee < ApplicationRecord
   has_secure_password
   belongs_to :store
-  has_many :employer_shifts
+  has_many :employer_shifts, dependent: :destroy
   has_many :shift_dates, through: :employer_shifts
-  has_many :employee_skills
+  has_many :employee_skills, dependent: :destroy
   has_many :skills, through: :employee_skills
   validates :number, format: { with: /\A\d+\z/, message: "半角数字を入力してください" }
   validates :number, length: { minimum: 5, message: "5桁以上で入力してください" }

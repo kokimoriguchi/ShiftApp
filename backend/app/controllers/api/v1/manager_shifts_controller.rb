@@ -3,6 +3,7 @@ class Api::V1::ManagerShiftsController < ApplicationController
   before_action :authenticate_manager
 
   # sift_dateテーブルのIDを受け取りその日のシフトを返す
+  # get_shift_by_day/:id
   def get_shift_by_day
     shift_time = ShiftTime.find_by(shift_date_id: params[:id])
     shift_date = ShiftDate.find(params[:id])

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       #employeesの作成のコントローラーのroutes
       resources :employees, only: %i[create]
       get 'employees/me', to: 'employees#show'
+      put 'employees/destroy', to: 'employees#destroy'
 
       #managerの作成のコントローラーのroutes
       resources :managers, only: %i[create]

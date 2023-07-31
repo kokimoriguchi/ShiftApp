@@ -6,26 +6,27 @@ import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
 import GetSkillList from "../hooks/GetSkillList";
 import ModalGeneral from "../hooks/ModalGeneral";
 import CreateSkillByEmployee from "../hooks/CreateSkillByEmployee";
+import deleteEmployee from "../hooks/DeleteEmployee";
 
 const ManagerIndexEmployees = () => {
   const [employees, setEmployees] = useState([]);
   const [skills, setSkills] = useState([]);
-  // const [checkEmployees, setCheckEmployees] = useState([]);
+  const [checkEmployees, setCheckEmployees] = useState([]);
   const { storeNumber } = useParams();
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const navigate = useNavigate();
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
 
-  // const handleSelect = (e, employee) => {
-  //   if (e.target.checked) {
-  //     setSelectedEmployees([...selectedEmployees, employee]);
-  //   } else {
-  //     setSelectedEmployees(
-  //       selectedEmployees.filter((selected) => selected.id !== employee.id)
-  //     );
-  //   }
-  // };
+  // employeeチェックボックスのクリックイベントハンドラ
+  const handleCheckEmployees = (employee) => {
+    if (checkEmployees.some((e) => e.id === employee.id)) {
+      setCheckEmployees(checkEmployees.filter((e) => e.id !== employee.id));
+    } else {
+      setCheckEmployees([...checkEmployees, employee]);
+    }
+  };
 
   //modalの閉じる関数
   const handleClose = () => {
@@ -34,7 +35,12 @@ const ManagerIndexEmployees = () => {
     setSkills(skills.map((skill) => ({ ...skill, selected: false })));
   };
 
-  // チェックボックスのクリックイベントハンドラ
+  //confirmモーダルの閉じる関数
+  const handleCloseConfirmation = () => {
+    setConfirmationModalOpen(false);
+  };
+
+  // skillチェックボックスのクリックイベントハンドラ
   const handleCheck = (id) => {
     setSkills(
       skills.map((skill) =>
@@ -43,6 +49,19 @@ const ManagerIndexEmployees = () => {
     );
   };
 
+  const handleDeleteEmployee = async () => {
+    try {
+      const result = await deleteEmployee(checkEmployees);
+      console.log(result);
+      const updatedEmployees = await getEmployeesBelongsToStore(storeNumber);
+      setEmployees(updatedEmployees);
+      setConfirmationModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 初回描画時に従業員一覧とスキル一覧を取得
   useEffect(() => {
     const getEmployees = async () => {
       const resultEmployees = await getEmployeesBelongsToStore(storeNumber);
@@ -91,7 +110,12 @@ const ManagerIndexEmployees = () => {
             >
               <th>
                 <label>
-                  <input type="checkbox" className="pr-2" />
+                  <input
+                    type="checkbox"
+                    className="pr-2"
+                    checked={checkEmployees.some((e) => e.id === employee.id)}
+                    onChange={() => handleCheckEmployees(employee)}
+                  />
                 </label>
               </th>
               <td className="font-bold">{employee.name}</td>
@@ -124,7 +148,7 @@ const ManagerIndexEmployees = () => {
         <div>
           <SubmitFlexButton
             type="trash"
-            onClick={() => navigate(`/manager/${storeNumber}`)}
+            onClick={() => setConfirmationModalOpen(true)}
           >
             削除
           </SubmitFlexButton>
@@ -157,6 +181,28 @@ const ManagerIndexEmployees = () => {
             >
               追加
             </SubmitFlexButton>
+          </div>
+        </ModalGeneral>
+      )}
+      {confirmationModalOpen && (
+        <ModalGeneral closeModal={handleCloseConfirmation}>
+          <div className="flex justify-center">
+            <div className="flex flex-col justify-center items-center w-72 h-36">
+              <p className="font-mono sm:text-xl text-lg pt-8">
+                選択したスタッフを削除しますか？
+              </p>
+              <p className="font-mono text-sm text-red-400">
+                ※この操作は取り消せません。
+              </p>
+              <div className="flex justify-center mt-8">
+                <SubmitFlexButton
+                  type="trash"
+                  onClick={() => handleDeleteEmployee()}
+                >
+                  削除
+                </SubmitFlexButton>
+              </div>
+            </div>
           </div>
         </ModalGeneral>
       )}
