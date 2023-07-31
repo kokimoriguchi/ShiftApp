@@ -51,7 +51,11 @@ const Calender = () => {
   }, [getSubmitMonth]);
 
   //モーダルを閉じる
-  const closeModal = () => {
+  const closeModal = async () => {
+    if (shiftYearData && shiftMonthData) {
+      await getEmployees(store_number, shiftYearData, shiftMonthData);
+    }
+    setModalOpen(false);
     setModalOpen(false);
   };
 
@@ -75,7 +79,7 @@ const Calender = () => {
     }
     // モーダルの開閉を依存関係に持たせて時間変更を検知して際描画させるために、modalOpenを依存関係に持たせている
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shiftYearData, shiftMonthData, modalOpen]);
+  }, [shiftYearData, shiftMonthData]);
 
   //シフト提出可能な年月が変更されたら、その月の日付を取得しstateに保存
   useEffect(() => {
