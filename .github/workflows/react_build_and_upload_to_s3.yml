@@ -1,7 +1,8 @@
 name: React Build and Upload to S3
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [main]
 
 jobs:
