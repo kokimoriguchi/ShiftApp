@@ -19,7 +19,6 @@ const Calender = () => {
   const [days, setDays] = useState([]);
   const { storeNumber } = useParams();
   const store_number = Number(storeNumber);
-  const [selectedShiftId, setSelectedShiftId] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [date, setDate] = useState(null);
@@ -51,21 +50,6 @@ const Calender = () => {
     submitMonthData();
   }, [getSubmitMonth]);
 
-  // //クリックされた日付の出勤可能時間の取得
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (selectedShiftId !== null) {
-  //       const data = await getShiftData(selectedShiftId);
-  //       console.log(data.date.id);
-  //       setStartTime(data.start_time);
-  //       setEndTime(data.end_time);
-  //       setDate(data.date.work_day);
-  //       setWorkId(data.date.id);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [selectedShiftId]);
-
   //モーダルを閉じる
   const closeModal = () => {
     setModalOpen(false);
@@ -89,8 +73,9 @@ const Calender = () => {
     if (shiftYearData && shiftMonthData) {
       getEmployees(store_number, shiftYearData, shiftMonthData);
     }
+    // モーダルの開閉を依存関係に持たせて時間変更を検知して際描画させるために、modalOpenを依存関係に持たせている
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shiftYearData, shiftMonthData]);
+  }, [shiftYearData, shiftMonthData, modalOpen]);
 
   //シフト提出可能な年月が変更されたら、その月の日付を取得しstateに保存
   useEffect(() => {
@@ -175,7 +160,9 @@ const Calender = () => {
             {/* スクロール可能なカレンダー部分 */}
             <div className="w-full overflow-x-auto">
               <table className="w-full m-auto text-center h-10">
+                {/* カレンダーheader部分 */}
                 <thead>
+                  {/* カレンダーの日付部分 */}
                   <tr>
                     {days.map((dayObj, index) => {
                       const day = dayObj.date;
@@ -190,6 +177,8 @@ const Calender = () => {
                       );
                     })}
                   </tr>
+
+                  {/* カレンダーの曜日部分 */}
                   <tr>
                     {days.map((dayObj) => {
                       const day = dayObj.date;
@@ -204,6 +193,8 @@ const Calender = () => {
                       );
                     })}
                   </tr>
+
+                  {/* カレンダーのスキルチェック部分 */}
                   <tr>
                     {days.map((day) => {
                       return (
@@ -217,7 +208,10 @@ const Calender = () => {
                     })}
                   </tr>
                 </thead>
+
+                {/* カレンダーのシフト部分 */}
                 <tbody>
+                  {/* employeesにデータがあるかどうかのチェックであればmapで取り出しながら日付も順番に取り出す */}
                   {employees &&
                     Object.values(employees).map((shifts, index) => (
                       <tr key={index}>
@@ -232,21 +226,20 @@ const Calender = () => {
                           return (
                             <td
                               key={day.date.toISOString()}
-                              className="border border-slate-300 dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
-                              style={{ minWidth: "150px" }}
+                              className="border border-slate-300 min-w-[150px] dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
                               onClick={async () => {
                                 if (shift) {
                                   // シフトが存在する場合は、モーダルを開く
                                   const data = await getShiftData(shift.id);
                                   setStartTime(data.start_time);
                                   setEndTime(data.end_time);
-                                  setWorkId(data.work_id);
+                                  setWorkId(data.date.id);
                                   setDate(data.date.work_day);
-                                  setSelectedShiftId(shift.id);
                                   setModalOpen(true);
                                 }
                               }}
                             >
+                              {/* ここでシフトの表示形式を判断する */}
                               {shift
                                 ? shift.is_attendance
                                   ? `${formatTime(
@@ -263,7 +256,8 @@ const Calender = () => {
                     ))}
                 </tbody>
               </table>
-              {selectedShiftId && modalOpen && (
+              {/* 時間編集用のモーダル部分 */}
+              {modalOpen && (
                 <ModalManager
                   closeModal={closeModal}
                   day={date}
