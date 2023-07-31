@@ -101,7 +101,7 @@ const ManagerTop = () => {
         <div className="pt-10">
           <p className="font-mono">Shift Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="grid grid-cols-3 justify-center pt-8">
+          <div className="grid grid-cols-3 justify-items-center pt-8">
             <HomeMoveButton
               onClick={() => navigate(`/manager/${storeNumber}/edit`)}
             >
@@ -118,7 +118,7 @@ const ManagerTop = () => {
         <div className="pt-10">
           <p className="font-mono">Staff Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="grid grid-cols-3 pt-8">
+          <div className="grid grid-cols-2 justify-items-center pt-8">
             <HomeMoveButton
               onClick={() =>
                 navigate(`/manager/${storeNumber}/create/employee`)
@@ -139,7 +139,7 @@ const ManagerTop = () => {
         <div className="pt-10">
           <p className="font-mono">Store Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="grid grid-cols-3 pt-8">
+          <div className="grid grid-cols-2 justify-items-center pt-8">
             <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
               スキル登録
             </HomeMoveButton>
