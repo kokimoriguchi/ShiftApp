@@ -8,6 +8,7 @@ import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
 import { getShiftData } from "../hooks/useGetShiftDataHook";
 import ModalManager from "../hooks/ModalManager";
 import ConfirmationModal from "../hooks/ConfirmationModal";
+import ModalGeneral from "../hooks/ModalGeneral";
 import ConfirmShift from "../hooks/ConfirmShift";
 import Loading from "../hooks/Loading";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
@@ -35,9 +36,12 @@ const Calender = () => {
   const [skillList, setSkillList] = useState([]);
   //スキルチェック用のstate
   const [skillsAvailability, setSkillsAvailability] = useState({});
+  //クリックされた不足スキルを保存するstate
+  const [lackSkills, setLackSkills] = useState([]);
   //モーダルを開くstate
   const [modalOpen, setModalOpen] = useState(false);
   const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
+  const [modalSkillCheckOpen, setModalSkillCheckOpen] = useState(false);
   //表示できるシフトが存在しないときに表示するstate
   const [noAvailableShifts, setNoAvailableShifts] = useState(false);
   //シフト提出可能な年月を取得中かどうかを判断するstate
@@ -116,7 +120,8 @@ const Calender = () => {
       for (let dayObj of days) {
         const day = dayObj.date.toISOString().slice(0, 10);
         const skillsForDay = new Set();
-        Object.values(employees).map((employeeData) => {
+        const missingSkills = [];
+        Object.values(employees).forEach((employeeData) => {
           // 従業員がその日に出勤しているかどうかを確認します
           const isWorkingOnDay = employeeData.shifts.some(
             (shift) => shift.work_day === day && shift.is_attendance
@@ -124,17 +129,22 @@ const Calender = () => {
           if (isWorkingOnDay) {
             // 従業員のスキルを集合に追加します
             employeeData.skills.forEach((skill) => skillsForDay.add(skill.id));
-            console.log(day, "isWorkingOnDay:", isWorkingOnDay);
           }
         });
         // その日にすべてのスキルがカバーされているかを確認します
-        const allSkillsCovered = skillList.every((skill) =>
-          skillsForDay.has(skill.id)
-        );
+        // const allSkillsCovered = skillList.every((skill) =>
+        //   skillsForDay.has(skill.id)
+        // );
+        skillList.forEach((skill) => {
+          if (!skillsForDay.has(skill.id)) {
+            missingSkills.push(skill.name); // スキルが不足している場合、名前を追加
+          }
+        });
         // 日付ごとのスキルのカバレッジを記録します
-        skillsCoverage[day] = allSkillsCovered;
-        console.log(day, "skillsForDay:", skillsForDay);
-        console.log(day, "allSkillsCovered:", allSkillsCovered);
+        skillsCoverage[day] = {
+          allCovered: missingSkills.length === 0,
+          missingSkills,
+        };
       }
       // 状態を更新します
       setSkillsAvailability(skillsCoverage);
@@ -147,14 +157,15 @@ const Calender = () => {
       await getEmployees(store_number, shiftYearData, shiftMonthData);
     }
     setModalOpen(false);
-    console.log(skillList);
-    console.log(skillsAvailability);
-    console.log(employees);
   };
 
   //確認用のモーダルを閉じる
   const closeConfirmationModal = () => {
     setModalConfirmationOpen(false);
+  };
+
+  const closeSkillCheckModal = () => {
+    setModalSkillCheckOpen(false);
   };
 
   //時間を表示用に整形する関数
@@ -261,21 +272,43 @@ const Calender = () => {
                   {/* カレンダーのスキルチェック部分 */}
                   <tr>
                     {days.map((day) => {
-                      const isSkillCovered =
+                      const { allCovered, missingSkills } =
                         skillsAvailability[day.date.toISOString().slice(0, 10)]; // この日付に対するスキルのカバレッジを取得
                       return (
                         <th
                           key={day.date.toISOString()}
                           className="border border-slate-300 dark:text-white"
                         >
-                          {isSkillCovered ? (
+                          {allCovered ? (
                             <ImCheckmark className="inline-block text-green-400" />
                           ) : (
-                            <ImCross className="inline-block text-red-400" />
+                            <ImCross
+                              className="inline-block text-red-400 hover:text-red-600 cursor-pointer"
+                              onClick={() => {
+                                setLackSkills(missingSkills);
+                                setModalSkillCheckOpen(true);
+                              }}
+                            />
                           )}
                         </th>
                       );
                     })}
+                    {modalSkillCheckOpen && (
+                      <ModalGeneral
+                        closeModal={closeSkillCheckModal}
+                        storeName={"不足スキル"}
+                      >
+                        <div className="text-center">
+                          <div className="w-3/4 m-auto h-0.5 dark:bg-white bg-gray-500 z-[-1] mb-3" />
+                          <div className="h-36 overflow-auto">
+                            {lackSkills.map((skill, index) => (
+                              <p key={index}>{skill}</p>
+                            ))}
+                          </div>
+                          <div className="w-3/4 m-auto h-0.5 dark:bg-white bg-gray-500 z-[-1] mb-3" />
+                        </div>
+                      </ModalGeneral>
+                    )}
                   </tr>
                 </thead>
 
