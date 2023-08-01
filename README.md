@@ -100,4 +100,4 @@ https://web.realworld-demo.com
 
 ## インフラ構成図
 
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2741017/b2c0e21f-7a2e-d699-e8a5-25090a6ff924.png">
+<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2741017/bbd67865-9989-766c-dfe9-cb297a26ca7b.png">

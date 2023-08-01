@@ -11,25 +11,42 @@ import ConfirmationModal from "../hooks/ConfirmationModal";
 import ConfirmShift from "../hooks/ConfirmShift";
 import Loading from "../hooks/Loading";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
+import GetSkillList from "../hooks/GetSkillList";
+import { ImCheckmark, ImCross } from "react-icons/im";
 
 const Calender = () => {
+  //従業員名とそのシフトを取得するための関数とstateを取得
   const { employees, getEmployees } = useGetEmployeeShifts();
+  //シフト提出可能な年月を取得するための関数とstateを取得
   const [shiftYearData, setShiftYearData] = useState(null);
   const [shiftMonthData, setShiftMonthData] = useState(null);
+  //日付を取得しstateに保存
   const [days, setDays] = useState([]);
+  //URLからstoreNumberを取得
   const { storeNumber } = useParams();
   const store_number = Number(storeNumber);
+  //クリックされた日付の時間をstateに保存
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+  //クリックされた日付をstateに保存
   const [date, setDate] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [workId, setWorkId] = useState(null);
+  //店舗のスキル一覧を保存するstate
+  const [skillList, setSkillList] = useState([]);
+  //スキルチェック用のstate
+  const [skillsAvailability, setSkillsAvailability] = useState({});
+  //モーダルを開くstate
+  const [modalOpen, setModalOpen] = useState(false);
   const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
+  //表示できるシフトが存在しないときに表示するstate
   const [noAvailableShifts, setNoAvailableShifts] = useState(false);
+  //シフト提出可能な年月を取得中かどうかを判断するstate
   const [loading, setLoading] = useState(true);
+
   const getSubmitMonth = useMemo(useGetSubmitMonth, []);
   const navigate = useNavigate();
 
+  //-----------------------------------------------------------------------------
   //シフト提出可能な年月を取得しstateに保存
   useEffect(() => {
     const submitMonthData = async () => {
@@ -49,38 +66,24 @@ const Calender = () => {
     };
     submitMonthData();
   }, [getSubmitMonth]);
-
-  //モーダルを閉じる
-  const closeModal = async () => {
-    if (shiftYearData && shiftMonthData) {
-      await getEmployees(store_number, shiftYearData, shiftMonthData);
-    }
-    setModalOpen(false);
-    setModalOpen(false);
-  };
-
-  //確認用のモーダルを閉じる
-  const closeConfirmationModal = () => {
-    setModalConfirmationOpen(false);
-  };
-
-  //時間を表示用に整形する関数
-  function formatTime(timeString) {
-    const date = new Date(timeString);
-    const hours = date.getUTCHours().toString().padStart(2, "0");
-    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
-  }
+  //-----------------------------------------------------------------------------
 
   // shiftYearDataとshiftMonthDataが設定されてから、getEmployeesを実行し、store所属の従業員名とそのシフトを取得しstateに保存
+  // 同時に店舗の持っているスキル一覧を取得しstateに保存
   useEffect(() => {
     if (shiftYearData && shiftMonthData) {
       getEmployees(store_number, shiftYearData, shiftMonthData);
     }
-    // モーダルの開閉を依存関係に持たせて時間変更を検知して際描画させるために、modalOpenを依存関係に持たせている
+    const fetchSkills = async () => {
+      const skills = await GetSkillList(store_number);
+      setSkillList(skills);
+    };
+
+    fetchSkills();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shiftYearData, shiftMonthData]);
 
+  //-----------------------------------------------------------------------------
   //シフト提出可能な年月が変更されたら、その月の日付を取得しstateに保存
   useEffect(() => {
     if (shiftYearData && shiftMonthData) {
@@ -106,6 +109,63 @@ const Calender = () => {
     }
   };
 
+  useEffect(() => {
+    if (shiftYearData && shiftMonthData && employees) {
+      const skillsCoverage = {};
+      // 日付ごとに従業員のスキルを確認します。各日付についてループを回している
+      for (let dayObj of days) {
+        const day = dayObj.date.toISOString().slice(0, 10);
+        const skillsForDay = new Set();
+        Object.values(employees).map((employeeData) => {
+          // 従業員がその日に出勤しているかどうかを確認します
+          const isWorkingOnDay = employeeData.shifts.some(
+            (shift) => shift.work_day === day && shift.is_attendance
+          );
+          if (isWorkingOnDay) {
+            // 従業員のスキルを集合に追加します
+            employeeData.skills.forEach((skill) => skillsForDay.add(skill.id));
+            console.log(day, "isWorkingOnDay:", isWorkingOnDay);
+          }
+        });
+        // その日にすべてのスキルがカバーされているかを確認します
+        const allSkillsCovered = skillList.every((skill) =>
+          skillsForDay.has(skill.id)
+        );
+        // 日付ごとのスキルのカバレッジを記録します
+        skillsCoverage[day] = allSkillsCovered;
+        console.log(day, "skillsForDay:", skillsForDay);
+        console.log(day, "allSkillsCovered:", allSkillsCovered);
+      }
+      // 状態を更新します
+      setSkillsAvailability(skillsCoverage);
+    }
+  }, [shiftYearData, shiftMonthData, days, employees, skillList]);
+
+  //モーダルを閉じる
+  const closeModal = async () => {
+    if (shiftYearData && shiftMonthData) {
+      await getEmployees(store_number, shiftYearData, shiftMonthData);
+    }
+    setModalOpen(false);
+    console.log(skillList);
+    console.log(skillsAvailability);
+    console.log(employees);
+  };
+
+  //確認用のモーダルを閉じる
+  const closeConfirmationModal = () => {
+    setModalConfirmationOpen(false);
+  };
+
+  //時間を表示用に整形する関数
+  function formatTime(timeString) {
+    const date = new Date(timeString);
+    const hours = date.getUTCHours().toString().padStart(2, "0");
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  }
+
+  //loadingがtrueの場合はローディング画面を表示
   if (loading) {
     return <Loading />;
   }
@@ -201,12 +261,18 @@ const Calender = () => {
                   {/* カレンダーのスキルチェック部分 */}
                   <tr>
                     {days.map((day) => {
+                      const isSkillCovered =
+                        skillsAvailability[day.date.toISOString().slice(0, 10)]; // この日付に対するスキルのカバレッジを取得
                       return (
                         <th
                           key={day.date.toISOString()}
                           className="border border-slate-300 dark:text-white"
                         >
-                          -
+                          {isSkillCovered ? (
+                            <ImCheckmark className="inline-block text-green-400" />
+                          ) : (
+                            <ImCross className="inline-block text-red-400" />
+                          )}
                         </th>
                       );
                     })}
@@ -217,11 +283,11 @@ const Calender = () => {
                 <tbody>
                   {/* employeesにデータがあるかどうかのチェックであればmapで取り出しながら日付も順番に取り出す */}
                   {employees &&
-                    Object.values(employees).map((shifts, index) => (
+                    Object.values(employees).map((employeeData, index) => (
                       <tr key={index}>
                         {days.map((day) => {
                           // シフトが存在するかチェック
-                          const shift = shifts.find(
+                          const shift = employeeData.shifts.find(
                             (shift) =>
                               shift.work_day ===
                               day.date.toISOString().split("T")[0] // 日付が一致するかチェック
@@ -233,7 +299,7 @@ const Calender = () => {
                               className="border border-slate-300 min-w-[150px] dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
                               onClick={async () => {
                                 if (shift) {
-                                  // シフトが存在する場合は、モーダルを開く
+                                  // シフトが存在する場合は、モーダルを開き、シフトの開始時間と終了時間を取得しstateに保存する
                                   const data = await getShiftData(shift.id);
                                   setStartTime(data.start_time);
                                   setEndTime(data.end_time);
@@ -289,6 +355,8 @@ const Calender = () => {
                 確定
               </SubmitFlexButton>
             </div>
+
+            {/* 確定モーダル */}
             {modalConfirmationOpen && (
               <ConfirmationModal
                 year={shiftYearData}

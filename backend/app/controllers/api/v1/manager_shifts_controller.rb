@@ -11,6 +11,7 @@ class Api::V1::ManagerShiftsController < ApplicationController
   end
 
   # 店番と年月を受け取り、その店の従業員の名前とその従業員の持つshift_dateテーブルを返す
+  # get_shifts_by_month
   def get_shifts_by_month
     begin
       begin
@@ -32,14 +33,17 @@ class Api::V1::ManagerShiftsController < ApplicationController
       date_range = Date.new(year, month)..Date.new(year, month).end_of_month
 
       employee_shifts = {}
-      # EmployeeごとにShiftを取得
+      # EmployeeごとにShiftとSkillを取得
       employees.each do |employee|
-        employee_shifts[employee.name] = employee.shift_dates.where(work_day: date_range).includes(:shift_time).as_json(include: :shift_time)
+        employee_shifts[employee.name] = {
+          shifts: employee.shift_dates.where(work_day: date_range).includes(:shift_time).as_json(include: :shift_time),
+          skills: employee.skills
+        }
       end
     rescue => e
       return render json: {status: "error", message: e.message}
     end
-    render json: {status: "success", data: employee_shifts}
+    render json: {status: "success", employees: employee_shifts}
   end
 
   def update_shift

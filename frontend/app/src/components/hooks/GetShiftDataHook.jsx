@@ -9,7 +9,7 @@ export function useGetEmployeeShifts() {
       const response = await baseAxios.get("get_shifts_by_month", {
         params: { store_number, year, month },
       });
-      const employeesData = response.data.data;
+      const employeesData = response.data.employees;
       setEmployees(employeesData);
       return employeesData;
     } catch (error) {
