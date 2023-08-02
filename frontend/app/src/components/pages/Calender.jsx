@@ -13,7 +13,7 @@ import ConfirmShift from "../hooks/ConfirmShift";
 import Loading from "../hooks/Loading";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
 import GetSkillList from "../hooks/GetSkillList";
-import { ImCheckmark, ImCross } from "react-icons/im";
+import { RxCross2, RxCheck } from "react-icons/rx";
 
 const Calender = () => {
   //従業員名とそのシフトを取得するための関数とstateを取得
@@ -50,8 +50,8 @@ const Calender = () => {
   const getSubmitMonth = useMemo(useGetSubmitMonth, []);
   const navigate = useNavigate();
 
-  //-----------------------------------------------------------------------------
   //シフト提出可能な年月を取得しstateに保存
+  //-----------------------------------------------------------------------------
   useEffect(() => {
     const submitMonthData = async () => {
       const result = await getSubmitMonth();
@@ -74,6 +74,7 @@ const Calender = () => {
 
   // shiftYearDataとshiftMonthDataが設定されてから、getEmployeesを実行し、store所属の従業員名とそのシフトを取得しstateに保存
   // 同時に店舗の持っているスキル一覧を取得しstateに保存
+  //-----------------------------------------------------------------------------
   useEffect(() => {
     if (shiftYearData && shiftMonthData) {
       getEmployees(store_number, shiftYearData, shiftMonthData);
@@ -86,9 +87,10 @@ const Calender = () => {
     fetchSkills();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shiftYearData, shiftMonthData]);
-
   //-----------------------------------------------------------------------------
+
   //シフト提出可能な年月が変更されたら、その月の日付を取得しstateに保存
+  //-----------------------------------------------------------------------------
   useEffect(() => {
     if (shiftYearData && shiftMonthData) {
       getDaysInMonth(shiftYearData, shiftMonthData);
@@ -112,7 +114,10 @@ const Calender = () => {
       alert("シフト確定に失敗しました。");
     }
   };
+  //-----------------------------------------------------------------------------
 
+  //各日付にスキルチェックを行い、その結果をstateに保存
+  //-----------------------------------------------------------------------------
   useEffect(() => {
     if (shiftYearData && shiftMonthData && employees) {
       const skillsCoverage = {};
@@ -131,10 +136,6 @@ const Calender = () => {
             employeeData.skills.forEach((skill) => skillsForDay.add(skill.id));
           }
         });
-        // その日にすべてのスキルがカバーされているかを確認します
-        // const allSkillsCovered = skillList.every((skill) =>
-        //   skillsForDay.has(skill.id)
-        // );
         skillList.forEach((skill) => {
           if (!skillsForDay.has(skill.id)) {
             missingSkills.push(skill.name); // スキルが不足している場合、名前を追加
@@ -150,6 +151,7 @@ const Calender = () => {
       setSkillsAvailability(skillsCoverage);
     }
   }, [shiftYearData, shiftMonthData, days, employees, skillList]);
+  //-----------------------------------------------------------------------------
 
   //モーダルを閉じる
   const closeModal = async () => {
@@ -164,6 +166,7 @@ const Calender = () => {
     setModalConfirmationOpen(false);
   };
 
+  //不足スキルチェック確認用のモーダルを閉じる
   const closeSkillCheckModal = () => {
     setModalSkillCheckOpen(false);
   };
@@ -188,11 +191,11 @@ const Calender = () => {
       {/* もし提出可能なシフトが存在しない場合はメッセージを表示します */}
       {noAvailableShifts ? (
         <div className="h-auto bg-sky-100 dark:bg-black">
-          <div className="pt-64 text-center dark:text-white">
+          <div className="pt-32 text-center dark:text-white">
             <p>編集可能なシフトが存在しません。</p>
             <p>次のシフト作成を許可してください。</p>
           </div>
-          <div className="flex justify-center pt-20 pb-60">
+          <div className="flex justify-center pt-20">
             <HomeMoveButton onClick={() => navigate(`/manager/${storeNumber}`)}>
               戻る
             </HomeMoveButton>
@@ -205,12 +208,12 @@ const Calender = () => {
             <table className="w-auto text-center h-10">
               <thead>
                 <tr>
-                  <th className="border border-slate-300 dark:text-white">
+                  <th className="border border-slate-300 dark:text-white bg-sky-200 dark:bg-sky-800">
                     {shiftYearData}年
                   </th>
                 </tr>
                 <tr>
-                  <th className="border border-slate-300 dark:text-white">
+                  <th className="border border-slate-300 dark:text-white bg-sky-200 dark:bg-sky-800">
                     {shiftMonthData}月
                   </th>
                 </tr>
@@ -245,7 +248,12 @@ const Calender = () => {
                       return (
                         <th
                           key={index}
-                          className="border border-slate-300 dark:text-white"
+                          className="border border-slate-300 dark:text-white hover:bg-sky-300 hover:text-gray-500 bg-sky-200 dark:bg-sky-800 cursor-pointer"
+                          onClick={() =>
+                            navigate(
+                              `/manager/${storeNumber}/${shiftYearData}/${shiftMonthData}/${formattedDate}/calender`
+                            )
+                          }
                         >
                           {formattedDate}
                         </th>
@@ -258,10 +266,17 @@ const Calender = () => {
                     {days.map((dayObj) => {
                       const day = dayObj.date;
                       const dayOfWeek = week[day.getDay()]; // 曜日を取得
+                      // 曜日に応じたクラス名を割り当てる
+                      let textColorClass;
+                      if (dayOfWeek === "土") {
+                        textColorClass = "text-sky-500 dark:text-sky-500"; // 土曜日
+                      } else if (dayOfWeek === "日") {
+                        textColorClass = "text-red-500 dark:text-red-500"; // 日曜日
+                      }
                       return (
                         <th
                           key={dayObj.date.toISOString()}
-                          className="border border-slate-300 dark:text-white"
+                          className={`border border-slate-300 dark:text-white bg-sky-200 dark:bg-sky-800 ${textColorClass}`}
                         >
                           {dayOfWeek}
                         </th>
@@ -277,18 +292,24 @@ const Calender = () => {
                       return (
                         <th
                           key={day.date.toISOString()}
-                          className="border border-slate-300 dark:text-white"
+                          className={`border border-slate-300 dark:text-white ${
+                            allCovered
+                              ? "bg-green-200 dark:bg-green-700"
+                              : "bg-red-200 dark:bg-red-700 hover:bg-red-300 hover:text-red-900 dark:hover:bg-red-600 cursor-pointer"
+                          }`}
+                          onClick={
+                            !allCovered
+                              ? () => {
+                                  setLackSkills(missingSkills);
+                                  setModalSkillCheckOpen(true);
+                                }
+                              : undefined
+                          }
                         >
                           {allCovered ? (
-                            <ImCheckmark className="inline-block text-green-400" />
+                            <RxCheck className="inline-block text-green-500" />
                           ) : (
-                            <ImCross
-                              className="inline-block text-red-400 hover:text-red-600 cursor-pointer"
-                              onClick={() => {
-                                setLackSkills(missingSkills);
-                                setModalSkillCheckOpen(true);
-                              }}
-                            />
+                            <RxCross2 className="inline-block text-red-500" />
                           )}
                         </th>
                       );
@@ -305,7 +326,7 @@ const Calender = () => {
                               <p key={index}>{skill}</p>
                             ))}
                           </div>
-                          <div className="w-3/4 m-auto h-0.5 dark:bg-white bg-gray-500 z-[-1] mb-3" />
+                          <div className="w-3/4 m-auto h-0.5 dark:bg-white bg-gray-500 z-[-1] mt-3" />
                         </div>
                       </ModalGeneral>
                     )}

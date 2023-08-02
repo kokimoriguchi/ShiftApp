@@ -48,6 +48,8 @@ Rails.application.routes.draw do
       post "employee_add_skills/:employee_id", to: "skills#employee_add_skills"
       put "skills/destroy", to: "skills#destroy"
 
+      # 単日のシフトの取得のroutes
+      get "get_daily_calenders/:store_number/:date", to: "daily_calenders#get_daily_calender"
       #ヘルスチェックのroutes
       get "health_check", to: "health_check#index"
     end
