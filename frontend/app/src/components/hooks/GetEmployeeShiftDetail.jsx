@@ -1,8 +1,10 @@
 import baseAxios from "./Axios";
 
-const getEmployeesBelongsToStore = async (storeNumber) => {
+const getEmployeeShiftDetail = async (storeNumber, year, month, name) => {
   try {
-    const response = await baseAxios.get(`get_employees/${storeNumber}`);
+    const response = await baseAxios.get(
+      `employee_shift_detail/${storeNumber}/${name}/${year}/${month}`
+    );
     if (response.data.status === "success") {
       return response.data.employees;
     } else {
@@ -14,4 +16,4 @@ const getEmployeesBelongsToStore = async (storeNumber) => {
   }
 };
 
-export default getEmployeesBelongsToStore;
+export default getEmployeeShiftDetail;

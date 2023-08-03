@@ -37,7 +37,9 @@ const HamburgerMenuManager = ({ handleMenuItemClick }) => {
         <HeaderMoveButton
           type="employees"
           onClick={() =>
-            handleMenuItemClick(`/manager/${contextStoreNumber}/index/employee`)
+            handleMenuItemClick(
+              `/manager/${contextStoreNumber}/index/employees`
+            )
           }
         >
           スタッフ一覧

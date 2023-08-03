@@ -17,12 +17,17 @@ import EmployeeTop from "./components/pages/EmployeeTop";
 import ConfirmShiftCalender from "./components/pages/ConfirmShiftCalender";
 import ManagerIndexEmployees from "./components/pages/ManagerIndexEmployees";
 import ManagerSkillList from "./components/pages/ManagerSkillList";
+import DailyCalender from "./components/pages/DailyCalender";
 import Footer from "./components/pages/Footer";
 
 function AllRoutes() {
   const { auth, isManager } = useContext(AuthContext);
   return (
     <Routes>
+      <Route
+        path="/manager/:storeNumber/:year/:month/:day/calender"
+        element={auth && isManager ? <DailyCalender /> : <ManagerLogin />}
+      />
       <Route
         path="/manager/:storeNumber/edit"
         element={auth && isManager ? <Calender /> : <ManagerLogin />}

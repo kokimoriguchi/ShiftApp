@@ -157,8 +157,9 @@ const ManagerIndexEmployees = () => {
       </div>
       {modalOpen && (
         <ModalGeneral closeModal={handleClose}>
+          <div className="w-3/4 m-auto h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
           <div className="flex justify-center">
-            <div className="flex flex-col justify-start items-start overflow-auto w-72 h-36">
+            <div className="flex flex-col justify-start items-start overflow-auto w-72 h-40">
               {skills.map((skill, index) => (
                 <div key={index} className="m-2">
                   <label>
@@ -173,6 +174,7 @@ const ManagerIndexEmployees = () => {
               ))}
             </div>
           </div>
+          <div className="w-3/4 m-auto h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
           <div className="flex justify-center mt-8">
             <SubmitFlexButton
               type="save"
