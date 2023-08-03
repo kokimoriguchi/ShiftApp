@@ -32,8 +32,8 @@ export const ShiftRow = ({ startTime, endTime }) => {
     cells.push(
       <td
         key={i}
-        className={`border-b border-dashed border-slate-300 dark:text-white h-[28px] px-2 ${
-          isWorking ? "bg-green-200" : ""
+        className={`border-b border-dashed border-slate-400 dark:text-white h-[28px] px-2 ${
+          isWorking ? "bg-green-300 dark:bg-green-700" : ""
         }`}
       />
     );

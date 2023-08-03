@@ -50,6 +50,9 @@ Rails.application.routes.draw do
 
       # 単日のシフトの取得のroutes
       get "get_daily_calenders/:store_number/:date", to: "daily_calenders#get_daily_calender"
+
+      # 従業員の出勤情報の取得のroutes
+      get "employee_shift_detail/:store_number/:employee_name/:year/:month", to: "employee_shift_details#get_employee_shift_detail"
       #ヘルスチェックのroutes
       get "health_check", to: "health_check#index"
     end

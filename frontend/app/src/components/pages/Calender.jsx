@@ -14,6 +14,7 @@ import Loading from "../hooks/Loading";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
 import GetSkillList from "../hooks/GetSkillList";
 import { RxCross2, RxCheck } from "react-icons/rx";
+// import getEmployeeShiftDetail from "../hooks/GetEmployeeShiftDetail";
 
 const Calender = () => {
   //従業員名とそのシフトを取得するための関数とstateを取得
@@ -42,6 +43,8 @@ const Calender = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalConfirmationOpen, setModalConfirmationOpen] = useState(false);
   const [modalSkillCheckOpen, setModalSkillCheckOpen] = useState(false);
+  // const [modalEmployeeShiftDetailOpen, setModalEmployeeShiftDetailOpen] =
+  //   useState(false);
   //表示できるシフトが存在しないときに表示するstate
   const [noAvailableShifts, setNoAvailableShifts] = useState(false);
   //シフト提出可能な年月を取得中かどうかを判断するstate
@@ -123,11 +126,12 @@ const Calender = () => {
       const skillsCoverage = {};
       // 日付ごとに従業員のスキルを確認します。各日付についてループを回している
       for (let dayObj of days) {
+        // 日付をYYYY-MM-DDの形式に変換し格納している
         const day = dayObj.date.toISOString().slice(0, 10);
         const skillsForDay = new Set();
         const missingSkills = [];
         Object.values(employees).forEach((employeeData) => {
-          // 従業員がその日に出勤しているかどうかを確認します
+          // someメソッドで従業員がその日に出勤しているかどうかを確認します
           const isWorkingOnDay = employeeData.shifts.some(
             (shift) => shift.work_day === day && shift.is_attendance
           );
@@ -136,12 +140,13 @@ const Calender = () => {
             employeeData.skills.forEach((skill) => skillsForDay.add(skill.id));
           }
         });
+        // hasメソッドでskillsForDayの中にskillListのIDをと一致するものがあるか検証しスキルが不足しているかどうかを確認します
         skillList.forEach((skill) => {
           if (!skillsForDay.has(skill.id)) {
             missingSkills.push(skill.name); // スキルが不足している場合、名前を追加
           }
         });
-        // 日付ごとのスキルのカバレッジを記録します
+        // 日付ごとのスキルの検証を記録。
         skillsCoverage[day] = {
           allCovered: missingSkills.length === 0,
           missingSkills,
@@ -170,6 +175,11 @@ const Calender = () => {
   const closeSkillCheckModal = () => {
     setModalSkillCheckOpen(false);
   };
+
+  //従業員のシフト詳細を表示するモーダルを開く
+  // const closeEmployeeShiftDetail = () => {
+  //   setModalEmployeeShiftDetailOpen(false);
+  // };
 
   //時間を表示用に整形する関数
   function formatTime(timeString) {
@@ -227,12 +237,24 @@ const Calender = () => {
                 {employees &&
                   Object.keys(employees).map((employeeName) => (
                     <tr key={employeeName}>
-                      <td className="border border-slate-300 w-72 dark:text-white">
+                      <td
+                        className="border border-slate-300 w-72 dark:text-white hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer"
+                        // onClick={() => modalEmployeeShiftDetailOpen(true)}
+                      >
                         {employeeName}
                       </td>
                     </tr>
                   ))}
               </tbody>
+              {/* {modalEmployeeShiftDetailOpen && (
+                <ModalGeneral closeModal={closeEmployeeShiftDetail}>
+                  <div className="w-full h-full">
+                    <div className="flex justify-between">
+                      <p className="text-lg font-bold">シフト詳細</p>
+                    </div>
+                  </div>
+                </ModalGeneral>
+              )} */}
             </table>
 
             {/* スクロール可能なカレンダー部分 */}
