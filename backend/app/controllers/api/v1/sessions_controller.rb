@@ -19,7 +19,7 @@ class Api::V1::SessionsController < ApplicationController
 
       render json: {status: "create", data: employee, store_name: store_name, employee_name: employee_name, store_number: store_number}
     else
-      render json: {status: "error", message: "ログインに失敗しました！！"}
+      render json: {status: "error", message: "ログインに失敗しました"}
     end
   end
 
