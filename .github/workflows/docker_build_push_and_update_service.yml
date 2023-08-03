@@ -3,7 +3,7 @@ name: Rails Nginx ECS Deploy
 on:
   pull_request:
     types: [closed]
-    branches: [production]
+    branches: [main]
 
 env:
   AWS_REGION: ap-northeast-1
