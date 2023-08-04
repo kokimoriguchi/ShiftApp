@@ -95,13 +95,13 @@ const ManagerTop = () => {
     <div className="flex flex-col sm:pb-20 pb-10 sm:pt-16 items-center bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[500px] sm:min-h-[650px]">
       {/* PCサイズ */}
       <div className="lg:flex flex-col w-3/5 hidden">
-        <div className="flex justify-center pt-5 font-mono text-2xl animate-tracking-in-expand duration-1000 tracking-in-expand">
+        <div className="flex justify-center pt-5 font-mono text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
           ManagerTop
         </div>
         <div className="pt-10">
-          <p className="font-mono">Shift Management</p>
+          <p className="font-mono text-xl">Shift Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="grid grid-cols-3 justify-items-center pt-8">
+          <div className="justify-items-center pt-8 pl-10">
             <HomeMoveButton
               onClick={() => navigate(`/manager/${storeNumber}/edit`)}
             >
@@ -116,9 +116,9 @@ const ManagerTop = () => {
           </div>
         </div>
         <div className="pt-10">
-          <p className="font-mono">Staff Management</p>
+          <p className="font-mono text-xl">Staff Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="grid grid-cols-2 justify-items-center pt-8">
+          <div className="justify-items-center pt-8 pl-10">
             <HomeMoveButton
               onClick={() =>
                 navigate(`/manager/${storeNumber}/create/employee`)
@@ -137,9 +137,9 @@ const ManagerTop = () => {
           </div>
         </div>
         <div className="pt-10">
-          <p className="font-mono">Store Management</p>
+          <p className="font-mono text-xl">Store Management</p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="grid grid-cols-2 justify-items-center pt-8">
+          <div className="justify-items-center pt-8 pl-10">
             <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
               スキル登録
             </HomeMoveButton>
