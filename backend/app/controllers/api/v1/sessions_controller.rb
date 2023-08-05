@@ -6,7 +6,7 @@ class Api::V1::SessionsController < ApplicationController
     employee = Employee.find_by(number: params[:number])
     if employee&.authenticate(params[:password])
       token = JwtService.encode(employee.id)
-      cookies[:token] = { value: token, httponly: true, domain: ".realworld-demo.com", same_site: :none }
+      cookies[:token] = { value: token, httponly: true }
 
       # Storeのnameを取得する
       store_name = employee.store.name
@@ -36,7 +36,7 @@ class Api::V1::SessionsController < ApplicationController
       end
 
       begin
-        cookies[:token] = { value: token, httponly: true, domain: ".realworld-demo.com", same_site: :none }
+        cookies[:token] = { value: token, httponly: true }
         logger.debug "Cookie set: #{cookies[:token]}"
       rescue => e
         logger.error "Error while setting cookie: #{e.message}"
