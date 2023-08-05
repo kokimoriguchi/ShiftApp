@@ -23,8 +23,8 @@ jobs:
 
       - name: Setup RSA private key
         run: |
-          mkdir -p auth
-          echo "${{ secrets.SERVICE_KEY_BASE64 }}" | base64 -d > auth/service.key
+          mkdir -p backend/auth
+          echo "${{ secrets.SERVICE_KEY_BASE64 }}" | base64 -d > backend/auth/service.key
 
         # AWSの認証情報を設定する。これはdockerのbuildとpushで使う。
       - name: Configure AWS credentials
