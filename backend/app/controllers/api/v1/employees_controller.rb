@@ -17,7 +17,7 @@ class Api::V1::EmployeesController < ApplicationController
       # storeが存在しemployeeが保存できた場合はトークンを返す
       if employee.save
         token = JwtService.encode(employee.id)
-        cookies[:token] = { value: token, httponly: true, domain: ".realworld-demo.com", same_site: :none }
+        cookies[:token] = { value: token, httponly: true }
         render json: {status: "create", data: employee}
       else
         render json: {status: "error", message: employee.errors.full_messages}
