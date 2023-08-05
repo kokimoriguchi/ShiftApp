@@ -23,7 +23,14 @@ class JwtService
       # JWTのデコード。JWTからペイロードが取得できない場合は認証エラーにする
       begin
         decoded_token = JWT.decode(token, rsa_private, true, { algorithm: 'RS256' })
-      rescue JWT::DecodeError, JWT::ExpiredSignature, JWT::VerificationError
+      rescue JWT::DecodeError => e
+        Rails.logger.error "JWT::DecodeError: #{e.message}"
+        raise 'unauthorized'
+      rescue JWT::ExpiredSignature => e
+        Rails.logger.error "JWT::ExpiredSignature: #{e.message}"
+        raise 'unauthorized'
+      rescue JWT::VerificationError => e
+        Rails.logger.error "JWT::VerificationError: #{e.message}"
         raise 'unauthorized'
       end
 
