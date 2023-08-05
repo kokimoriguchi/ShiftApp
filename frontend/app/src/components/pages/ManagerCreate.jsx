@@ -130,10 +130,6 @@ const ManagerCreate = () => {
       </div>
       <div>
         <FadeIn delay={500}>
-          <NavigateButton
-            MoveTo={"マネージャーログイン"}
-            Path={"manager/login"}
-          />
           <NavigateButton MoveTo={"戻る"} Path={"/"} />
         </FadeIn>
       </div>
