@@ -28,7 +28,9 @@ class Api::V1::SessionsController < ApplicationController
     employee = Employee.find_by(number: params[:number])
     if employee&.is_manager && employee&.authenticate(params[:password])
       token = JwtService.encode(employee.id)
+      logger.debug "Encoded JWT token: #{token}"
       cookies[:token] = { value: token, httponly: true, domain: ".realworld-demo.com", same_site: :none }
+      logger.debug "Cookie set: #{cookies[:token]}"
 
       # Storeのnumberを取得する
       store_number = employee.store.number
