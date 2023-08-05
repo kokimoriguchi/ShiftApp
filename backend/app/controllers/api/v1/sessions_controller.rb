@@ -27,11 +27,21 @@ class Api::V1::SessionsController < ApplicationController
   def manager_create
     employee = Employee.find_by(number: params[:number])
     if employee&.is_manager && employee&.authenticate(params[:password])
-      token = JwtService.encode(employee.id)
-      logger.debug "Encoded JWT token: #{token}"
-      cookies[:token] = { value: token, httponly: true, domain: ".realworld-demo.com", same_site: :none }
-      logger.debug "Cookie set: #{cookies[:token]}"
+      begin
+        token = JwtService.encode(employee.id)
+        logger.debug "Encoded JWT token: #{token}"
+      rescue => e
+        logger.error "Error while encoding JWT: #{e.message}"
+        raise
+      end
 
+      begin
+        cookies[:token] = { value: token, httponly: true, domain: ".realworld-demo.com", same_site: :none }
+        logger.debug "Cookie set: #{cookies[:token]}"
+      rescue => e
+        logger.error "Error while setting cookie: #{e.message}"
+        raise
+      end
       # Storeのnumberを取得する
       store_number = employee.store.number
 
