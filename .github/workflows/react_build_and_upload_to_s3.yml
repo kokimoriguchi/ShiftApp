@@ -3,7 +3,7 @@ name: React Build and Upload to S3
 on:
   pull_request:
     types: [closed]
-    branches: [main]
+    branches: [production]
 
 jobs:
   build-and-upload:
