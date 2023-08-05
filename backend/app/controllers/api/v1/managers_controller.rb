@@ -11,7 +11,7 @@ class Api::V1::ManagersController < ApplicationController
       @manager = @store.employees.new(manager_params.except(:store_number).merge(is_manager: true))
       if @manager.save
         token = JwtService.encode(@manager.id)
-        cookies[:token] = { value: token, httponly: true, domain: ".realworld-demo.com", same_site: :none }
+        cookies[:token] = { value: token, httponly: true }
         render json: {status: "create", data: @manager}
       else
         render json: { status:"error", message: @manager.errors.full_messages}
