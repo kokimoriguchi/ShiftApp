@@ -39,6 +39,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Debug - List current directory
+        run: ls -al
+
+      - name: Debug - List auth directory
+        run: ls -al auth
+
       - name: Build and push Docker images
         # dockerののbuildとpushする。steps.login-ecr.outputs.registryは上段部分でAWSのIDを取得しコマンドに入れ込みしている。
         run: |
