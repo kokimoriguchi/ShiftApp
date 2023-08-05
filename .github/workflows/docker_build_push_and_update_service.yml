@@ -21,6 +21,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Setup RSA private key
+        run: |
+          mkdir -p auth
+          echo "${{ secrets.SERVICE_KEY_BASE64 }}" | base64 -d > auth/service.key
+
         # AWSの認証情報を設定する。これはdockerのbuildとpushで使う。
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
