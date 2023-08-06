@@ -162,7 +162,7 @@ const ConfirmShiftCalender = () => {
                   return (
                     <th
                       key={index}
-                      className="border border-slate-300 dark:text-white hover:bg-sky-300 hover:text-gray-500 bg-sky-200 dark:bg-sky-800 cursor-pointer"
+                      className="border border-slate-300 dark:text-white hover:bg-sky-300 hover:text-gray-500 bg-sky-200 dark:bg-sky-800 dark:hover:bg-sky-600 cursor-pointer"
                       onClick={() =>
                         navigate(
                           `/${storeNumber}/${year}/${month}/${formattedDate}/calender`
@@ -285,10 +285,7 @@ const ConfirmShiftCalender = () => {
         </div>
       </div>
       <div className="flex w-5/6 m-auto justify-between py-3">
-        <SubmitFlexButton
-          type={"back"}
-          onClick={() => navigate(`/manager/${storeNumber}`)}
-        >
+        <SubmitFlexButton type={"back"} onClick={() => window.history.back()}>
           戻る
         </SubmitFlexButton>
       </div>

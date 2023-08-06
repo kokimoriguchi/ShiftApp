@@ -179,9 +179,9 @@ const ManagerTop = () => {
           </FadeIn>
         </div>
         <img
-          src="/images/24176587.jpg"
+          src="/images/23700241.jpg"
           alt="mgTopImg"
-          className="absolute top-[270px] right-[-170px] w-[450px] h-[300px] rounded-3xl hidden xl:block animate-text-focus-in opacity-20"
+          className="absolute top-[270px] right-[-170px] w-[450px] h-[300px] rounded-3xl hidden xl:block animate-text-focus-in opacity-25"
         />
       </div>
 

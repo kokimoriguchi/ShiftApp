@@ -270,7 +270,7 @@ const Calender = () => {
                       return (
                         <th
                           key={index}
-                          className="border border-slate-300 dark:text-white hover:bg-sky-300 hover:text-gray-500 bg-sky-200 dark:bg-sky-800 cursor-pointer"
+                          className="border border-slate-300 dark:text-white hover:bg-sky-300 hover:text-gray-500 bg-sky-200 dark:bg-sky-800 dark:hover:bg-sky-600 cursor-pointer"
                           onClick={() =>
                             navigate(
                               `/${storeNumber}/${shiftYearData}/${shiftMonthData}/${formattedDate}/calender`

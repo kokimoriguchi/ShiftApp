@@ -1,6 +1,7 @@
 class Api::V1::ManagerShiftsController < ApplicationController
   include Authentication
-  before_action :authenticate_manager
+  before_action :authenticate_manager, only: [:update_shift, :get_shift_by_day]
+  before_action :authenticate_employee, only: [:get_shifts_by_month]
 
   # sift_dateテーブルのIDを受け取りその日のシフトを返す
   # get_shift_by_day/:id
