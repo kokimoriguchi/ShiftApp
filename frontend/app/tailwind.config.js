@@ -5,11 +5,23 @@ module.exports = {
   theme: {
     extend: {
       animation: {
+        "text-focus-in":
+          "text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530)   both",
         "tracking-in-expand":
           "tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000)   both",
         heartbeat: "heartbeat 1.5s ease  infinite both",
       },
       keyframes: {
+        "text-focus-in": {
+          "0%": {
+            filter: "blur(12px)",
+            opacity: "0",
+          },
+          to: {
+            filter: "blur(0)",
+            opacity: "1",
+          },
+        },
         "tracking-in-expand": {
           "0%": {
             "letter-spacing": "-.5em",

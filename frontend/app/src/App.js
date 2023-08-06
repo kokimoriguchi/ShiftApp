@@ -18,6 +18,7 @@ import ConfirmShiftCalender from "./components/pages/ConfirmShiftCalender";
 import ManagerIndexEmployees from "./components/pages/ManagerIndexEmployees";
 import ManagerSkillList from "./components/pages/ManagerSkillList";
 import DailyCalender from "./components/pages/DailyCalender";
+import SiteTermsOfService from "./components/pages/SiteTermsOfService";
 import Footer from "./components/pages/Footer";
 
 function AllRoutes() {
@@ -68,6 +69,7 @@ function AllRoutes() {
       <Route path="/store/create" element={<StoreCreate />} />
       <Route path="/manager/login" element={<ManagerLogin />} />
       <Route path="/login" element={<EmployeeLogin />} />
+      <Route path="/terms" element={<SiteTermsOfService />} />
       <Route path="/" element={<Home />} />
     </Routes>
   );

@@ -3,7 +3,7 @@ name: Rails Nginx ECS Deploy
 on:
   pull_request:
     types: [closed]
-    branches: [main]
+    branches: [proqrammer]
 
 env:
   AWS_REGION: ap-northeast-1

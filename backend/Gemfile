@@ -46,9 +46,9 @@ group :development do
   gem "rubocop-rspec", require: false
 end
 
-group :production do
-  gem 'unicorn'
-end
+# group :production do
+#   gem 'unicorn'
+# end
 
 gem "jwt"
 gem 'dotenv-rails'
