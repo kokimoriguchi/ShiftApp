@@ -26,10 +26,6 @@ function AllRoutes() {
   return (
     <Routes>
       <Route
-        path="/manager/:storeNumber/:year/:month/:day/calender"
-        element={auth && isManager ? <DailyCalender /> : <ManagerLogin />}
-      />
-      <Route
         path="/manager/:storeNumber/edit"
         element={auth && isManager ? <Calender /> : <ManagerLogin />}
       />
@@ -54,6 +50,10 @@ function AllRoutes() {
       <Route
         path="/:storeNumber/calender/:year/:month"
         element={auth ? <ConfirmShiftCalender /> : <EmployeeLogin />}
+      />
+      <Route
+        path="/:storeNumber/:year/:month/:day/calender"
+        element={auth ? <DailyCalender /> : <Home />}
       />
       <Route
         path="/staff/:storeNumber/calender/submit"

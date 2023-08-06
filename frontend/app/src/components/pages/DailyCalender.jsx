@@ -4,14 +4,12 @@ import getDailyShift from "../hooks/GetDailyShift";
 import Loading from "../hooks/Loading";
 import { TimeRow, ShiftRow } from "../data/time";
 import { SubmitFlexButton } from "../hooks/SubmitFlexButton";
-import { useNavigate } from "react-router-dom";
 
 const DailyCalender = () => {
   const { year, month, day } = useParams();
   const { storeNumber } = useParams();
   const [loading, setLoading] = useState(true);
   const [shifts, setShifts] = useState([]);
-  const navigate = useNavigate();
   //受け取った日付をYYYY-MM-DD形式に変換
   const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
     day
@@ -72,10 +70,7 @@ const DailyCalender = () => {
         </div>
       </div>
       <div className="flex w-5/6 m-auto justify-between py-3">
-        <SubmitFlexButton
-          type={"back"}
-          onClick={() => navigate(`/manager/${storeNumber}/edit`)}
-        >
+        <SubmitFlexButton type={"back"} onClick={() => window.history.back()}>
           戻る
         </SubmitFlexButton>
       </div>

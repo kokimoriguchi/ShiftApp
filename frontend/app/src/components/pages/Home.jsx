@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div className="flex justify-center text-center h-auto sm:pt-16 min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black dark:text-white">
       <div className="sm:pt-8">
-        <div className="">
+        <div>
           <h1 className="animate-tracking-in-expand duration-1000 tracking-in-expand  md:text-[100px] md:pt-4 pt-8 text-4xl font-bold font-mono">
             ShiftHub
           </h1>
@@ -69,7 +69,7 @@ const Home = () => {
         </div>
       </div>
       <div className="pb-24 lg:flex hidden dark:opacity-90">
-        <div class="relative top-12 z-10 overflow-hidden md:left-16 md:top-16 lg:ml-0">
+        <div className="relative top-12 z-10 overflow-hidden md:left-16 md:top-16 lg:ml-0">
           <img
             src="/images/23987333.jpg"
             alt="topImage"
@@ -77,7 +77,7 @@ const Home = () => {
           />
         </div>
 
-        <div class="overflow-hidden">
+        <div className="overflow-hidden">
           <img
             src="/images/24182857.jpg"
             alt="topImage"

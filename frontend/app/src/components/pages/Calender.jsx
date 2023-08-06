@@ -273,7 +273,7 @@ const Calender = () => {
                           className="border border-slate-300 dark:text-white hover:bg-sky-300 hover:text-gray-500 bg-sky-200 dark:bg-sky-800 cursor-pointer"
                           onClick={() =>
                             navigate(
-                              `/manager/${storeNumber}/${shiftYearData}/${shiftMonthData}/${formattedDate}/calender`
+                              `/${storeNumber}/${shiftYearData}/${shiftMonthData}/${formattedDate}/calender`
                             )
                           }
                         >
@@ -309,18 +309,26 @@ const Calender = () => {
                   {/* カレンダーのスキルチェック部分 */}
                   <tr>
                     {days.map((day) => {
-                      const { allCovered, missingSkills } =
-                        skillsAvailability[day.date.toISOString().slice(0, 10)]; // この日付に対するスキルのカバレッジを取得
+                      const dayKey = day.date.toISOString().slice(0, 10);
+                      const skillCoverage = skillsAvailability[dayKey];
+
+                      // この日付のスキルカバレッジが存在しないか、もしくはallCoveredがtrueの場合
+                      const isAllCovered =
+                        !skillCoverage || skillCoverage.allCovered;
+                      const missingSkills = skillCoverage
+                        ? skillCoverage.missingSkills
+                        : [];
+
                       return (
                         <th
                           key={day.date.toISOString()}
                           className={`border border-slate-300 dark:text-white ${
-                            allCovered
+                            isAllCovered
                               ? "bg-green-200 dark:bg-green-700"
                               : "bg-red-200 dark:bg-red-700 hover:bg-red-300 hover:text-red-900 dark:hover:bg-red-600 cursor-pointer"
                           }`}
                           onClick={
-                            !allCovered
+                            !isAllCovered
                               ? () => {
                                   setLackSkills(missingSkills);
                                   setModalSkillCheckOpen(true);
@@ -328,7 +336,7 @@ const Calender = () => {
                               : undefined
                           }
                         >
-                          {allCovered ? (
+                          {isAllCovered ? (
                             <RxCheck className="inline-block text-green-500" />
                           ) : (
                             <RxCross2 className="inline-block text-red-500" />
