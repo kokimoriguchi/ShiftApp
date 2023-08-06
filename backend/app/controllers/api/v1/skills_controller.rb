@@ -1,6 +1,6 @@
 class Api::V1::SkillsController < ApplicationController
   include Authentication
-  before_action :authenticate_manager
+  before_action :authenticate_manager, only: [:create, :destroy]
   before_action :set_store, only: [:index, :create]
 
   #そのstoreのIdを元に店舗のスキル一覧を取得

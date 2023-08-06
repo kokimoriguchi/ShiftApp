@@ -18,16 +18,13 @@ import ConfirmShiftCalender from "./components/pages/ConfirmShiftCalender";
 import ManagerIndexEmployees from "./components/pages/ManagerIndexEmployees";
 import ManagerSkillList from "./components/pages/ManagerSkillList";
 import DailyCalender from "./components/pages/DailyCalender";
+import SiteTermsOfService from "./components/pages/SiteTermsOfService";
 import Footer from "./components/pages/Footer";
 
 function AllRoutes() {
   const { auth, isManager } = useContext(AuthContext);
   return (
     <Routes>
-      <Route
-        path="/manager/:storeNumber/:year/:month/:day/calender"
-        element={auth && isManager ? <DailyCalender /> : <ManagerLogin />}
-      />
       <Route
         path="/manager/:storeNumber/edit"
         element={auth && isManager ? <Calender /> : <ManagerLogin />}
@@ -55,6 +52,10 @@ function AllRoutes() {
         element={auth ? <ConfirmShiftCalender /> : <EmployeeLogin />}
       />
       <Route
+        path="/:storeNumber/:year/:month/:day/calender"
+        element={auth ? <DailyCalender /> : <Home />}
+      />
+      <Route
         path="/staff/:storeNumber/calender/submit"
         element={auth ? <SubmitCalender /> : <EmployeeLogin />}
       />
@@ -68,6 +69,7 @@ function AllRoutes() {
       <Route path="/store/create" element={<StoreCreate />} />
       <Route path="/manager/login" element={<ManagerLogin />} />
       <Route path="/login" element={<EmployeeLogin />} />
+      <Route path="/terms" element={<SiteTermsOfService />} />
       <Route path="/" element={<Home />} />
     </Routes>
   );

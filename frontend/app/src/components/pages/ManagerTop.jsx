@@ -9,6 +9,7 @@ import createApproveMonth from "../hooks/CreateApproveMonth";
 import ModalGeneral from "../hooks/ModalGeneral";
 import CreateSkill from "../hooks/CreateSkill";
 import { validateSkillName } from "../hooks/Validators";
+import { FadeIn } from "../hooks/FadeInHook";
 
 const ManagerTop = () => {
   const { storeName } = useContext(AuthContext);
@@ -19,7 +20,6 @@ const ManagerTop = () => {
   const [skillName, setSkillName] = useState("");
   const [skillErrorMessage, setSkillErrorMessage] = useState("");
   const { storeNumber } = useParams();
-
   const [approveMonths, setApproveMonths] = useState();
   const [selectedYear, setSelectedYear] = useState(""); // 選択した年
   const [selectedMonth, setSelectedMonth] = useState(""); // 選択した月
@@ -39,14 +39,35 @@ const ManagerTop = () => {
     }
   };
 
-  //モーダルを閉じる
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  useEffect(() => {
+    //ここでrailsのAPIのget_approve_month/:store_numberを叩いて、月と年を取得する
+    const getApproveMonths = async () => {
+      try {
+        const response = await baseAxios.get(
+          `get_approve_month/${storeNumber}`
+        );
+        console.log(response.data);
+        if (Array.isArray(response.data)) {
+          setApproveMonths(response.data);
+          // APIから取得した初期値をstateにセットします。
+          setSelectedYear(response.data[0].year);
+          setSelectedMonth(response.data[0].month);
+        }
+      } catch (message) {
+        console.log("確定している月がありません");
+      }
+    };
+    getApproveMonths();
+  }, [storeNumber]);
 
   //skillモーダルを閉じる
   const closeSkillModal = () => {
     setSkillModalOpen(false);
+  };
+
+  //モーダルを閉じる
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   //バリデート通ればスキルを作成する
@@ -70,86 +91,98 @@ const ManagerTop = () => {
     setContextStoreNumber(storeNumber);
   }, [storeNumber, setContextStoreNumber]);
 
-  useEffect(() => {
-    //ここでrailsのAPIのget_approve_month/:store_numberを叩いて、月と年を取得する
-    const getApproveMonths = async () => {
-      try {
-        const response = await baseAxios.get(
-          `get_approve_month/${storeNumber}`
-        );
-        console.log(response.data);
-        if (Array.isArray(response.data)) {
-          setApproveMonths(response.data);
-          // APIから取得した初期値をstateにセットします。
-          setSelectedYear(response.data[0].year);
-          setSelectedMonth(response.data[0].month);
-        }
-      } catch (message) {
-        console.log("確定している月がありません");
-      }
-    };
-    getApproveMonths();
-  }, [storeNumber]);
-
   return (
-    <div className="flex flex-col sm:pb-20 pb-10 sm:pt-16 items-center bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[500px] sm:min-h-[650px]">
+    <div className="flex flex-col py-10 items-center bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[500px] sm:min-h-[650px]">
       {/* PCサイズ */}
-      <div className="lg:flex flex-col w-3/5 hidden">
+      <div className="lg:flex flex-col w-3/5 hidden relative">
         <div className="flex justify-center pt-5 font-mono text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
           ManagerTop
         </div>
         <div className="pt-10">
-          <p className="font-mono text-xl">Shift Management</p>
-          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="justify-items-center pt-8 pl-10">
-            <HomeMoveButton
-              onClick={() => navigate(`/manager/${storeNumber}/edit`)}
-            >
-              シフト編集
-            </HomeMoveButton>
-            <HomeMoveButton onClick={() => setModalOpen(true)}>
-              確定シフト一覧
-            </HomeMoveButton>
-            <HomeMoveButton onClick={() => createApproveMonth()}>
-              シフト作成許可
-            </HomeMoveButton>
-          </div>
+          <p className="font-mono text-xl animate-tracking-in-expand">
+            Shift Management
+          </p>
+          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1] animate-text-focus-in" />
+          <FadeIn delay={300}>
+            <div className="flex flex-row justify-items-center pt-8">
+              <div className="pr-8">
+                <HomeMoveButton
+                  onClick={() => navigate(`/manager/${storeNumber}/edit`)}
+                >
+                  シフト編集
+                </HomeMoveButton>
+              </div>
+              <div className="pr-8">
+                <HomeMoveButton onClick={() => setModalOpen(true)}>
+                  確定シフト一覧
+                </HomeMoveButton>
+              </div>
+              <div>
+                <HomeMoveButton onClick={() => createApproveMonth()}>
+                  シフト作成許可
+                </HomeMoveButton>
+              </div>
+            </div>
+          </FadeIn>
         </div>
         <div className="pt-10">
-          <p className="font-mono text-xl">Staff Management</p>
-          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="justify-items-center pt-8 pl-10">
-            <HomeMoveButton
-              onClick={() =>
-                navigate(`/manager/${storeNumber}/create/employee`)
-              }
-              className="col-span-2"
-            >
-              新規スタッフ登録
-            </HomeMoveButton>
-            <HomeMoveButton
-              onClick={() =>
-                navigate(`/manager/${storeNumber}/index/employees`)
-              }
-            >
-              登録スタッフ一覧
-            </HomeMoveButton>
-          </div>
+          <p className="font-mono text-xl animate-tracking-in-expand">
+            Staff Management
+          </p>
+          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1] animate-text-focus-in" />
+          <FadeIn delay={400}>
+            <div className="flex flex-row justify-items-center pt-8">
+              <div className="pr-8">
+                <HomeMoveButton
+                  onClick={() =>
+                    navigate(`/manager/${storeNumber}/create/employee`)
+                  }
+                  className="col-span-2"
+                >
+                  新規スタッフ登録
+                </HomeMoveButton>
+              </div>
+              <div>
+                <HomeMoveButton
+                  onClick={() =>
+                    navigate(`/manager/${storeNumber}/index/employees`)
+                  }
+                >
+                  登録スタッフ一覧
+                </HomeMoveButton>
+              </div>
+            </div>
+          </FadeIn>
         </div>
         <div className="pt-10">
-          <p className="font-mono text-xl">Store Management</p>
-          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
-          <div className="justify-items-center pt-8 pl-10">
-            <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
-              スキル登録
-            </HomeMoveButton>
-            <HomeMoveButton
-              onClick={() => navigate(`/manager/${storeNumber}/index/skills`)}
-            >
-              登録スキル一覧
-            </HomeMoveButton>
-          </div>
+          <p className="font-mono text-xl animate-tracking-in-expand">
+            Store Management
+          </p>
+          <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1] animate-text-focus-in" />
+          <FadeIn delay={500}>
+            <div className="flex flex-row justify-items-center pt-8">
+              <div className="pr-8">
+                <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
+                  スキル登録
+                </HomeMoveButton>
+              </div>
+              <div>
+                <HomeMoveButton
+                  onClick={() =>
+                    navigate(`/manager/${storeNumber}/index/skills`)
+                  }
+                >
+                  登録スキル一覧
+                </HomeMoveButton>
+              </div>
+            </div>
+          </FadeIn>
         </div>
+        <img
+          src="/images/23700241.jpg"
+          alt="mgTopImg"
+          className="absolute top-[270px] right-[-170px] w-[450px] h-[300px] rounded-3xl hidden xl:block animate-text-focus-in opacity-25"
+        />
       </div>
 
       {/* モバイルサイズ */}
@@ -157,51 +190,65 @@ const ManagerTop = () => {
         <div className="flex justify-center pt-5 font-mono text-2xl">
           ManagerTop
         </div>
-        <div className="pt-20">
+        <div className="pt-16">
           <AccordionItem title="シフト管理">
-            <HomeMoveButton
-              onClick={() => navigate(`/manager/${storeNumber}/edit`)}
-            >
-              シフト編集
-            </HomeMoveButton>
-            <HomeMoveButton onClick={() => setModalOpen(true)}>
-              確定シフト一覧
-            </HomeMoveButton>
-            <HomeMoveButton onClick={() => createApproveMonth()}>
-              シフト作成許可
-            </HomeMoveButton>
+            <div className="pt-6">
+              <HomeMoveButton
+                onClick={() => navigate(`/manager/${storeNumber}/edit`)}
+              >
+                シフト編集
+              </HomeMoveButton>
+            </div>
+            <div className="pt-6">
+              <HomeMoveButton onClick={() => setModalOpen(true)}>
+                確定シフト一覧
+              </HomeMoveButton>
+            </div>
+            <div className="pt-6">
+              <HomeMoveButton onClick={() => createApproveMonth()}>
+                シフト作成許可
+              </HomeMoveButton>
+            </div>
           </AccordionItem>
         </div>
 
         <div className="pt-10">
           <AccordionItem title="スタッフ管理">
-            <HomeMoveButton
-              onClick={() =>
-                navigate(`/manager/${storeNumber}/create/employee`)
-              }
-              className="col-span-2"
-            >
-              新規スタッフ登録
-            </HomeMoveButton>
-            <HomeMoveButton
-              onClick={() =>
-                navigate(`/manager/${storeNumber}/index/employees`)
-              }
-            >
-              登録スタッフ一覧
-            </HomeMoveButton>
+            <div className="pt-6">
+              <HomeMoveButton
+                onClick={() =>
+                  navigate(`/manager/${storeNumber}/create/employee`)
+                }
+                className="col-span-2"
+              >
+                新規スタッフ登録
+              </HomeMoveButton>
+            </div>
+            <div className="pt-6">
+              <HomeMoveButton
+                onClick={() =>
+                  navigate(`/manager/${storeNumber}/index/employees`)
+                }
+              >
+                登録スタッフ一覧
+              </HomeMoveButton>
+            </div>
           </AccordionItem>
         </div>
         <div className="pt-10">
           <AccordionItem title="店舗管理">
-            <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
-              スキル登録
-            </HomeMoveButton>
-            <HomeMoveButton
-              onClick={() => navigate(`/manager/${storeNumber}/index/skills`)}
-            >
-              登録スキル一覧
-            </HomeMoveButton>
+            <div className="pt-6">
+              <HomeMoveButton onClick={() => setSkillModalOpen(true)}>
+                スキル登録
+              </HomeMoveButton>
+            </div>
+            <div className="pt-6">
+              <HomeMoveButton
+                onClick={() => navigate(`/manager/${storeNumber}/index/skills`)}
+              >
+                登録スキル一覧
+              </HomeMoveButton>
+            </div>
           </AccordionItem>
         </div>
       </div>

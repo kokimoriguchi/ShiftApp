@@ -1,6 +1,6 @@
 class Api::V1::EmployeeShiftDetailsController < ApplicationController
-  # include Authentication
-  # before_action :authenticate_employee
+  include Authentication
+  before_action :authenticate_employee
   before_action :set_store
 
   # employee_shift_detail/:store_number/:employee_name/:year/:month
