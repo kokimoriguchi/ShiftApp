@@ -6,24 +6,28 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center text-center w-screen h-auto sm:pt-16 min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black dark:text-white">
+    <div className="flex text-center justify-center w-screen h-auto sm:pt-16 min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black dark:text-white">
       <div className="sm:pt-8 xl:relative xl:right-[90px]">
         <div>
-          <h1 className="animate-tracking-in-expand duration-1000 tracking-in-expand  md:text-[100px] md:pt-4 pt-8 text-4xl font-bold font-mono">
+          <h1 className=" animate-tracking-in-expand duration-1000 tracking-in-expand  md:text-[100px] md:pt-4 pt-8 text-4xl font-bold font-mono">
             ShiftHub
           </h1>
-          <p className="animate-tracking-in-expand sm:pt-10 text-base sm:block hidden font-mono">
+          <p className="text-gray-600 dark:text-slate-300 animate-tracking-in-expand sm:pt-10 text-base sm:block hidden font-mono">
             ShiftHubは日々のシフト管理をWeb上で完結することのできるサービスです。
           </p>
-          <p className="animate-tracking-in-expand sm:text-base text-sm font-mono">
+          <p className="text-gray-600 dark:text-slate-300 animate-tracking-in-expand sm:text-base text-sm font-mono">
             あなたのお店のシフト管理をShiftHubで始めましょう。
           </p>
         </div>
         <div className="flex pt-8 sm:pt-16 text-center sm:justify-between sm:flex-row flex-col">
           <div className="sm:pr-10">
             <FadeIn delay={150}>
-              <p className="font-mono text-base font-bold">click login!!</p>
-              <p className="pt-3 m-auto animate-bounce w-6 h-6">⬇︎</p>
+              <p className="font-mono text-base font-thin text-gray-600 dark:text-slate-300">
+                click login!!
+              </p>
+              <p className="pt-3 m-auto animate-bounce w-6 h-6 text-gray-600 dark:text-slate-300">
+                ⬇︎
+              </p>
             </FadeIn>
             <FadeIn delay={300}>
               <div className="mt-7">
@@ -42,8 +46,12 @@ const Home = () => {
           </div>
           <div className="sm:py-0 py-6 ">
             <FadeIn delay={150}>
-              <p className="font-mono text-base font-bold">start new!!</p>
-              <p className="pt-3 m-auto animate-bounce w-6 h-6">⬇︎</p>
+              <p className="font-mono text-base font-thin text-gray-600 dark:text-slate-300">
+                start new!!
+              </p>
+              <p className="pt-3 m-auto animate-bounce w-6 h-6 text-gray-600 dark:text-slate-300">
+                ⬇︎
+              </p>
             </FadeIn>
             <FadeIn delay={300}>
               <div className="mt-7">
@@ -73,14 +81,14 @@ const Home = () => {
           <img
             src="/images/24030885.jpg"
             alt="topImage"
-            className="xl:h-[300px] xl:w-[450px] h-[200px] w-[300px] rounded-3xl object-cover object-center animate-text-focus-in"
+            className="xl:h-[300px] xl:w-[400px] h-[200px] w-[300px] rounded-[64px] object-cover object-center animate-text-focus-in"
           />
         </div>
         <div className="relative xl:-top-[80px] xl:right-[50px] -top-[0px] overflow-hidden">
           <img
             src="/images/23503225.jpg"
             alt="topImage"
-            className="xl:h-[300px] xl:w-[450px] h-[200px] w-[300px] rounded-3xl object-cover object-center animate-text-focus-in"
+            className="xl:h-[300px] xl:w-[450px] h-[200px] w-[300px] rounded-[64px] object-cover object-center animate-text-focus-in"
           />
         </div>
       </div>

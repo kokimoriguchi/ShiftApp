@@ -95,11 +95,11 @@ const ManagerTop = () => {
     <div className="flex flex-col py-10 items-center bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[500px] sm:min-h-[650px]">
       {/* PCサイズ */}
       <div className="lg:flex flex-col w-3/5 hidden relative">
-        <div className="flex justify-center pt-5 font-mono text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
+        <div className="flex justify-center pt-5 font-mono md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
           ManagerTop
         </div>
         <div className="pt-10">
-          <p className="font-mono text-xl animate-tracking-in-expand">
+          <p className="font-bold  font-mono text-xl animate-tracking-in-expand">
             Shift Management
           </p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1] animate-text-focus-in" />
@@ -126,7 +126,7 @@ const ManagerTop = () => {
           </FadeIn>
         </div>
         <div className="pt-10">
-          <p className="font-mono text-xl animate-tracking-in-expand">
+          <p className="font-bold font-mono text-xl animate-tracking-in-expand">
             Staff Management
           </p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1] animate-text-focus-in" />
@@ -155,7 +155,7 @@ const ManagerTop = () => {
           </FadeIn>
         </div>
         <div className="pt-10">
-          <p className="font-mono text-xl animate-tracking-in-expand">
+          <p className="font-bold  font-mono text-xl animate-tracking-in-expand">
             Store Management
           </p>
           <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1] animate-text-focus-in" />
@@ -181,7 +181,7 @@ const ManagerTop = () => {
         <img
           src="/images/23700241.jpg"
           alt="mgTopImg"
-          className="absolute top-[270px] right-[-170px] w-[450px] h-[300px] rounded-3xl hidden xl:block animate-text-focus-in opacity-25"
+          className="absolute top-[270px] right-[-170px] w-[450px] h-[300px] rounded-[72px] hidden xl:block animate-text-focus-in opacity-25"
         />
       </div>
 
