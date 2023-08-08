@@ -5,7 +5,7 @@
 
 ## ⚪︎**サービス URL**
 
-https://web.realworld-demo.com
+[ShiftHub](https://web.realworld-demo.com)
 
 <br>
 
@@ -151,43 +151,43 @@ https://web.realworld-demo.com
 ## ⚪︎ 今後の課題
 
 <details>
-<summary>### 1. スタッフ詳細の確認機能</summary>
+<summary>1. スタッフ詳細の確認機能</summary>
 
 - 各スタッフの詳細情報を確認できる機能を導入する。
 </details>
 
 <details>
-<summary>### 2. CSV 出力と Excel 連携</summary>
+<summary>2. CSV 出力と Excel 連携</summary>
 
 - CSV 出力を可能にし、現場で使用している Excel との連携をスムーズに行えるようにする。
 </details>
 
 <details>
-<summary>### 3. 通知機能の強化</summary>
+<summary>3. 通知機能の強化</summary>
 
 - お知らせ機能を追加し、シフトが公開された際にスタッフへの通知を自動で行う。
 </details>
 
 <details>
-<summary>### 4. 担当部門の表示</summary>
+<summary>4. 担当部門の表示</summary>
 
 - カレンダー表示において、左側に各スタッフの担当部門を明示的に表示する。
 </details>
 
 <details>
-<summary>### 5. スキルレベルの可視化</summary>
+<summary>5. スキルレベルの可視化</summary>
 
 - スタッフごとのスキルの習熟度を表示できるようにし、スキルレベルの差を明確にする。
 </details>
 
 <details>
-<summary>### 6. シフト変更リクエスト機能</summary>
+<summary>6. シフト変更リクエスト機能</summary>
 
 - シフトが確定した後でも、変更希望をマネージャーに向けてリクエストできる機能を追加する。
 </details>
 
 <details>
-<summary>### 7. 確定シフトの変更機能</summary>
+<summary>7. 確定シフトの変更機能</summary>
 
 - 確定後のシフトに対しても変更をリクエストし、マネージャーがそれを承認する流れを実装する。
 </details>
