@@ -90,54 +90,56 @@ const ManagerIndexEmployees = () => {
   return (
     <div className="overflow-x-auto h-auto min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
       <div className="flex justify-center pt-16">
-        <div className="font-mono dark:text-white text-2xl animate-tracking-in-expand duration-1000 tracking-in-expand">
-          スタッフ一覧
+        <div className="font-mono dark:text-white md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
+          StaffList
         </div>
       </div>
-      <table className="w-3/5 h-auto max-h-[450] mt-10 m-auto">
-        <thead className="">
-          <tr className="border-b border-slate-300 dark:text-white font-mono">
-            <th>Select</th>
-            <th>Name</th>
-            <th className="hidden sm:block">Number</th>
-            <th>skill</th>
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {employees.map((employee, index) => (
-            <tr
-              key={index}
-              className="border-b border-slate-300 dark:text-white"
-            >
-              <th>
-                <label>
-                  <input
-                    type="checkbox"
-                    className="pr-2"
-                    checked={checkEmployees.some((e) => e.id === employee.id)}
-                    onChange={() => handleCheckEmployees(employee)}
-                  />
-                </label>
-              </th>
-              <td className="font-bold">{employee.name}</td>
-              <td className="hidden sm:block">{employee.number}</td>
-              <th>
-                <button
-                  className="hover:text-blue-300 dark:hover:text-blue-300 font-mono"
-                  onClick={() => {
-                    setSelectedEmployeeId(employee.id);
-                    setModalOpen(true);
-                    console.log(skills);
-                  }}
-                >
-                  add
-                </button>
-              </th>
+      <div className="sm:w-3/5 w-4/5 h-auto sm:max-h-[450px] max-h-[250px] mt-10 m-auto overflow-y-auto animate-slide-in-fwd-center">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-slate-300 dark:text-white font-mono">
+              <th>Select</th>
+              <th>Name</th>
+              <th className="hidden sm:block">Number</th>
+              <th>skill</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="flex justify-between w-3/5 m-auto pt-5">
+          </thead>
+          <tbody className="text-center">
+            {employees.map((employee, index) => (
+              <tr
+                key={index}
+                className="border-b border-slate-300 dark:text-white"
+              >
+                <th>
+                  <label>
+                    <input
+                      type="checkbox"
+                      className="pr-2"
+                      checked={checkEmployees.some((e) => e.id === employee.id)}
+                      onChange={() => handleCheckEmployees(employee)}
+                    />
+                  </label>
+                </th>
+                <td className="font-bold">{employee.name}</td>
+                <td className="hidden sm:block">{employee.number}</td>
+                <th>
+                  <button
+                    className="hover:text-blue-300 dark:hover:text-blue-300 font-mono"
+                    onClick={() => {
+                      setSelectedEmployeeId(employee.id);
+                      setModalOpen(true);
+                      console.log(skills);
+                    }}
+                  >
+                    add
+                  </button>
+                </th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex justify-between sm:w-3/5 w-4/5 m-auto pt-5">
         <div>
           <SubmitFlexButton
             type="back"

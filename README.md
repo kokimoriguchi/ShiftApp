@@ -92,7 +92,7 @@
 
 ## ⚪︎ インフラ構成図
 
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2741017/bbd67865-9989-766c-dfe9-cb297a26ca7b.png">
+<img src="https://github.com/kokimoriguchi/ShiftApp/assets/105916391/906d529c-df3f-4a57-b0ac-a144d9b881a6">
 
 <br>
 
