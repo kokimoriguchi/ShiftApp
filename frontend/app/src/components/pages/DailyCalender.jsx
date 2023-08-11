@@ -32,7 +32,7 @@ const DailyCalender = () => {
   }
 
   return (
-    <div className="h-auto min-h-[500px] sm:min-h-[650px] dark:bg-black bg-sky-100 pt-5 font-mono">
+    <div className="h-auto min-h-[430px] sm:min-h-[650px] dark:bg-black bg-sky-100 pt-5 font-mono">
       <div className="w-5/6 m-auto flex">
         <table className="w-auto text-center">
           <thead>
@@ -45,7 +45,7 @@ const DailyCalender = () => {
           <tbody>
             {shifts.map((shift) => (
               <tr key={shift.id}>
-                <td className="border border-slate-300 w-72 dark:text-white ">
+                <td className="border border-slate-300 w-72 dark:text-white sm:text-base text-sm ">
                   {shift.employee_name}
                 </td>
               </tr>

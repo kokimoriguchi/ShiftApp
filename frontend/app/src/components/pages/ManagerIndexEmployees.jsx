@@ -7,6 +7,7 @@ import GetSkillList from "../hooks/GetSkillList";
 import ModalGeneral from "../hooks/ModalGeneral";
 import CreateSkillByEmployee from "../hooks/CreateSkillByEmployee";
 import deleteEmployee from "../hooks/DeleteEmployee";
+import getEmployeeIndexSkills from "../hooks/GetEmployeeIndexSkills";
 
 const ManagerIndexEmployees = () => {
   const [employees, setEmployees] = useState([]);
@@ -16,6 +17,9 @@ const ManagerIndexEmployees = () => {
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
+  const [indexSkillModalOpen, setIndexSkillModalOpen] = useState(false);
+  const [selectedEmployeeName, setSelectedEmployeeName] = useState("");
+  const [indexSkills, setIndexSkills] = useState("");
   const navigate = useNavigate();
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
 
@@ -38,6 +42,23 @@ const ManagerIndexEmployees = () => {
   //confirmモーダルの閉じる関数
   const handleCloseConfirmation = () => {
     setConfirmationModalOpen(false);
+  };
+
+  //indexSkillモーダルの閉じる関数
+  const handleCloseIndexSkill = () => {
+    setIndexSkillModalOpen(false);
+  };
+
+  // 従業員のスキル一覧取得のクリックイベントハンドラ
+  const handleIndexSkill = async (employeeId, employeeName) => {
+    try {
+      const result = await getEmployeeIndexSkills(employeeId);
+      setIndexSkills(result);
+      setSelectedEmployeeName(employeeName);
+      setIndexSkillModalOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // skillチェックボックスのクリックイベントハンドラ
@@ -88,8 +109,8 @@ const ManagerIndexEmployees = () => {
   }
 
   return (
-    <div className="overflow-x-auto h-auto min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
-      <div className="flex justify-center pt-16">
+    <div className="overflow-x-auto h-auto min-h-[430px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
+      <div className="flex justify-center sm:pt-16 pt-8">
         <div className="font-mono dark:text-white md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
           StaffList
         </div>
@@ -120,7 +141,14 @@ const ManagerIndexEmployees = () => {
                     />
                   </label>
                 </th>
-                <td className="font-bold">{employee.name}</td>
+                <td
+                  className="font-bold hover:text-blue-300 dark:hover:text-blue-300 font-mono cursor-pointer"
+                  onClick={() => {
+                    handleIndexSkill(employee.id, employee.name);
+                  }}
+                >
+                  {employee.name}
+                </td>
                 <td className="hidden sm:block">{employee.number}</td>
                 <th>
                   <button
@@ -128,7 +156,6 @@ const ManagerIndexEmployees = () => {
                     onClick={() => {
                       setSelectedEmployeeId(employee.id);
                       setModalOpen(true);
-                      console.log(skills);
                     }}
                   >
                     add
@@ -209,6 +236,23 @@ const ManagerIndexEmployees = () => {
               </div>
             </div>
           </div>
+        </ModalGeneral>
+      )}
+      {indexSkillModalOpen && (
+        <ModalGeneral closeModal={handleCloseIndexSkill}>
+          {selectedEmployeeName}保有skill
+          <div className="w-3/4 m-auto h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
+          <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-start items-start overflow-auto w-72 h-40">
+              {indexSkills &&
+                indexSkills.map((skill) => (
+                  <div key={skill.name} className="m-2">
+                    <span className="pl-20">{skill.name}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+          <div className="w-3/4 m-auto h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
         </ModalGeneral>
       )}
     </div>

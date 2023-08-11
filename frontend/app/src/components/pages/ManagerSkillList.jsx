@@ -60,8 +60,8 @@ const ManagerSkillList = () => {
   }
 
   return (
-    <div className="py-10 h-auto min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
-      <div className="flex justify-center pt-5 font-mono md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
+    <div className="py-10 h-auto min-h-[430px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
+      <div className="flex justify-center sm:pt-5 pt-2 font-mono md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
         SkillList
       </div>
       <div className="md:w-2/5 w-4/5 h-auto mt-10 m-auto flex justify-center animate-slide-in-fwd-center">

@@ -54,7 +54,7 @@ const EmployeeLogin = () => {
   };
 
   return (
-    <div className="min-h-[500px] sm:min-h-[650px] sm:pt-32 pt-24 h-auto bg-sky-100 dark:bg-black dark:text-white">
+    <div className="min-h-[430px] sm:min-h-[650px] sm:pt-32 pt-16 h-auto bg-sky-100 dark:bg-black dark:text-white">
       <FadeIn delay={50}>
         <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
           <h1 className="font-mono">Login</h1>

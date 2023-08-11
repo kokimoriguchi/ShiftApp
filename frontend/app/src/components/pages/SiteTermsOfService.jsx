@@ -2,15 +2,19 @@ import NavigateButton from "../hooks/NavigateButton";
 
 const SiteTermsOfService = () => {
   return (
-    <div className="flex flex-col justify-center h-auto sm:pt-16 min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black dark:text-white">
-      <h1 className="text-4xl sm:pt-0 pt-5 text-center font-bold">利用規約</h1>
+    <div className="flex flex-col justify-center h-auto sm:pt-16 min-h-[400px] sm:min-h-[650px] bg-sky-100 dark:bg-black dark:text-white">
+      <h1 className="sm:text-4xl text-2xl sm:pt-0 pt-5 text-center font-bold">
+        利用規約
+      </h1>
       <div className="sm:w-3/5 w-4/5 sm:max-h-[450px] max-h-[400px] m-auto overflow-y-auto">
         <div className="w-full h-0.5 dark:bg-white bg-gray-500 z-[-1]" />
         <p className="text-base pt-5">
           この利用規約（以下,「本規約」といいます。）は,このウェブサイト上で提供するサービス（以下,「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下,「ユーザー」といいます。）には,本規約に従って,本サービスをご利用いただきます。
         </p>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">第1条（適用）</h2>
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
+            第1条（適用）
+          </h2>
           <ol className="list-decimal pl-5">
             <li className="text-base">
               本規約は,ユーザーと管理者との間の本サービスの利用に関わる一切の関係に適用されるものとします。
@@ -24,7 +28,7 @@ const SiteTermsOfService = () => {
           </ol>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第2条（利用登録）
           </h2>
           <ol className="list-decimal pl-5">
@@ -48,7 +52,7 @@ const SiteTermsOfService = () => {
           </ol>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第3条（ユーザーIDおよびパスワードの管理）
           </h2>
           <ol className="list-decimal pl-5">
@@ -64,7 +68,7 @@ const SiteTermsOfService = () => {
           </ol>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第4条（禁止事項）
           </h2>
           <p>
@@ -104,7 +108,7 @@ const SiteTermsOfService = () => {
           </ol>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第5条（本サービスの提供の停止等）
           </h2>
           <ol className="list-decimal pl-5">
@@ -131,7 +135,7 @@ const SiteTermsOfService = () => {
           </ol>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第6条（利用制限および登録抹消）
           </h2>
           <ol className="list-decimal pl-5">
@@ -164,7 +168,7 @@ const SiteTermsOfService = () => {
           </ol>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第7条（保証の否認および免責事項）
           </h2>
           <ol className="list-decimal pl-5">
@@ -183,7 +187,7 @@ const SiteTermsOfService = () => {
           </ol>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第8条（サービス内容の変更等）
           </h2>
           <p>
@@ -191,7 +195,7 @@ const SiteTermsOfService = () => {
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第9条（利用規約の変更）
           </h2>
           <ol className="list-decimal pl-5">
@@ -212,7 +216,7 @@ const SiteTermsOfService = () => {
           </ol>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第10条（個人情報の取扱い）
           </h2>
           <p>
@@ -220,7 +224,7 @@ const SiteTermsOfService = () => {
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第11条（通知または連絡）
           </h2>
           <p>
@@ -228,7 +232,7 @@ const SiteTermsOfService = () => {
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第12条（権利義務の譲渡の禁止）
           </h2>
           <p>
@@ -236,7 +240,7 @@ const SiteTermsOfService = () => {
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="text-2xl font-semibold text-center">
+          <h2 className="sm:text-2xl text-lg font-semibold text-center">
             第13条（準拠法・裁判管轄）
           </h2>
           <ol className="list-decimal pl-5 pb-5">

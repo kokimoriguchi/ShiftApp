@@ -92,7 +92,7 @@ const ManagerTop = () => {
   }, [storeNumber, setContextStoreNumber]);
 
   return (
-    <div className="flex flex-col py-10 items-center bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[500px] sm:min-h-[650px]">
+    <div className="flex flex-col py-10 items-center bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[430px] sm:min-h-[650px]">
       {/* PCサイズ */}
       <div className="lg:flex flex-col w-3/5 hidden relative">
         <div className="flex justify-center pt-5 font-mono md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">

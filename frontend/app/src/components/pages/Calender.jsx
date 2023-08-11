@@ -1,5 +1,5 @@
 import { useGetEmployeeShifts } from "../hooks/GetShiftDataHook";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import { useGetSubmitMonth } from "../hooks/GetSubmitMonth";
 import { getDaysInMonth, week } from "../data/Date";
 import { useParams } from "react-router-dom";
@@ -14,6 +14,8 @@ import Loading from "../hooks/Loading";
 import { HomeMoveButton } from "../hooks/HomeMoveButton";
 import GetSkillList from "../hooks/GetSkillList";
 import { RxCross2, RxCheck } from "react-icons/rx";
+import { AuthContext } from "../hooks/Auth";
+
 // import getEmployeeShiftDetail from "../hooks/GetEmployeeShiftDetail";
 
 const Calender = () => {
@@ -49,6 +51,7 @@ const Calender = () => {
   const [noAvailableShifts, setNoAvailableShifts] = useState(false);
   //シフト提出可能な年月を取得中かどうかを判断するstate
   const [loading, setLoading] = useState(true);
+  const { storeName } = useContext(AuthContext);
 
   const getSubmitMonth = useMemo(useGetSubmitMonth, []);
   const navigate = useNavigate();
@@ -197,7 +200,7 @@ const Calender = () => {
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
 
   return (
-    <div className="h-auto min-h-[500px] sm:min-h-[650px] dark:bg-black bg-sky-100 pt-5 font-mono">
+    <div className="h-auto min-h-[430px] sm:min-h-[650px] dark:bg-black bg-sky-100 pt-5 font-mono">
       {/* もし提出可能なシフトが存在しない場合はメッセージを表示します */}
       {noAvailableShifts ? (
         <div className="h-auto bg-sky-100 dark:bg-black">
@@ -238,7 +241,7 @@ const Calender = () => {
                   Object.keys(employees).map((employeeName) => (
                     <tr key={employeeName}>
                       <td
-                        className="border border-slate-300 w-72 dark:text-white hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer"
+                        className="border sm:text-base text-sm border-slate-300 w-72 dark:text-white hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer"
                         // onClick={() => modalEmployeeShiftDetailOpen(true)}
                       >
                         {employeeName}
@@ -380,7 +383,7 @@ const Calender = () => {
                           return (
                             <td
                               key={day.date.toISOString()}
-                              className="border border-slate-300 min-w-[150px] dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                              className="border sm:text-base text-sm border-slate-300 min-w-[150px] dark:text-white cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
                               onClick={async () => {
                                 if (shift) {
                                   // シフトが存在する場合は、モーダルを開き、シフトの開始時間と終了時間を取得しstateに保存する
@@ -448,7 +451,7 @@ const Calender = () => {
                 closeModal={closeConfirmationModal}
                 text={"シフトを確定しますか？"}
                 button={"確定する"}
-                number={storeNumber}
+                storeName={storeName}
                 handle={handleConfirm}
               />
             )}

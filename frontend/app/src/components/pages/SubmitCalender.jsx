@@ -132,7 +132,7 @@ const SubmitCalender = () => {
   //シフト提出可能な月のデータがない場合は、提出できない旨を表示する
   if (!data) {
     return (
-      <div className="h-auto min-h-[500px] sm:min-h-[650px]  bg-sky-100 dark:bg-black">
+      <div className="h-auto min-h-[430px] sm:min-h-[650px]  bg-sky-100 dark:bg-black">
         <div className="pt-40 text-center dark:text-white">
           今は提出できる月のシフトがありません🙇
         </div>

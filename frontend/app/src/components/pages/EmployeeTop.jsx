@@ -68,9 +68,9 @@ const EmployeeTop = () => {
   };
 
   return (
-    <div className="py-10 bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[500px] sm:min-h-[650px]">
+    <div className="py-10 bg-sky-100 dark:bg-black dark:text-white h-auto min-h-[430px] sm:min-h-[650px]">
       <div className="m-auto w-3/5">
-        <h1 className="text-center pb-10 pt-5 font-mono md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
+        <h1 className="text-center sm:pb-10 pb-5 sm:pt-5 pt-2 font-mono md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
           StaffTop
         </h1>
         <div className="flex justify-center items-center md:flex-row flex-col">
