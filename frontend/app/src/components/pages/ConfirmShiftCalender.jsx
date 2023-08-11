@@ -119,7 +119,7 @@ const ConfirmShiftCalender = () => {
   }
 
   return (
-    <div className="h-auto min-h-[500px] sm:min-h-[650px] dark:bg-black bg-sky-100 pt-5 font-mono">
+    <div className="h-auto min-h-[430px] sm:min-h-[650px] dark:bg-black bg-sky-100 pt-5 font-mono">
       <div className="w-5/6 m-auto flex">
         {/* 従業員名等の固定テーブル */}
         <table className="w-auto text-center h-10">
@@ -144,7 +144,7 @@ const ConfirmShiftCalender = () => {
             {employees &&
               Object.keys(employees).map((employeeName) => (
                 <tr key={employeeName}>
-                  <td className="border border-slate-300 w-72 dark:text-white">
+                  <td className="border border-slate-300 w-72 dark:text-white sm:text-base text-sm">
                     {employeeName}
                   </td>
                 </tr>
@@ -265,7 +265,7 @@ const ConfirmShiftCalender = () => {
                       return (
                         <td
                           key={day.date.toISOString()}
-                          className="border border-slate-300 dark:text-white"
+                          className="border border-slate-300 dark:text-white sm:text-base text-sm"
                           style={{ minWidth: "150px" }}
                         >
                           {shift

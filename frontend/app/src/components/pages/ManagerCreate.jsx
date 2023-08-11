@@ -67,7 +67,7 @@ const ManagerCreate = () => {
   };
 
   return (
-    <div className="min-h-[500px] sm:min-h-[650px] pt-14 sm:pt-32 h-auto bg-sky-100 dark:bg-black">
+    <div className="min-h-[430px] sm:min-h-[650px] pt-14 sm:pt-32 h-auto bg-sky-100 dark:bg-black">
       <FadeIn delay={50}>
         <div className="text-center text-gray-500 font-bold mb-5 text-3xl">
           <h1>店舗マネージャー登録</h1>

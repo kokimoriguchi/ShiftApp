@@ -1,6 +1,6 @@
 const Loading = () => {
   return (
-    <div className="h-auto min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
+    <div className="h-auto min-h-[430px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
       <div
         className="flex flex-col sm:pt-72 pt-52 items-center justify-center"
         aria-label="読み込み中"

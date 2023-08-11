@@ -60,35 +60,46 @@ const ManagerSkillList = () => {
   }
 
   return (
-    <div className="overflow-x-auto h-auto min-h-[500px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
-      <table className="md:w-2/5 w-4/5 h-auto max-h-[450] mt-10 m-auto">
-        <thead className="">
-          <tr className="border-b border-slate-300 dark:text-white font-mono">
-            <th>Select</th>
-            <th>skill</th>
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {skills.map((skill, index) => (
-            <tr
-              key={index}
-              className="border-b border-slate-300 dark:text-white"
-            >
-              <th>
-                <label>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={checkSkills.some((e) => e.id === skill.id)}
-                    onChange={() => handleCheckSkills(skill)}
-                  />
-                </label>
-              </th>
-              <td className="font-bold">{skill.name}</td>
+    <div className="py-10 h-auto min-h-[430px] sm:min-h-[650px] bg-sky-100 dark:bg-black">
+      <div className="flex justify-center sm:pt-5 pt-2 font-mono md:text-[60px] text-3xl animate-tracking-in-expand duration-1000 tracking-in-expand">
+        SkillList
+      </div>
+      <div className="md:w-2/5 w-4/5 h-auto mt-10 m-auto flex justify-center animate-slide-in-fwd-center">
+        <table className="w-full text-center">
+          <thead>
+            <tr className="border-b border-slate-300 dark:text-white font-mono text-lg">
+              <th className="w-1/4">Select</th>
+              <th className="w-3/4">skill</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+        </table>
+      </div>
+      <div className="md:w-2/5 w-4/5 h-auto sm:max-h-[350px] max-h-[200px] m-auto overflow-y-auto flex justify-center animate-slide-in-fwd-center">
+        <table className="w-full">
+          <tbody>
+            {skills.map((skill, index) => (
+              <tr
+                key={index}
+                className="border-b border-slate-300 dark:text-white"
+              >
+                <th className="w-1/4">
+                  <label>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      checked={checkSkills.some((e) => e.id === skill.id)}
+                      onChange={() => handleCheckSkills(skill)}
+                    />
+                  </label>
+                </th>
+                <td className="font-bold text-base w-3/4 text-center">
+                  {skill.name}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="flex justify-between md:w-2/5 w-4/5 m-auto pt-5">
         <div>
           <SubmitFlexButton

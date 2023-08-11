@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       # skillコントローラーのroutes
       post "skill_create/:store_number", to: "skills#create"
       get "skills/:store_number", to: "skills#index"
+      get "employee_index_skills/:employee_id", to: "skills#employee_index_skills"
       post "employee_add_skills/:employee_id", to: "skills#employee_add_skills"
       put "skills/destroy", to: "skills#destroy"
 

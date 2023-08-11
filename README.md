@@ -5,7 +5,7 @@
 
 ## ⚪︎**サービス URL**
 
-https://web.realworld-demo.com
+[ShiftHub](https://web.realworld-demo.com)
 
 <br>
 
@@ -32,6 +32,17 @@ https://web.realworld-demo.com
 - 確定シフトが A3 サイズの紙に印刷されて掲示されており、字が小さく、自分の名前やシフトの確認が困難。
 - 月の後半部分のシフトを確認する際、左側の名前部分との参照が難しい。
 - 自分のシフトを確認するために、掲示されているシフト表の写真を撮影して参照することの手間。
+
+### ⚪︎ 実際に掲示される A3 のシフト表
+
+<details>
+<summary>実際の画像</summary>
+| A3 のシフト表                                                                                                                                                                                                                       |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![シフト表](https://github.com/kokimoriguchi/ShiftApp/assets/105916391/d995ce8b-b1e1-4ff2-a0d4-c54f5df170f5)                                                                                                                        |
+| 上記 A3 の紙が月末に休憩室の張り出され、張り出されるとスタッフは自身のケータイで保存し自身の列を確認し日付を追って出勤日と時間を確認していた。月末などになると目で追っていた日付が 1 日ずれており出勤日を間違えるなど多発していた。 |
+
+</details>
 
 <br>
 
@@ -92,7 +103,7 @@ https://web.realworld-demo.com
 
 ## ⚪︎ インフラ構成図
 
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2741017/bbd67865-9989-766c-dfe9-cb297a26ca7b.png">
+<img src="https://github.com/kokimoriguchi/ShiftApp/assets/105916391/906d529c-df3f-4a57-b0ac-a144d9b881a6">
 
 <br>
 
@@ -115,20 +126,20 @@ https://web.realworld-demo.com
 ## ⚪︎ 工夫した点
 
 <details>
-<summary>### １. データベースの最適化</summary>
+<summary>１. データベースの最適化</summary>
 
 - 複数のテーブル (`shift_dates`, `shift_times`, `employee`) と中間テーブル (`employer_shifts`) を効率的に扱い、トランザクションで保存するように設計しました。
 </details>
 
 <details>
-<summary>### ２. セキュリティの強化</summary>
+<summary>２. セキュリティの強化</summary>
 
 - 認証に jwt トークンを使用し、cookie に保存。これによりフロントエンド側で認証情報を扱わないようにしました。
 - cookie には`http only`属性と`secure true`を設定。これによりフロントエンドからの編集を不可にし、HTTPS 通信のみを許可するようにしました。
 </details>
 
 <details>
-<summary>### ３. シフト管理のユーザビリティ向上</summary>
+<summary>３. シフト管理のユーザビリティ向上</summary>
 
 - シフト提出の際、一時保存機能をローカルストレージに実装。ユーザーが自身のシフトを自分で確認できるようにしました。
 - 提出されたシフトは ⚪︎ 印で表示し、確定した場合に具体的な時間を表示する機能を追加。
@@ -138,7 +149,7 @@ https://web.realworld-demo.com
 </details>
 
 <details>
-<summary>### ４. ユーザビリティとデザインの工夫</summary>
+<summary>４. ユーザビリティとデザインの工夫</summary>
 
 - ダークモードを実装し、利用環境に応じて目に優しい表示に切り替え可能に。
 - 前職のメインカラーである青を基調にデザイン。これにより、店舗や事務所での違和感を減少させるよう心掛けました。
@@ -146,48 +157,62 @@ https://web.realworld-demo.com
 
 </details>
 
+<details>
+<summary>５. GitHubActions使用した自動デプロイ</summary>
+
+- ECR にイメージの push、ECS のタスク・サービスの更新を実施して backend 側の自動デプロイ可能にしています。
+- frontend 側では S3 に build したファイルをアップロードし、Cloudfront を更新する様にしました。
+- 発火のタイミングとしては個人開発なので、develop ブランチのみ作成し main ブランチにマージした際に発火する様にしています。
+
+</details>
+
 <br>
 
-## ⚪︎ 今後の課題
+## ⚪︎ 今後の課題及び追加予定機能
 
 <details>
-<summary>### 1. スタッフ詳細の確認機能</summary>
+<summary>1. スタッフ詳細の確認機能</summary>
 
 - 各スタッフの詳細情報を確認できる機能を導入する。
 </details>
 
 <details>
-<summary>### 2. CSV 出力と Excel 連携</summary>
+<summary>2. CSV 出力と Excel 連携</summary>
 
 - CSV 出力を可能にし、現場で使用している Excel との連携をスムーズに行えるようにする。
 </details>
 
 <details>
-<summary>### 3. 通知機能の強化</summary>
+<summary>3. 通知機能の強化</summary>
 
 - お知らせ機能を追加し、シフトが公開された際にスタッフへの通知を自動で行う。
 </details>
 
 <details>
-<summary>### 4. 担当部門の表示</summary>
+<summary>4. 担当部門の表示</summary>
 
 - カレンダー表示において、左側に各スタッフの担当部門を明示的に表示する。
 </details>
 
 <details>
-<summary>### 5. スキルレベルの可視化</summary>
+<summary>5. スキルレベルの可視化</summary>
 
 - スタッフごとのスキルの習熟度を表示できるようにし、スキルレベルの差を明確にする。
 </details>
 
-<details>
-<summary>### 6. シフト変更リクエスト機能</summary>
+<summary>6. シフト変更リクエスト機能</summary>
 
 - シフトが確定した後でも、変更希望をマネージャーに向けてリクエストできる機能を追加する。
 </details>
 
 <details>
-<summary>### 7. 確定シフトの変更機能</summary>
+<summary>7. 確定シフトの変更機能</summary>
 
 - 確定後のシフトに対しても変更をリクエストし、マネージャーがそれを承認する流れを実装する。
+</details>
+
+<details>
+<summary>8. 本番環境でのシフト編集後の即反映</summary>
+
+- カレンダー部分で時間更新した際に本番環境だと即反映されない部分の修正
 </details>

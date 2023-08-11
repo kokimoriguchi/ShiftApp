@@ -54,6 +54,13 @@ class Api::V1::SkillsController < ApplicationController
     end
   end
 
+  #employee_index_skills/:employee_id
+  def employee_index_skills
+    employee = Employee.find(params[:employee_id])
+    skills = employee.skills
+    return render json: {status: "success", skills: skills}, status: 200
+  end
+
   private
   def set_store
     @store = Store.find_by(number: params[:store_number])

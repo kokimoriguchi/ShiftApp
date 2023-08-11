@@ -71,9 +71,9 @@ const EmployeeCreate = () => {
   };
 
   return (
-    <div className="min-h-[500px] sm:min-h-[650px] pt-14 sm:pt-32 h-auto bg-sky-100 dark:bg-black">
+    <div className="min-h-[430px] sm:min-h-[650px] pt-14 sm:pt-32 h-auto bg-sky-100 dark:bg-black">
       <FadeIn delay={50}>
-        <div className="text-center dark:text-white text-gray-500 font-bold mb-5 text-3xl">
+        <div className="text-center text-xl dark:text-white text-gray-500 font-bold mb-5 sm:text-3xl">
           <h1>{storeName}:新規スタッフ登録</h1>
         </div>
       </FadeIn>
